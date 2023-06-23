@@ -9,6 +9,6 @@ export class Images {
     @Column()
     name: string;
 
-    @ManyToOne(() => Creature, (creature) => creature.images)
+    @ManyToOne(() => Creature, (creature) => creature.creature_images)
     creature_id: number
 }

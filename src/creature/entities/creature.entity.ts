@@ -1,5 +1,6 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Images} from "./images.entity";
+import {Size} from "./size.entity";
 
 @Entity()
 export class Creature {
@@ -13,10 +14,10 @@ export class Creature {
     creature_name_tag: string
 
     @OneToMany(() => Images, (images) => images.creature_id)
-    images: Images[]
+    creature_images: Images[]
 
-    @Column()
-    creature_size: number
+    @ManyToOne(() => Size, (size) => size.creatures)
+    creature_size_id: number
 
     @Column()
     creature_type: number
