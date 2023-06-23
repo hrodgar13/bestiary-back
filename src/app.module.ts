@@ -3,13 +3,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import { CreatureModule } from './creature/creature.module';
+import {Creature} from "./creature/entities/creature.entity";
+import {Images} from "./creature/entities/images.entity";
 
 @Module({
   imports: [
       TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'db.sqlite',
-      entities: [],
+      database: 'ViribusUnitis.sqlite',
+      entities: [Creature, Images],
       synchronize: true
   }),
       CreatureModule],
