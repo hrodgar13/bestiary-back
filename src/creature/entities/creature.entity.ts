@@ -1,6 +1,7 @@
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Images} from "./images.entity";
 import {Size} from "./size.entity";
+import {Type} from "./type.entity";
 
 @Entity()
 export class Creature {
@@ -19,8 +20,8 @@ export class Creature {
     @ManyToOne(() => Size, (size) => size.creatures)
     creature_size_id: number
 
-    @Column()
-    creature_type: number
+    @ManyToOne(() => Type, (type) => type.creatures)
+    creature_type_id: number
 
     @Column()
     creature_aligment: number
