@@ -2,6 +2,7 @@ import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "type
 import {Images} from "./images.entity";
 import {Size} from "./size.entity";
 import {Type} from "./type.entity";
+import {Aligment} from "./aligment.entity";
 
 @Entity()
 export class Creature {
@@ -23,8 +24,8 @@ export class Creature {
     @ManyToOne(() => Type, (type) => type.creatures)
     creature_type_id: number
 
-    @Column()
-    creature_aligment: number
+    @ManyToOne(() => Aligment, (aligment) => aligment.creatures)
+    creature_aligment_id: number
 
     @Column()
     creature_armor_class: number
