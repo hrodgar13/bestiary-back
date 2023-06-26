@@ -14,6 +14,7 @@ import {Statement} from "./statement.entity";
 import {Feel} from "./feels.entity";
 import {Language} from "./language.entity";
 import {Action} from "./action.entity";
+import {Ability} from "./abilities.entity";
 
 @Entity()
 export class Creature {
@@ -194,6 +195,21 @@ export class Creature {
     @IsNumber()
     @Min(2)
     creature_mastery_bonus: number
+
+
+    @ManyToMany(() => Ability)
+    @JoinTable({
+        name: 'creature_to_abilities',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'ability_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_abilities : Ability[]
 
     @ManyToMany(() => Action)
     @JoinTable({

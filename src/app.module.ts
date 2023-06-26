@@ -18,13 +18,14 @@ import {Statement} from "./creature/entities/statement.entity";
 import {Feel} from "./creature/entities/feels.entity";
 import {Language} from "./creature/entities/language.entity";
 import {Action} from "./creature/entities/action.entity";
+import {Ability} from "./creature/entities/abilities.entity";
 
 @Module({
   imports: [
       TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'ViribusUnitis.sqlite',
-      entities: [Creature, Images, Size, Type, Aligment, ArmorClass, Speed, StatBlock, SavingThrow, Skill, DamageType, Statement, Feel, Language, Action],
+      entities: [Creature, Images, Size, Type, Aligment, ArmorClass, Speed, StatBlock, SavingThrow, Skill, DamageType, Statement, Feel, Language, Ability, Action],
       synchronize: true
   }),
       CreatureModule],
