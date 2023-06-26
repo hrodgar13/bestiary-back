@@ -13,6 +13,7 @@ import {DamageType} from "./damage-type.entity";
 import {Statement} from "./statement.entity";
 import {Feel} from "./feels.entity";
 import {Language} from "./language.entity";
+import {Action} from "./action.entity";
 
 @Entity()
 export class Creature {
@@ -194,14 +195,47 @@ export class Creature {
     @Min(2)
     creature_mastery_bonus: number
 
-    @Column()
-    creature_abilities : number
+    @ManyToMany(() => Action)
+    @JoinTable({
+        name: 'creature_to_actions',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'action_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_actions : Action[]
 
-    @Column()
-    creature_bonus_action : number
+    @ManyToMany(() => Action)
+    @JoinTable({
+        name: 'creature_to_bonus',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'action_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_bonus_action : Action[]
 
-    @Column()
-    creature_legendary_action : number
+    @ManyToMany(() => Action)
+    @JoinTable({
+        name: 'creature_to_legendary',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'action_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_legendary_action : Action[]
 
     @Column()
     creature_description : number
