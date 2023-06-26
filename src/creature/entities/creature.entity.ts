@@ -1,10 +1,11 @@
-import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Images} from "./images.entity";
 import {Size} from "./size.entity";
 import {Type} from "./type.entity";
 import {Aligment} from "./aligment.entity";
 import {IsNumber, Max, Min} from "class-validator";
 import {ArmorClass} from "./armor-class.entity";
+import {Speed} from "./speed.entity";
 
 @Entity()
 export class Creature {
@@ -45,8 +46,19 @@ export class Creature {
     @Column()
     hit_points_by_dices: string
 
-    @Column()
-    creature_speeds: number
+    @ManyToMany(() => Speed, (speed) => {speed.creatures})
+    @JoinTable({
+        name: 'creature_To_speed',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'speed_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_speeds: Speed[]
 
     @Column()
     creature_stat_block: number
