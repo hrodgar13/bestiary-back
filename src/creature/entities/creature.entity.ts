@@ -8,6 +8,7 @@ import {ArmorClass} from "./armor-class.entity";
 import {Speed} from "./speed.entity";
 import {StatBlock} from "./stat-block.entity";
 import {SavingThrow} from "./saving-throw.entity";
+import {Skill} from "./skill.entity";
 
 @Entity()
 export class Creature {
@@ -80,8 +81,19 @@ export class Creature {
     })
     creature_saving_throws: SavingThrow[]
 
-    @Column()
-    creature_skills: number
+    @ManyToMany(() => Skill)
+    @JoinTable({
+        name: 'creature_to_skill',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'skill_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_skills: Skill[]
 
     @Column()
     creature_vulnerability: number
