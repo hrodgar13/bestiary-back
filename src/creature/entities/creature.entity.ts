@@ -7,6 +7,7 @@ import {IsNumber, Max, Min} from "class-validator";
 import {ArmorClass} from "./armor-class.entity";
 import {Speed} from "./speed.entity";
 import {StatBlock} from "./stat-block.entity";
+import {SavingThrow} from "./saving-throw.entity";
 
 @Entity()
 export class Creature {
@@ -65,8 +66,19 @@ export class Creature {
     @JoinColumn()
     creature_stat_block: StatBlock
 
-    @Column()
-    creature_saving_throws: number
+    @ManyToMany(() => SavingThrow)
+    @JoinTable({
+        name: 'creature_to_savingThrow',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'savingThrow_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_saving_throws: SavingThrow[]
 
     @Column()
     creature_skills: number
