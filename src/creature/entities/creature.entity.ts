@@ -3,6 +3,8 @@ import {Images} from "./images.entity";
 import {Size} from "./size.entity";
 import {Type} from "./type.entity";
 import {Aligment} from "./aligment.entity";
+import {IsNumber, Max, Min} from "class-validator";
+import {ArmorClass} from "./armor-class.entity";
 
 @Entity()
 export class Creature {
@@ -27,11 +29,21 @@ export class Creature {
     @ManyToOne(() => Aligment, (aligment) => aligment.creatures)
     creature_aligment_id: number
 
-    @Column()
-    creature_armor_class: number
 
     @Column()
-    creature_hit_points: number
+    @IsNumber()
+    @Min(0)
+    @Max(50)
+    armor_Class: number
+
+    @ManyToOne(() => ArmorClass, (armorClass) => armorClass.creatures)
+    armor_type_id: string
+
+    @Column()
+    hit_points: string
+
+    @Column()
+    hit_points_by_dices: string
 
     @Column()
     creature_speeds: number
