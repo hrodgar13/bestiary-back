@@ -10,6 +10,7 @@ import {StatBlock} from "./stat-block.entity";
 import {SavingThrow} from "./saving-throw.entity";
 import {Skill} from "./skill.entity";
 import {DamageType} from "./damage-type.entity";
+import {Statement} from "./statement.entity";
 
 @Entity()
 export class Creature {
@@ -138,8 +139,19 @@ export class Creature {
     })
     creature_immunity: DamageType[]
 
-    @Column()
-    creature_statement_immunity: number
+    @ManyToMany(() => Statement)
+    @JoinTable({
+        name: 'creature_to_statementImmunity',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'statement_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_statement_immunity: Statement[]
 
     @Column()
     creature_feels : number
