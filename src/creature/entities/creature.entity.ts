@@ -12,6 +12,7 @@ import {Skill} from "./skill.entity";
 import {DamageType} from "./damage-type.entity";
 import {Statement} from "./statement.entity";
 import {Feel} from "./feels.entity";
+import {Language} from "./language.entity";
 
 @Entity()
 export class Creature {
@@ -168,13 +169,29 @@ export class Creature {
     })
     creature_feels : Feel[]
 
-    @Column()
-    creature_languages : number
+    @ManyToMany(() => Language)
+    @JoinTable({
+        name: 'creature_to_language',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'language_id',
+            referencedColumnName: 'id'
+        }
+    })
+    creature_languages : Language[]
 
     @Column()
     creature_danger_level : number
 
     @Column()
+    creature_exp_amount : number
+
+    @Column()
+    @IsNumber()
+    @Min(2)
     creature_mastery_bonus: number
 
     @Column()
