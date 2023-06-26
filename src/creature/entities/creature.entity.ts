@@ -1,4 +1,4 @@
-import {Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column,JoinColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Images} from "./images.entity";
 import {Size} from "./size.entity";
 import {Type} from "./type.entity";
@@ -6,6 +6,7 @@ import {Aligment} from "./aligment.entity";
 import {IsNumber, Max, Min} from "class-validator";
 import {ArmorClass} from "./armor-class.entity";
 import {Speed} from "./speed.entity";
+import {StatBlock} from "./stat-block.entity";
 
 @Entity()
 export class Creature {
@@ -60,8 +61,9 @@ export class Creature {
     })
     creature_speeds: Speed[]
 
-    @Column()
-    creature_stat_block: number
+    @OneToOne(() => StatBlock)
+    @JoinColumn()
+    creature_stat_block: StatBlock
 
     @Column()
     creature_saving_throws: number
