@@ -3,7 +3,6 @@ import {Images} from "./images.entity";
 import {Size} from "./size.entity";
 import {Type} from "./type.entity";
 import {Aligment} from "./aligment.entity";
-import {IsNumber, Max, Min} from "class-validator";
 import {ArmorClass} from "./armor-class.entity";
 import {Speed} from "./speed.entity";
 import {StatBlock} from "./stat-block.entity";
@@ -11,7 +10,7 @@ import {SavingThrow} from "./saving-throw.entity";
 import {Skill} from "./skill.entity";
 import {DamageType} from "./damage-type.entity";
 import {Statement} from "./statement.entity";
-import {Feel} from "./feels.entity";
+import {FeelModifiers} from "./feels-modifier.entity";
 import {Language} from "./language.entity";
 import {Action} from "./action.entity";
 import {Ability} from "./abilities.entity";
@@ -41,16 +40,13 @@ export class Creature {
 
 
     @Column()
-    @IsNumber()
-    @Min(0)
-    @Max(50)
     armor_Class: number
 
     @ManyToOne(() => ArmorClass, (armorClass) => armorClass.creatures)
-    armor_type_id: string
+    armor_type_id: number
 
     @Column()
-    hit_points: string
+    hit_points: number
 
     @Column()
     hit_points_by_dices: string
@@ -68,6 +64,8 @@ export class Creature {
         }
     })
     creature_speeds: Speed[]
+
+
 
     @OneToOne(() => StatBlock)
     @JoinColumn()
@@ -109,7 +107,7 @@ export class Creature {
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'damage_id',
+            name: 'vulnerability_damage_id',
             referencedColumnName: 'id'
         }
     })
@@ -123,7 +121,7 @@ export class Creature {
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'damage_id',
+            name: 'resist_damage_id',
             referencedColumnName: 'id'
         }
     })
@@ -137,7 +135,7 @@ export class Creature {
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'damage_id',
+            name: 'immune_damage_id',
             referencedColumnName: 'id'
         }
     })
@@ -157,7 +155,7 @@ export class Creature {
     })
     creature_statement_immunity: Statement[]
 
-    @ManyToMany(() => Feel)
+    @ManyToMany(() => FeelModifiers)
     @JoinTable({
         name: 'creature_to_feel',
         joinColumn: {
@@ -169,7 +167,7 @@ export class Creature {
             referencedColumnName: 'id'
         }
     })
-    creature_feels : Feel[]
+    creature_feels : FeelModifiers[]
 
     @ManyToMany(() => Language)
     @JoinTable({
@@ -192,8 +190,6 @@ export class Creature {
     creature_exp_amount : number
 
     @Column()
-    @IsNumber()
-    @Min(2)
     creature_mastery_bonus: number
 
 
@@ -254,5 +250,5 @@ export class Creature {
     creature_legendary_action : Action[]
 
     @Column()
-    creature_description : number
+    creature_description : string
 }

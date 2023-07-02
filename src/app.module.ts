@@ -15,17 +15,18 @@ import {SavingThrow} from "./creature/entities/saving-throw.entity";
 import {Skill} from "./creature/entities/skill.entity";
 import {DamageType} from "./creature/entities/damage-type.entity";
 import {Statement} from "./creature/entities/statement.entity";
-import {Feel} from "./creature/entities/feels.entity";
+import {FeelModifiers} from "./creature/entities/feels-modifier.entity";
 import {Language} from "./creature/entities/language.entity";
 import {Action} from "./creature/entities/action.entity";
 import {Ability} from "./creature/entities/abilities.entity";
+import {SpeedTypes} from "./creature/entities/speed_types.entity";
 
 @Module({
   imports: [
       TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'ViribusUnitis.sqlite',
-      entities: [Creature, Images, Size, Type, Aligment, ArmorClass, Speed, StatBlock, SavingThrow, Skill, DamageType, Statement, Feel, Language, Ability, Action],
+      entities: [Creature, Images, Size, Type, Aligment, ArmorClass, Speed, StatBlock, SavingThrow, Skill, DamageType, Statement, FeelModifiers, Language, Ability, Action, SpeedTypes],
       synchronize: true
   }),
       CreatureModule],
