@@ -6,8 +6,8 @@ import {Aligment} from "./aligment.entity";
 import {ArmorClass} from "./armor-class.entity";
 import {Speed} from "./speed.entity";
 import {StatBlock} from "./stat-block.entity";
-import {SavingThrow} from "./saving-throw.entity";
-import {Skill} from "./skill.entity";
+import {SavingThrowModifier} from "./saving-throw-modifier.entity";
+import {SkillModifier} from "./skill-modifier.entity";
 import {DamageType} from "./damage-type.entity";
 import {Statement} from "./statement.entity";
 import {FeelModifiers} from "./feels-modifier.entity";
@@ -71,7 +71,7 @@ export class Creature {
     @JoinColumn()
     creature_stat_block: StatBlock
 
-    @ManyToMany(() => SavingThrow)
+    @ManyToMany(() => SavingThrowModifier)
     @JoinTable({
         name: 'creature_to_savingThrow',
         joinColumn: {
@@ -83,9 +83,9 @@ export class Creature {
             referencedColumnName: 'id'
         }
     })
-    creature_saving_throws: SavingThrow[]
+    creature_saving_throws: SavingThrowModifier[]
 
-    @ManyToMany(() => Skill)
+    @ManyToMany(() => SkillModifier)
     @JoinTable({
         name: 'creature_to_skill',
         joinColumn: {
@@ -97,7 +97,7 @@ export class Creature {
             referencedColumnName: 'id'
         }
     })
-    creature_skills: Skill[]
+    creature_skills: SkillModifier[]
 
     @ManyToMany(() => DamageType)
     @JoinTable({

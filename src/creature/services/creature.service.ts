@@ -4,10 +4,10 @@ import {Creature} from "../entities/creature.entity";
 import {Repository} from "typeorm";
 import {CreateMainCreatureDto} from "../dtos/create-main-creature.dto";
 import {CreateAdditionsCreatureDto} from "../dtos/create-additions-creature.dto";
-import {Skill} from "../entities/skill.entity";
+import {SkillModifier} from "../entities/skill-modifier.entity";
 import {StatBlock} from "../entities/stat-block.entity";
 import {Speed} from "../entities/speed.entity";
-import {SavingThrow} from "../entities/saving-throw.entity";
+import {SavingThrowModifier} from "../entities/saving-throw-modifier.entity";
 import {DamageType} from "../entities/damage-type.entity";
 import {Statement} from "../entities/statement.entity";
 import {FeelModifiers} from "../entities/feels-modifier.entity";
@@ -19,10 +19,10 @@ import {Action} from "../entities/action.entity";
 export class CreatureService {
     constructor(
         @InjectRepository(Creature) private repo: Repository<Creature>,
-        @InjectRepository(Skill) private skillRepo: Repository<Skill>,
+        @InjectRepository(SkillModifier) private skillRepo: Repository<SkillModifier>,
         @InjectRepository(StatBlock) private statRepo: Repository<StatBlock>,
         @InjectRepository(Speed) private speedsRepo: Repository<Speed>,
-        @InjectRepository(SavingThrow) private savingThrowRepo: Repository<SavingThrow>,
+        @InjectRepository(SavingThrowModifier) private savingThrowRepo: Repository<SavingThrowModifier>,
         @InjectRepository(DamageType) private damageTypeRepo: Repository<DamageType>,
         @InjectRepository(Statement) private statementRepo: Repository<Statement>,
         @InjectRepository(FeelModifiers) private feelsRepo: Repository<FeelModifiers>,

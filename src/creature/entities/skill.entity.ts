@@ -1,17 +1,14 @@
-import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
-import {Creature} from "./creature.entity";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {SkillModifier} from "./skill-modifier.entity";
 
 @Entity()
 export class Skill {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: number
 
     @Column()
-    skill: string;
+    skill_name: string
 
-    @Column()
-    modifier: number;
-
-    @ManyToMany(() => Creature)
-    creatures: Creature[]
+    @OneToMany(() => SkillModifier, (skillModifier) => skillModifier.skill_name_id)
+    skill_modifier: SkillModifier[]
 }

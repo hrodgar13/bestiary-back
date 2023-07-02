@@ -11,9 +11,9 @@ import {DamageType} from "./entities/damage-type.entity";
 import {FeelModifiers} from "./entities/feels-modifier.entity";
 import {Images} from "./entities/images.entity";
 import {Language} from "./entities/language.entity";
-import {SavingThrow} from "./entities/saving-throw.entity";
+import {SavingThrowModifier} from "./entities/saving-throw-modifier.entity";
 import {Size} from "./entities/size.entity";
-import {Skill} from "./entities/skill.entity";
+import {SkillModifier} from "./entities/skill-modifier.entity";
 import {Speed} from "./entities/speed.entity";
 import {StatBlock} from "./entities/stat-block.entity";
 import {Statement} from "./entities/statement.entity";
@@ -23,6 +23,6 @@ import {Type} from "./entities/type.entity";
   controllers: [CreatureController],
   providers: [CreatureService],
   exports: [CreatureService],
-  imports: [TypeOrmModule.forFeature([Creature, Ability, Action, Aligment, ArmorClass, Creature, DamageType, FeelModifiers, Images, Language, SavingThrow, Size, Skill, Speed, StatBlock, Statement, Type])]
+  imports: [TypeOrmModule.forFeature([Creature, Ability, Action, Aligment, ArmorClass, Creature, DamageType, FeelModifiers, Images, Language, SavingThrowModifier, Size, SkillModifier, Speed, StatBlock, Statement, Type])]
 })
 export class CreatureModule {}
