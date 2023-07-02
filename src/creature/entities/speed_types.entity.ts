@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Speed} from "./speed.entity";
 
 @Entity()
@@ -9,6 +9,6 @@ export class SpeedTypes {
     @Column()
     speed_type: string
 
-    @ManyToMany(() => Speed, (speed) => speed.speed_type)
+    @ManyToOne(() => Speed, (speed) => speed.speed_type)
     speed: Speed[]
 }
