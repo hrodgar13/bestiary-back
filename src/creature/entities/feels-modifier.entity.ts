@@ -1,13 +1,13 @@
 import {Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Creature} from "./creature.entity";
-import {ArmorClass} from "./armor-class.entity";
+import {Feel} from "./feel.entity";
 
 @Entity()
 export class FeelModifiers {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => ArmorClass, (armorClass) => armorClass.creatures)
+    @ManyToOne(() => Feel, (feel) => feel.feelModifiers)
     feel_name_id: string;
 
     @Column()

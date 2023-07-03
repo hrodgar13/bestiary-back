@@ -9,6 +9,6 @@ export class SpeedTypes {
     @Column()
     speed_type: string
 
-    @ManyToOne(() => Speed, (speed) => speed.speed_type)
-    speed: Speed[]
+    @ManyToOne(() => Speed, (speed) => speed.speed_type_name_id)
+    speeds: Speed[]
 }

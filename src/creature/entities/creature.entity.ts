@@ -93,7 +93,7 @@ export class Creature {
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'skill_id',
+            name: 'skill_modifier_id',
             referencedColumnName: 'id'
         }
     })

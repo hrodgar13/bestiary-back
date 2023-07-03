@@ -13,8 +13,8 @@ export class Speed{
     @Min(0)
     speed: number
 
-    @OneToMany(() => SpeedTypes, (speed_types) => speed_types.speed_type)
-    speed_type: string
+    @OneToMany(() => SpeedTypes, (speed_types) => speed_types.speeds)
+    speed_type_name_id: string
 
     @ManyToMany(() => Creature, (creature) => creature.creature_speeds)
     creatures: Creature[]
