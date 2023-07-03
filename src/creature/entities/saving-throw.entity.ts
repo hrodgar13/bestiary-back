@@ -1,5 +1,5 @@
-import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
-import {Creature} from "./creature.entity";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {SavingThrowModifier} from "./saving-throw-modifier.entity";
 
 @Entity()
 export class SavingThrow {
@@ -7,11 +7,8 @@ export class SavingThrow {
     id: number
 
     @Column()
-    saving_throw: string
+    saving_throw_name: string
 
-    @Column()
-    modifier: number
-
-    @ManyToMany(() => Creature)
-    creatures: Creature[]
+    @OneToMany(() => SavingThrowModifier, (savingThrowModifier) => savingThrowModifier.saving_throw_name_id)
+    saving_throw_modifier: SavingThrowModifier[]
 }
