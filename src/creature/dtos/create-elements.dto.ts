@@ -47,7 +47,31 @@ export class CreateFeelDto {
     feel_name: string
 }
 
-export class CreateDamageType {
+export class CreateDamageTypeDto {
     @IsString()
     damage_name: string
 }
+
+export class CreateLanguageDto {
+    @IsString()
+    language_name: string
+}
+
+export class CreateSavingThrowDto {
+    @IsString()
+    saving_throw_name: string
+}
+
+export class CreateSizeDto {
+    @IsString()
+    size: string
+}
+
+export class CreateSkillDto {
+    @IsString()
+    skill_name: string
+}
+
+// export class CreateSpeedType {
+//     @IsString()
+// }

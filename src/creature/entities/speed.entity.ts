@@ -1,21 +1,14 @@
-import {Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {IsNumber, Min} from "class-validator";
-import {Creature} from "./creature.entity";
-import {SpeedTypes} from "./speed_types.entity";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {SpeedModifier} from "./speed-modifier.entity";
 
 @Entity()
-export class Speed{
+export class Speed {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
-    @IsNumber()
-    @Min(0)
-    speed: number
+    speed_type_name: string
 
-    @OneToMany(() => SpeedTypes, (speed_types) => speed_types.speeds)
-    speed_type_name_id: string
-
-    @ManyToMany(() => Creature, (creature) => creature.creature_speeds)
-    creatures: Creature[]
+    @OneToMany(() => SpeedModifier, (speedModifier) => speedModifier.speed_name_id)
+    speeds_modifier: SpeedModifier[]
 }

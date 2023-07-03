@@ -4,7 +4,7 @@ import {Size} from "./size.entity";
 import {Type} from "./type.entity";
 import {Aligment} from "./aligment.entity";
 import {ArmorClass} from "./armor-class.entity";
-import {Speed} from "./speed.entity";
+import {SpeedModifier} from "./speed-modifier.entity";
 import {StatBlock} from "./stat-block.entity";
 import {SavingThrowModifier} from "./saving-throw-modifier.entity";
 import {SkillModifier} from "./skill-modifier.entity";
@@ -51,9 +51,9 @@ export class Creature {
     @Column()
     hit_points_by_dices: string
 
-    @ManyToMany(() => Speed, (speed) => {speed.creatures})
+    @ManyToMany(() => SpeedModifier)
     @JoinTable({
-        name: 'creature_To_speed',
+        name: 'creature_to_speed',
         joinColumn: {
             name: 'creature_id',
             referencedColumnName: 'id'
@@ -63,7 +63,7 @@ export class Creature {
             referencedColumnName: 'id'
         }
     })
-    creature_speeds: Speed[]
+    creature_speeds: SpeedModifier[]
 
 
 

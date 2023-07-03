@@ -1,8 +1,8 @@
 import {Body, Controller, Post} from "@nestjs/common";
 import {
-    CreateArmorClassDto, CreateDamageType,
+    CreateArmorClassDto, CreateDamageTypeDto,
     CreateElementsDto,
-    CreateFeelDto,
+    CreateFeelDto, CreateLanguageDto,
     CreateStatBlockDto
 } from "../dtos/create-elements.dto";
 import {ElementsService} from "../services/elements.service";
@@ -33,7 +33,12 @@ export class CreatureElementsController {
     }
 
     @Post('damage-type')
-    createDamageType(@Body() body: CreateDamageType) {
+    createDamageType(@Body() body: CreateDamageTypeDto) {
         return this.elementsService.createDamageType(body)
+    }
+
+    @Post('language')
+    createLanguage(@Body() body: CreateLanguageDto) {
+        return this.elementsService.createLanguage(body)
     }
 }

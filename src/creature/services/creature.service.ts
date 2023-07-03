@@ -6,7 +6,7 @@ import {CreateMainCreatureDto} from "../dtos/create-main-creature.dto";
 import {CreateAdditionsCreatureDto} from "../dtos/create-additions-creature.dto";
 import {SkillModifier} from "../entities/skill-modifier.entity";
 import {StatBlock} from "../entities/stat-block.entity";
-import {Speed} from "../entities/speed.entity";
+import {SpeedModifier} from "../entities/speed-modifier.entity";
 import {SavingThrowModifier} from "../entities/saving-throw-modifier.entity";
 import {DamageType} from "../entities/damage-type.entity";
 import {Statement} from "../entities/statement.entity";
@@ -21,7 +21,7 @@ export class CreatureService {
         @InjectRepository(Creature) private repo: Repository<Creature>,
         @InjectRepository(SkillModifier) private skillRepo: Repository<SkillModifier>,
         @InjectRepository(StatBlock) private statRepo: Repository<StatBlock>,
-        @InjectRepository(Speed) private speedsRepo: Repository<Speed>,
+        @InjectRepository(SpeedModifier) private speedsRepo: Repository<SpeedModifier>,
         @InjectRepository(SavingThrowModifier) private savingThrowRepo: Repository<SavingThrowModifier>,
         @InjectRepository(DamageType) private damageTypeRepo: Repository<DamageType>,
         @InjectRepository(Statement) private statementRepo: Repository<Statement>,
