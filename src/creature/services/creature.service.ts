@@ -32,7 +32,6 @@ export class CreatureService {
     ) {}
 
     async create(creatureMainPartDto: CreateMainCreatureDto, creatureAdditionalPartDto: CreateAdditionsCreatureDto) {
-        console.log(creatureAdditionalPartDto)
         const creature = this.repo.create(creatureMainPartDto);
         creature.creature_size_id = creatureAdditionalPartDto.creature_size_id;
         creature.creature_type_id = creatureAdditionalPartDto.creature_type_id;

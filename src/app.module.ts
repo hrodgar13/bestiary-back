@@ -23,16 +23,19 @@ import {SpeedTypes} from "./creature/entities/speed_types.entity";
 import {Skill} from "./creature/entities/skill.entity";
 import {SavingThrow} from "./creature/entities/saving-throw.entity";
 import {Feel} from "./creature/entities/feel.entity";
+import {MulterModule} from "@nestjs/platform-express";
 
 @Module({
   imports: [
+      CreatureModule,
+      MulterModule.register({dest: './uploads'}),
       TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'ViribusUnitis.sqlite',
       entities: [Creature, Images, Size, Type, Aligment, ArmorClass, Speed, StatBlock, SavingThrowModifier, SkillModifier, DamageType, Statement, FeelModifiers, Language, Ability, Action, SpeedTypes, Skill, SavingThrow, Feel],
       synchronize: true
-  }),
-      CreatureModule],
+  })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
