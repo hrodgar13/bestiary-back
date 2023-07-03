@@ -1,6 +1,6 @@
 import {IsNumber, IsString, Max, Min} from "class-validator";
 
-export class CreateElementsDto {
+export class CreateAlignmentDto {
     @IsString()
     aligment: string
 }
@@ -72,6 +72,17 @@ export class CreateSkillDto {
     skill_name: string
 }
 
-// export class CreateSpeedType {
-//     @IsString()
-// }
+export class CreateSpeedTypeDto {
+    @IsString()
+    speed_type_name: string;
+}
+
+export class CreateStatementDto {
+    @IsString()
+    statement: string
+}
+
+export class CreateTypeDto {
+    @IsString()
+    type: string
+}
