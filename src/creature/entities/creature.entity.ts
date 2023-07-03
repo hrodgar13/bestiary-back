@@ -59,7 +59,7 @@ export class Creature {
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'speed_id',
+            name: 'speed_modifier_id',
             referencedColumnName: 'id'
         }
     })
@@ -79,7 +79,7 @@ export class Creature {
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'savingThrow_id',
+            name: 'savingThrowModifier_id',
             referencedColumnName: 'id'
         }
     })
@@ -163,7 +163,7 @@ export class Creature {
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'feel_id',
+            name: 'feel_modifier_id',
             referencedColumnName: 'id'
         }
     })
