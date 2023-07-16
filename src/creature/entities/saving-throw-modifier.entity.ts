@@ -8,7 +8,7 @@ export class SavingThrowModifier {
     id: number
 
     @ManyToOne(() => SavingThrow, (savingThrow) => savingThrow.saving_throw_modifier)
-    saving_throw_name_id: number;
+    saving_throw_name: SavingThrow;
 
     @Column()
     modifier: number

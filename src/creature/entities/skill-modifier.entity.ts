@@ -8,7 +8,7 @@ export class SkillModifier {
     id: number;
 
     @ManyToOne(() => Skill, (skill) => skill.skill_modifier)
-    skill_name_id: number;
+    skill_name: Skill;
 
     @Column()
     modifier: number;

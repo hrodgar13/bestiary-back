@@ -9,6 +9,6 @@ export class Speed {
     @Column()
     speed_type_name: string
 
-    @OneToMany(() => SpeedModifier, (speedModifier) => speedModifier.speed_name_id)
+    @OneToMany(() => SpeedModifier, (speedModifier) => speedModifier.speed_name)
     speeds_modifier: SpeedModifier[]
 }

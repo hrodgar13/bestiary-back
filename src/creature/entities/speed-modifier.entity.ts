@@ -11,7 +11,7 @@ export class SpeedModifier{
     speed_amount: number
 
     @ManyToOne(() => Speed, (speed) => speed.speeds_modifier)
-    speed_name_id: number;
+    speed_name: Speed;
 
     @ManyToMany(() => Creature)
     creatures: Creature[]

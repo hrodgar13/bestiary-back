@@ -9,6 +9,6 @@ export class Size {
     @Column()
     size: string;
 
-    @OneToMany(() => Creature, (creature) => creature.creature_size_id)
+    @OneToMany(() => Creature, (creature) => creature.creature_size)
     creatures: Creature[]
 }

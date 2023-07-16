@@ -9,6 +9,6 @@ export class ArmorClass {
     @Column()
     armorType: string
 
-    @OneToMany(() => Creature, (creature) => creature.armor_type_id)
-    creatures: string
+    @OneToMany(() => Creature, (creature) => creature.armor_type)
+    creatures: Creature[]
 }

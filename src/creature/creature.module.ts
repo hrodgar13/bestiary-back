@@ -20,19 +20,16 @@ import {Statement} from "./entities/statement.entity";
 import {Type} from "./entities/type.entity";
 import {UploadCreatureImageController} from "./controllers/upload-creature-image.controller";
 import {ImageUploadService} from "./services/image-upload.service";
-import {CreatureElementsController} from "./controllers/creature-elements.controller";
 import {ElementsService} from "./services/elements.service";
 import {Feel} from "./entities/feel.entity";
-import {CreatureModifierService} from "./services/creature-modifier.service";
-import {CreaturesModifierController} from "./controllers/creatures-modifier.controller";
 import {SavingThrow} from "./entities/saving-throw.entity";
 import {Skill} from "./entities/skill.entity";
 import {Speed} from "./entities/speed.entity";
 
 @Module({
-  controllers: [CreatureController, UploadCreatureImageController, CreatureElementsController, CreaturesModifierController],
-  providers: [CreatureService, ImageUploadService, ElementsService, CreatureModifierService],
+  controllers: [CreatureController, UploadCreatureImageController],
+  providers: [CreatureService, ImageUploadService, ElementsService],
   exports: [CreatureService],
-  imports: [TypeOrmModule.forFeature([Creature, Ability, Action, Aligment, ArmorClass, Creature, DamageType, FeelModifiers, Images, Language, SavingThrowModifier, Size, SkillModifier, SpeedModifier, StatBlock, Statement, Type, Feel, SavingThrow, Skill, Speed])]
+  imports: [TypeOrmModule.forFeature([Ability, Action, Aligment, ArmorClass, Creature, DamageType, FeelModifiers, Images, Language, SavingThrowModifier, Size, SkillModifier, SpeedModifier, StatBlock, Statement, Type, Feel, SavingThrow, Skill, Speed])]
 })
 export class CreatureModule {}

@@ -10,6 +10,6 @@ export class Skill {
     @Column()
     skill_name: string
 
-    @OneToMany(() => SkillModifier, (skillMod) => skillMod.skill_name_id)
+    @OneToMany(() => SkillModifier, (skillMod) => skillMod.skill_name)
     skill_modifier: SavingThrowModifier[]
 }

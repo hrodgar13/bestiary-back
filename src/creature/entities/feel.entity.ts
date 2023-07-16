@@ -10,6 +10,6 @@ export class Feel {
     @Column()
     feel_name: string
 
-    @OneToMany(() => FeelModifiers, (feelMod) => feelMod.feel_name_id)
+    @OneToMany(() => FeelModifiers, (feelMod) => feelMod.feel_name)
     feelModifiers: FeelModifiers[]
 }

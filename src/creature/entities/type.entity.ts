@@ -9,6 +9,6 @@ export class Type{
     @Column()
     type: string
 
-    @OneToMany(() => Creature, (creature) => creature.creature_type_id)
+    @OneToMany(() => Creature, (creature) => creature.creature_type)
     creatures: Creature[]
 }

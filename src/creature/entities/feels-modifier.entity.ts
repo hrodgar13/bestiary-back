@@ -8,7 +8,7 @@ export class FeelModifiers {
     id: number;
 
     @ManyToOne(() => Feel, (feel) => feel.feelModifiers)
-    feel_name_id: number;
+    feel_name: Feel;
 
     @Column()
     feel_modifier: number;
