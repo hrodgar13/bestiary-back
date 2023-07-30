@@ -16,9 +16,9 @@ export class ImageUploadService {
 
 
     addImage(data: CreateImagesDto) {
-        console.log(data)
-        const image = this.repo.create(data)
-        image.creature_id = data.creature_id
-        return this.repo.save(image)
+        // console.log(data)
+        // const image = this.repo.create(data)
+        // // image.creature = data.creature_id
+        // return this.repo.save(image)
     }
 }

@@ -1,51 +1,131 @@
-import {IsNumber, IsString, Max, Min} from "class-validator";
+import {Allow, IsArray, IsBoolean, IsNumber, IsObject, IsString, ValidateIf} from "class-validator";
+import {StatBlock} from "../entities/stat-block.entity";
+import {SpeedModifier} from "../entities/speed-modifier.entity";
+import {SavingThrowModifier} from "../entities/saving-throw-modifier.entity";
+import {FeelModifiers} from "../entities/feels-modifier.entity";
+import {
+    FeelModifiersDto,
+    SavingThrowModifierDto,
+    SkillModifierDto,
+    SpeedModifierDto,
+    StatBlockDto
+} from "./modifiers.dto";
+import {ActionsDto} from "./actions.dto";
+import {CreateAbilityDto} from "./create-ability.dto";
 
 export class CreateMainCreatureDto {
-    @IsString()
-    creature_name: string
+    @IsBoolean()
+    isFinished: boolean
 
     @IsString()
-    creature_name_tag: string
-
-    @IsNumber()
-    @Min(0)
-    @Max(50)
-    armor_Class: number
-
-    @IsNumber()
-    @Min(0)
-    hit_points: number
+    @ValidateIf((object, value) => value !== null)
+    creature_name: string | null
 
     @IsString()
-    hit_points_by_dices: string
+    @ValidateIf((object, value) => value !== null)
+    creature_name_tag: string | null
 
-    @IsNumber()
-    @Min(0)
-    creature_danger_level: number
+    @IsArray()
+    @ValidateIf((object, value) => value !== null)
+    images: number[] | null
 
-    @IsNumber()
-    @Min(0)
-    creature_exp_amount: number
+    @ValidateIf((object, value) => value !== null)
+    @Allow(null)
+    creature_size: number | null
 
-    @IsNumber()
-    @Min(2)
-    creature_mastery_bonus: number
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_type: number | null
 
-    @IsString()
-    creature_description: string
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_alignment: number | null
 
-    @IsNumber()
-    creatureSizeIdId: number
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    armor_Class: number | null
 
-    @IsNumber()
-    creatureTypeIdId: number
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    armor_type: number | null
 
-    @IsNumber()
-    creatureAligmentIdId: number
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    hit_points: string | null
 
-    @IsNumber()
-    armorTypeIdId: number
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    hit_points_by_dices: string | null
 
-    @IsNumber()
-    creatureStatBlockId: number
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_speeds: SpeedModifierDto[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_stat_block: StatBlockDto | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_saving_throws: SavingThrowModifierDto[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_skills: SkillModifierDto[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_vulnerability: number[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_resistance: number[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_immunity: number[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_statement_immunity: number[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_feels: FeelModifiersDto[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_languages: number[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_danger_level: number | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_exp_amount: number | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_mastery_bonus: number | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_abilities: CreateAbilityDto[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_actions: ActionsDto[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_bonus_action: ActionsDto[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_legendary_action: ActionsDto[] | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_description: string | null
 }

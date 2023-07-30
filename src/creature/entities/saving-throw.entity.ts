@@ -9,6 +9,6 @@ export class SavingThrow {
     @Column()
     saving_throw_name: string
 
-    @OneToMany(() => SavingThrowModifier, (savingThrowModifier) => savingThrowModifier.saving_throw_name_id)
+    @OneToMany(() => SavingThrowModifier, (savingThrowModifier) => savingThrowModifier.saving_throw_name)
     saving_throw_modifier: SavingThrowModifier[]
 }

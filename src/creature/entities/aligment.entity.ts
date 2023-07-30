@@ -7,8 +7,8 @@ export class Aligment {
     id: number;
 
     @Column()
-    aligment: string;
+    alignment: string;
 
-    @OneToMany(() => Creature, (creature) => creature.creature_aligment_id)
+    @OneToMany(() => Creature, (creature) => creature.creature_alignment)
     creatures: Creature[]
 }

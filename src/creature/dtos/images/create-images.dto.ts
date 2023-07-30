@@ -5,5 +5,5 @@ export class CreateImagesDto {
     name: string
 
     @IsNumber()
-    creature_id: number
+    creature: number
 }

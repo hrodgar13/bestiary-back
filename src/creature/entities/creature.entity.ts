@@ -4,7 +4,7 @@ import {Size} from "./size.entity";
 import {Type} from "./type.entity";
 import {Aligment} from "./aligment.entity";
 import {ArmorClass} from "./armor-class.entity";
-import {Speed} from "./speed.entity";
+import {SpeedModifier} from "./speed-modifier.entity";
 import {StatBlock} from "./stat-block.entity";
 import {SavingThrowModifier} from "./saving-throw-modifier.entity";
 import {SkillModifier} from "./skill-modifier.entity";
@@ -21,49 +21,62 @@ export class Creature {
     id: number
 
     @Column()
+    isFinished: boolean
+
+    @Column({
+        nullable: true
+    })
     creature_name: string
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     creature_name_tag: string
 
-    @OneToMany(() => Images, (images) => images.creature_id)
+    @OneToMany(() => Images, (images) => images.creature)
     creature_images: Images[]
 
     @ManyToOne(() => Size, (size) => size.creatures)
-    creature_size_id: number
+    creature_size: Size
 
     @ManyToOne(() => Type, (type) => type.creatures)
-    creature_type_id: number
+    creature_type: Type
 
-    @ManyToOne(() => Aligment, (aligment) => aligment.creatures)
-    creature_aligment_id: number
+    @ManyToOne(() => Aligment, (alignment) => alignment.creatures)
+    creature_alignment: Aligment
 
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     armor_Class: number
 
     @ManyToOne(() => ArmorClass, (armorClass) => armorClass.creatures)
-    armor_type_id: number
+    armor_type: ArmorClass
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     hit_points: number
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     hit_points_by_dices: string
 
-    @ManyToMany(() => Speed, (speed) => {speed.creatures})
+    @ManyToMany(() => SpeedModifier)
     @JoinTable({
-        name: 'creature_To_speed',
+        name: 'creature_to_speed',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'speed_id',
+            name: 'speed_modifier',
             referencedColumnName: 'id'
         }
     })
-    creature_speeds: Speed[]
+    creature_speeds: SpeedModifier[]
 
 
 
@@ -75,11 +88,11 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_savingThrow',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'savingThrow_id',
+            name: 'saving_throw_modifier',
             referencedColumnName: 'id'
         }
     })
@@ -89,11 +102,11 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_skill',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'skill_modifier_id',
+            name: 'skill_modifier',
             referencedColumnName: 'id'
         }
     })
@@ -117,11 +130,11 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_resistance',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'resist_damage_id',
+            name: 'resist_damage',
             referencedColumnName: 'id'
         }
     })
@@ -131,11 +144,11 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_immunity',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'immune_damage_id',
+            name: 'immune_damage',
             referencedColumnName: 'id'
         }
     })
@@ -143,13 +156,13 @@ export class Creature {
 
     @ManyToMany(() => Statement)
     @JoinTable({
-        name: 'creature_to_statementImmunity',
+        name: 'creature_to_statement_immunity',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'statement_id',
+            name: 'statement',
             referencedColumnName: 'id'
         }
     })
@@ -159,11 +172,11 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_feel',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'feel_id',
+            name: 'feel_modifier',
             referencedColumnName: 'id'
         }
     })
@@ -173,23 +186,29 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_language',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'language_id',
+            name: 'language',
             referencedColumnName: 'id'
         }
     })
     creature_languages : Language[]
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     creature_danger_level : number
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     creature_exp_amount : number
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     creature_mastery_bonus: number
 
 
@@ -197,11 +216,11 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_abilities',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'ability_id',
+            name: 'ability',
             referencedColumnName: 'id'
         }
     })
@@ -211,11 +230,11 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_actions',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'action_id',
+            name: 'action',
             referencedColumnName: 'id'
         }
     })
@@ -225,11 +244,11 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_bonus',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'action_id',
+            name: 'action',
             referencedColumnName: 'id'
         }
     })
@@ -239,16 +258,18 @@ export class Creature {
     @JoinTable({
         name: 'creature_to_legendary',
         joinColumn: {
-            name: 'creature_id',
+            name: 'creature',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'action_id',
+            name: 'action',
             referencedColumnName: 'id'
         }
     })
     creature_legendary_action : Action[]
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     creature_description : string
 }

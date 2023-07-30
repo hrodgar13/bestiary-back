@@ -7,38 +7,20 @@ export class StatBlock {
     id: number
 
     @Column()
-    @IsNumber()
-    @Min(1)
-    @Max(30)
     strength: number
 
     @Column()
-    @IsNumber()
-    @Min(1)
-    @Max(30)
     dexterity: number
 
     @Column()
-    @IsNumber()
-    @Min(1)
-    @Max(30)
     construction: number
 
     @Column()
-    @IsNumber()
-    @Min(1)
-    @Max(30)
     intelligence: number
 
     @Column()
-    @IsNumber()
-    @Min(1)
-    @Max(30)
     wisdom: number
 
     @Column()
-    @IsNumber()
-    @Min(1)
-    @Max(30)
     charisma: number
 }
