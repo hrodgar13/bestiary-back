@@ -20,15 +20,21 @@ import {Statement} from "./entities/statement.entity";
 import {Type} from "./entities/type.entity";
 import {UploadCreatureImageController} from "./controllers/upload-creature-image.controller";
 import {ImageUploadService} from "./services/image-upload.service";
-import {ElementsService} from "./services/elements.service";
 import {Feel} from "./entities/feel.entity";
 import {SavingThrow} from "./entities/saving-throw.entity";
 import {Skill} from "./entities/skill.entity";
 import {Speed} from "./entities/speed.entity";
+import {AdditionService} from "./services/addition.service";
+import {
+  AlignmentController,
+  ArmorClassController, DamageTypeController,
+  FeelController, LanguageController, SavingThrowController,
+  SizeController, SkillController, SpeedController, StatementController, TypeController
+} from "./controllers/adittions.controllers";
 
 @Module({
-  controllers: [CreatureController, UploadCreatureImageController],
-  providers: [CreatureService, ImageUploadService, ElementsService],
+  controllers: [CreatureController, UploadCreatureImageController, SizeController, AlignmentController, ArmorClassController, FeelController, LanguageController, SavingThrowController, SkillController, SpeedController, StatementController, DamageTypeController, TypeController],
+  providers: [CreatureService, ImageUploadService, AdditionService],
   exports: [CreatureService],
   imports: [TypeOrmModule.forFeature([Ability, Action, Aligment, ArmorClass, Creature, DamageType, FeelModifiers, Images, Language, SavingThrowModifier, Size, SkillModifier, SpeedModifier, StatBlock, Statement, Type, Feel, SavingThrow, Skill, Speed])]
 })
