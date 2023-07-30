@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import {Module} from '@nestjs/common';
+import {AppController} from './app.controller';
+import {AppService} from './app.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
-import { CreatureModule } from './creature/creature.module';
+import {CreatureModule} from './creature/creature.module';
 import {Creature} from "./creature/entities/creature.entity";
 import {Images} from "./creature/entities/images.entity";
 import {Size} from "./creature/entities/size.entity";
@@ -24,24 +24,25 @@ import {Skill} from "./creature/entities/skill.entity";
 import {SavingThrow} from "./creature/entities/saving-throw.entity";
 import {Feel} from "./creature/entities/feel.entity";
 import {MulterModule} from "@nestjs/platform-express";
-import { AuthModule } from './auth/auth.module';
-import {AuthController} from "./auth/controllers/auth.controller";
+import {AuthModule} from './auth/auth.module';
 import {User} from "./auth/entities/user.entity";
 
 @Module({
-  imports: [
-      CreatureModule,
-      AuthController,
-      MulterModule.register({dest: './uploads'}),
-      TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'ViribusUnitis.sqlite',
-      entities: [Creature, Images, Size, Type, Aligment, ArmorClass, SpeedModifier, StatBlock, SavingThrowModifier, SkillModifier, DamageType, Statement, FeelModifiers, Language, Ability, Action, Speed, Skill, SavingThrow, Feel, User],
-      synchronize: true
-  }),
-      AuthModule
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        CreatureModule,
+        AuthModule,
+        MulterModule.register({dest: './uploads'}),
+        TypeOrmModule.forRoot({
+            type: 'sqlite',
+            database: 'ViribusUnitis.sqlite',
+            entities: [Creature, Images, Size, Type, Aligment, ArmorClass, SpeedModifier, StatBlock, SavingThrowModifier, SkillModifier, DamageType, Statement, FeelModifiers, Language, Ability, Action, Speed, Skill, SavingThrow, Feel, User],
+            synchronize: true
+        })
+    ],
+    controllers: [AppController],
+    providers: [
+        AppService
+    ],
 })
-export class AppModule {}
+export class AppModule {
+}
