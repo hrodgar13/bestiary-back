@@ -26,7 +26,12 @@ export class Creature {
     @Column({
         nullable: true
     })
-    creature_name: string
+    creature_name_EN: string
+
+    @Column({
+        nullable: true
+    })
+    creature_name_UA: string
 
     @Column({
         nullable: true
@@ -271,5 +276,10 @@ export class Creature {
     @Column({
         nullable: true
     })
-    creature_description : string
+    creature_description_EN : string
+
+    @Column({
+        nullable: true
+    })
+    creature_description_UA : string
 }

@@ -6,16 +6,16 @@ export class Ability {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable: true})
     title_UA: string
 
-    @Column()
+    @Column({nullable: true})
     title_EN: string
 
-    @Column()
+    @Column({nullable: true})
     ability_UA: string
 
-    @Column()
+    @Column({nullable: true})
     ability_EN: string
 
     @ManyToMany(() => Creature)

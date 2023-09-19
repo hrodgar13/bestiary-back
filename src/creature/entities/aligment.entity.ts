@@ -6,8 +6,11 @@ export class Aligment {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    alignment: string;
+    @Column({nullable: true})
+    alignment_UA: string;
+
+    @Column({nullable: true})
+    alignment_EN: string;
 
     @OneToMany(() => Creature, (creature) => creature.creature_alignment)
     creatures: Creature[]

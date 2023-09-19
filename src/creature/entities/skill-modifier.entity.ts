@@ -10,7 +10,7 @@ export class SkillModifier {
     @ManyToOne(() => Skill, (skill) => skill.skill_modifier)
     skill_name: Skill;
 
-    @Column()
+    @Column({nullable: true})
     modifier: number;
 
     @ManyToMany(() => Creature)
