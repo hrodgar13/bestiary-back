@@ -61,8 +61,11 @@ export class FeelModifiersDto {
     feel_modifier: number;
 
     @IsString()
-    feel_measure: string
+    feel_measure_UA: string
+
+    @IsString()
+    feel_measure_EN: string
 
     @IsNumber()
-    feel_name: number
+    feel_id: number
 }

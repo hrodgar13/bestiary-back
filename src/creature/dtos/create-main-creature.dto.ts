@@ -19,7 +19,11 @@ export class CreateMainCreatureDto {
 
     @IsString()
     @ValidateIf((object, value) => value !== null)
-    creature_name: string | null
+    creature_name_EN: string | null
+
+    @IsString()
+    @ValidateIf((object, value) => value !== null)
+    creature_name_UA: string | null
 
     @IsString()
     @ValidateIf((object, value) => value !== null)
@@ -127,5 +131,9 @@ export class CreateMainCreatureDto {
 
     @Allow(null)
     @ValidateIf((object, value) => value !== null)
-    creature_description: string | null
+    creature_description_EN: string | null
+
+    @Allow(null)
+    @ValidateIf((object, value) => value !== null)
+    creature_description_UA: string | null
 }
