@@ -6,8 +6,11 @@ export class SavingThrow {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    saving_throw_name: string
+    @Column({nullable: true})
+    saving_throw_name_EN: string
+
+    @Column({nullable: true})
+    saving_throw_name_UA: string
 
     @OneToMany(() => SavingThrowModifier, (savingThrowModifier) => savingThrowModifier.saving_throw_name)
     saving_throw_modifier: SavingThrowModifier[]

@@ -10,11 +10,14 @@ export class FeelModifiers {
     @ManyToOne(() => Feel, (feel) => feel.feelModifiers)
     feel_name: Feel;
 
-    @Column()
+    @Column({nullable: true})
     feel_modifier: number;
 
-    @Column()
-    feel_measure: string;
+    @Column({nullable: true})
+    feel_measure_EN: string;
+
+    @Column({nullable: true})
+    feel_measure_UA: string;
 
     @ManyToMany(() => Creature)
     creatures: Creature[]

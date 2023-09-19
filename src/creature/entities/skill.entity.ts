@@ -7,8 +7,11 @@ export class Skill {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    skill_name: string
+    @Column({nullable: true})
+    skill_name_EN: string
+
+    @Column({nullable: true})
+    skill_name_UA: string
 
     @OneToMany(() => SkillModifier, (skillMod) => skillMod.skill_name)
     skill_modifier: SavingThrowModifier[]

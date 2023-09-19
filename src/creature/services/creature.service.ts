@@ -53,7 +53,8 @@ export class CreatureService {
         const creature = await this.creatureRepo.create()
 
         creature.isFinished = body.isFinished
-        creature.creature_name = body.creature_name
+        creature.creature_name_EN = body.creature_name_EN
+        creature.creature_name_UA = body.creature_name_UA
         creature.creature_name_tag = body.creature_name_tag
         creature.armor_Class = body.armor_Class
         creature.hit_points = +body.hit_points
@@ -62,7 +63,8 @@ export class CreatureService {
         creature.creature_exp_amount = body.creature_exp_amount
         creature.creature_mastery_bonus = body.creature_mastery_bonus
 
-        creature.creature_description = body.creature_description
+        creature.creature_description_EN = body.creature_description_UA
+        creature.creature_description_UA = body.creature_description_EN
 
         creature.creature_alignment = await this.alignmentRepo.findOne({where: {id: body.creature_alignment}});
         creature.creature_size = await this.sizeRepo.findOne({where: {id: body.creature_size}});
@@ -112,8 +114,9 @@ export class CreatureService {
         creature.creature_feels = await Promise.all(body.creature_feels.map(async feel => {
             const feelModifier = await this.feelsModifierRepo.create();
             feelModifier.feel_modifier = feel.feel_modifier
-            feelModifier.feel_measure = feel.feel_measure
-            feelModifier.feel_name = await this.feelsRepo.findOne({where: {id: feel.feel_name}})
+            feelModifier.feel_measure_EN = feel.feel_measure_EN
+            feelModifier.feel_measure_UA = feel.feel_measure_UA
+            feelModifier.feel_name = await this.feelsRepo.findOne({where: {id: feel.feel_id}})
 
             return feelModifier
         }))

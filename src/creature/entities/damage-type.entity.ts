@@ -6,8 +6,11 @@ export class DamageType {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    damage_name: string;
+    @Column({nullable: true})
+    damage_name_UA: string;
+
+    @Column({nullable: true})
+    damage_name_EN: string;
 
     @ManyToMany(() => Creature)
     creatures: Creature[]

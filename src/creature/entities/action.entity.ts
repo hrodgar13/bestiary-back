@@ -6,16 +6,16 @@ export class Action {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable: true})
     title_EN: string;
 
-    @Column()
+    @Column({nullable: true})
     title_UA: string;
 
-    @Column()
+    @Column({nullable: true})
     action_EN: string;
 
-    @Column()
+    @Column({nullable: true})
     action_UA: string;
 
     @ManyToMany(() => Creature)

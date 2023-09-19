@@ -6,8 +6,11 @@ export class ArmorClass {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    armorType: string
+    @Column({nullable: true})
+    armorType_UA: string
+
+    @Column({nullable: true})
+    armorType_EN: string
 
     @OneToMany(() => Creature, (creature) => creature.armor_type)
     creatures: Creature[]

@@ -6,8 +6,11 @@ export class Type{
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    type: string
+    @Column({nullable: true})
+    type_EN: string
+
+    @Column({nullable: true})
+    type_UA: string
 
     @OneToMany(() => Creature, (creature) => creature.creature_type)
     creatures: Creature[]

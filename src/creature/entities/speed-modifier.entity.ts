@@ -7,7 +7,7 @@ export class SpeedModifier{
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({nullable: true})
     speed_amount: number
 
     @ManyToOne(() => Speed, (speed) => speed.speeds_modifier)

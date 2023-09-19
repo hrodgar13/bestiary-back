@@ -6,8 +6,11 @@ export class Language {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    language_name: string
+    @Column({nullable: true})
+    language_name_EN: string
+
+    @Column({nullable: true})
+    language_name_UA: string
 
     @ManyToMany(() => Creature)
     creature: Creature[]

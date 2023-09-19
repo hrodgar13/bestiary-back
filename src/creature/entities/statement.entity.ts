@@ -6,8 +6,11 @@ export class Statement {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    statement: string
+    @Column({nullable: true})
+    statement_UA: string
+
+    @Column({nullable: true})
+    statement_EN: string
 
     @ManyToMany(() => Creature)
     creatures: Creature[]

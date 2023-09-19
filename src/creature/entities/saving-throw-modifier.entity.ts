@@ -10,7 +10,7 @@ export class SavingThrowModifier {
     @ManyToOne(() => SavingThrow, (savingThrow) => savingThrow.saving_throw_modifier)
     saving_throw_name: SavingThrow;
 
-    @Column()
+    @Column({nullable: true})
     modifier: number
 
     @ManyToMany(() => Creature)

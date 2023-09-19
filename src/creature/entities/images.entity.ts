@@ -6,7 +6,7 @@ export class Images {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable: true})
     name: string;
 
     @ManyToOne(() => Creature, (creature) => creature.creature_images)
