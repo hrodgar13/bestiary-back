@@ -1,57 +1,56 @@
-import {IsString} from "class-validator";
+import { IsString } from 'class-validator';
 
 export class CreateSizeDto {
-    @IsString()
-    size: string
+  @IsString()
+  size: string;
 }
 
 export class CreateTypeDto {
-    @IsString()
-    type: string
+  @IsString()
+  type: string;
 }
 
 export class CreateAlignmentDto {
-    @IsString()
-    alignment: string
+  @IsString()
+  alignment: string;
 }
 
 export class CreateArmorDto {
-    @IsString()
-    armorType:string
+  @IsString()
+  armorType: string;
 }
 
 export class CreateSpeedTypeDto {
-    @IsString()
-    speed_type_name: string
+  @IsString()
+  speed_type_name: string;
 }
 
 export class CreateSavingThrowDto {
-    @IsString()
-    saving_throw_name: string
+  @IsString()
+  saving_throw_name: string;
 }
 
 export class CreateSkillDto {
-    @IsString()
-    skill_name: string
+  @IsString()
+  skill_name: string;
 }
 
 export class CreateDamageTypeDto {
-    @IsString()
-    damage_name: string
+  @IsString()
+  damage_name: string;
 }
 
 export class CreateStatementDto {
-    @IsString()
-    statement: string
+  @IsString()
+  statement: string;
 }
 
 export class CreateFeelNameDto {
-    @IsString()
-    feel_name: string
+  @IsString()
+  feel_name: string;
 }
 
 export class CreateLanguageDto {
-    @IsString()
-    language_name: string
+  @IsString()
+  language_name: string;
 }
-
