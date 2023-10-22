@@ -1,41 +1,59 @@
-import {Module} from "@nestjs/common";
-import {CreatureController} from "./controllers/creature.controller";
-import {CreatureService} from "./services/creature.service";
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {Creature} from "./entities/creature.entity";
-import {Ability} from "./entities/abilities.entity";
-import {Action} from "./entities/action.entity";
-import {Aligment} from "./entities/aligment.entity";
-import {ArmorClass} from "./entities/armor-class.entity";
-import {DamageType} from "./entities/damage-type.entity";
-import {FeelModifiers} from "./entities/feels-modifier.entity";
-import {Images} from "./entities/images.entity";
-import {Language} from "./entities/language.entity";
-import {SavingThrowModifier} from "./entities/saving-throw-modifier.entity";
-import {Size} from "./entities/size.entity";
-import {SkillModifier} from "./entities/skill-modifier.entity";
-import {SpeedModifier} from "./entities/speed-modifier.entity";
-import {StatBlock} from "./entities/stat-block.entity";
-import {Statement} from "./entities/statement.entity";
-import {Type} from "./entities/type.entity";
-import {UploadCreatureImageController} from "./controllers/upload-creature-image.controller";
-import {ImageUploadService} from "./services/image-upload.service";
-import {Feel} from "./entities/feel.entity";
-import {SavingThrow} from "./entities/saving-throw.entity";
-import {Skill} from "./entities/skill.entity";
-import {Speed} from "./entities/speed.entity";
-import {AdditionService} from "./services/addition.service";
-import {
-  AlignmentController,
-  ArmorClassController, DamageTypeController,
-  FeelController, LanguageController, SavingThrowController,
-  SizeController, SkillController, SpeedController, StatementController, TypeController
-} from "./controllers/adittions.controllers";
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module } from '@nestjs/common';
+import { Type } from './entities/attributes/type.entity';
+import { Alignment } from './entities/attributes/alignment.entity';
+import { Translation } from './entities/translations/translation.entity';
+import { AlignmentController } from './controllers/attributes-controllers/alignment/alignment.controller';
+import { AdditionService } from './services/addition/addition.service';
+import { TypeController } from './controllers/attributes-controllers/type/type.controller';
+import { SizeController } from './controllers/attributes-controllers/size/size.controller';
+import { ArmorTagController } from './controllers/attributes-controllers/armor-tag/armor-tag.controller';
+import { SpeedController } from './controllers/attributes-controllers/speed/speed.controller';
+import { DamageController } from './controllers/attributes-controllers/damage/damage.controller';
+import { SavingThrowController } from './controllers/attributes-controllers/saving-throw/saving-throw.controller';
+import { ConditionController } from './controllers/attributes-controllers/condition/condition.controller';
+import { FeelController } from './controllers/attributes-controllers/feel/feel.controller';
+import { LanguageController } from './controllers/attributes-controllers/language/language.controller';
+import { Size } from './entities/attributes/size.entity';
+import { ArmorTag } from './entities/attributes/armor-tag.entity';
+import { Speed } from './entities/attributes/speed.entity';
+import { Damage } from './entities/attributes/damage.entity';
+import { Feeling } from './entities/attributes/feeling.entity';
+import { SavingThrow } from './entities/attributes/saving-throw.entity';
+import { Skill } from './entities/attributes/skill.entity';
+import { Condition } from './entities/attributes/condition.entity';
+import { Language } from './entities/attributes/language.entity';
 
 @Module({
-  controllers: [CreatureController, UploadCreatureImageController, SizeController, AlignmentController, ArmorClassController, FeelController, LanguageController, SavingThrowController, SkillController, SpeedController, StatementController, DamageTypeController, TypeController],
-  providers: [CreatureService, ImageUploadService, AdditionService],
-  exports: [CreatureService],
-  imports: [TypeOrmModule.forFeature([Ability, Action, Aligment, ArmorClass, Creature, DamageType, FeelModifiers, Images, Language, SavingThrowModifier, Size, SkillModifier, SpeedModifier, StatBlock, Statement, Type, Feel, SavingThrow, Skill, Speed])]
+  controllers: [
+    AlignmentController,
+    TypeController,
+    SizeController,
+    ArmorTagController,
+    SpeedController,
+    DamageController,
+    SavingThrowController,
+    ConditionController,
+    FeelController,
+    LanguageController,
+  ],
+  providers: [AdditionService],
+  exports: [],
+  imports: [
+    TypeOrmModule.forFeature([
+      Type,
+      Alignment,
+      Size,
+      ArmorTag,
+      Speed,
+      Damage,
+      Feeling,
+      SavingThrow,
+      Skill,
+      Condition,
+      Language,
+      Translation
+    ]),
+  ],
 })
 export class CreatureModule {}
