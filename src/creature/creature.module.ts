@@ -23,6 +23,7 @@ import { SavingThrow } from './entities/attributes/saving-throw.entity';
 import { Skill } from './entities/attributes/skill.entity';
 import { Condition } from './entities/attributes/condition.entity';
 import { Language } from './entities/attributes/language.entity';
+import { SkillController } from './controllers/attributes-controllers/skill/skill.controller';
 
 @Module({
   controllers: [
@@ -35,6 +36,7 @@ import { Language } from './entities/attributes/language.entity';
     SavingThrowController,
     ConditionController,
     FeelController,
+    SkillController,
     LanguageController,
   ],
   providers: [AdditionService],
@@ -52,7 +54,7 @@ import { Language } from './entities/attributes/language.entity';
       Skill,
       Condition,
       Language,
-      Translation
+      Translation,
     ]),
   ],
 })
