@@ -1,16 +1,16 @@
 import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Damage } from '../attributes/damage.entity';
 import { MultiFieldsENUM } from '../../dtos/income/attribute-measure/mutli-select.dto';
 import { Creature } from '../creature.entity';
+import { Region } from '../attributes/region.entity';
 
 @Entity()
-export class ImmunitiesDamageMeasure {
+export class RegionsMeasure {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Damage, (damage) => damage.immunities)
-  [MultiFieldsENUM.immunities]: Damage;
+  @ManyToOne(() => Region, (regions) => regions.regionsMeasure)
+  [MultiFieldsENUM.regions]: Region;
 
-  @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.immunities])
+  @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.regions])
   creature: Creature;
 }

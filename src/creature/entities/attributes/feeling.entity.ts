@@ -1,5 +1,13 @@
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Translation } from '../translations/translation.entity';
+import { MultiFieldsENUM } from '../../dtos/income/attribute-measure/mutli-select.dto';
+import { FeelingsMeasure } from '../attribute-measure/feelings-measure.entity';
 
 @Entity()
 export class Feeling {
@@ -9,4 +17,7 @@ export class Feeling {
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
   feeling: Translation;
+
+  @OneToMany(() => FeelingsMeasure, (sm) => sm[MultiFieldsENUM.feelings])
+  feelingsMeasures: FeelingsMeasure[];
 }

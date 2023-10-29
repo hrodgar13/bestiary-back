@@ -1,5 +1,5 @@
-import { AttributeDto } from './attribute.dto';
+import { AttributeTranslationDto } from '../attributeTranslation.dto';
 
 export interface TypeDto {
-  type: AttributeDto;
+  type: AttributeTranslationDto;
 }

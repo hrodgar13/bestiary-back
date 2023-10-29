@@ -1,5 +1,6 @@
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import { Translation } from '../translations/translation.entity';
+import {Creature} from "../creature.entity";
 
 @Entity()
 export class Size {
@@ -9,4 +10,7 @@ export class Size {
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
   size: Translation;
+
+  @OneToMany(() => Creature, (creatures) => creatures.size)
+  creatures: Creature[];
 }

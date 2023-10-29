@@ -1,5 +1,5 @@
-import { AttributeDto } from './attribute.dto';
+import { AttributeTranslationDto } from '../attributeTranslation.dto';
 
 export interface FeelingDto {
-  feeling: AttributeDto;
+  feeling: AttributeTranslationDto;
 }

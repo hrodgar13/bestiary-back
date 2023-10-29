@@ -26,6 +26,21 @@ import { Language } from './entities/attributes/language.entity';
 import { SkillController } from './controllers/attributes-controllers/skill/skill.controller';
 import { Region } from './entities/attributes/region.entity';
 import { RegionController } from './controllers/attributes-controllers/region/region.controller';
+import { ConditionsMeasure } from './entities/attribute-measure/conditions-measure.entity';
+import { FeelingsMeasure } from './entities/attribute-measure/feelings-measure.entity';
+import { ImmunitiesDamageMeasure } from './entities/attribute-measure/immunities-damage-measure.entity';
+import { LanguagesMeasure } from './entities/attribute-measure/languages.measure';
+import { ResistsDamageMeasure } from './entities/attribute-measure/resists-damage-measure.entity';
+import { SavingThrowMeasure } from './entities/attribute-measure/saving-throw-measure.entity';
+import { SkillsMeasure } from './entities/attribute-measure/skills.measure';
+import { SpeedsMeasure } from './entities/attribute-measure/speeds-measure.entity';
+import { VulnerabilitiesDamageMeasure } from './entities/attribute-measure/vulnerabilities-damage-measure.entity';
+import { Ability } from './entities/actions-abilities/abilities.entity';
+import { Action } from './entities/actions-abilities/action.entity';
+import { BonusAction } from './entities/actions-abilities/bonus-action.entity';
+import { LegendaryAction } from './entities/actions-abilities/legendary-action.entity';
+import { Creature } from './entities/creature.entity';
+import { RegionsMeasure } from './entities/attribute-measure/regions-measure.entity';
 
 @Module({
   controllers: [
@@ -59,6 +74,21 @@ import { RegionController } from './controllers/attributes-controllers/region/re
       Language,
       Translation,
       Region,
+      ConditionsMeasure,
+      FeelingsMeasure,
+      ImmunitiesDamageMeasure,
+      LanguagesMeasure,
+      ResistsDamageMeasure,
+      SavingThrowMeasure,
+      SkillsMeasure,
+      SpeedsMeasure,
+      VulnerabilitiesDamageMeasure,
+      Ability,
+      Action,
+      BonusAction,
+      LegendaryAction,
+      Creature,
+      RegionsMeasure,
     ]),
   ],
 })

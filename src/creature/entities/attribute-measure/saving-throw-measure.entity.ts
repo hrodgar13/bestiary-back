@@ -1,11 +1,12 @@
 import {
   Column,
   Entity,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Speed } from '../attributes/speed.entity';
-import {SavingThrow} from "../attributes/saving-throw.entity";
+import { MultiFieldsENUM } from '../../dtos/income/attribute-measure/mutli-select.dto';
+import { Creature } from '../creature.entity';
+import { SavingThrow } from '../attributes/saving-throw.entity';
 
 @Entity()
 export class SavingThrowMeasure {
@@ -15,6 +16,12 @@ export class SavingThrowMeasure {
   @Column()
   amt: number;
 
-  @OneToOne(() => SavingThrow)
-  ['saving-throw-type']: SavingThrow;
+  @ManyToOne(() => SavingThrow, (st) => st.stMeasure)
+  [MultiFieldsENUM.savingThrows]: SavingThrow;
+
+  @ManyToOne(
+    () => Creature,
+    (creature) => creature[MultiFieldsENUM.savingThrows],
+  )
+  creature: Creature;
 }

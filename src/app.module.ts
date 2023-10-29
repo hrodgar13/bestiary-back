@@ -19,6 +19,21 @@ import { Skill } from './creature/entities/attributes/skill.entity';
 import { Condition } from './creature/entities/attributes/condition.entity';
 import { Language } from './creature/entities/attributes/language.entity';
 import { Region } from './creature/entities/attributes/region.entity';
+import { ConditionsMeasure } from './creature/entities/attribute-measure/conditions-measure.entity';
+import { FeelingsMeasure } from './creature/entities/attribute-measure/feelings-measure.entity';
+import { ImmunitiesDamageMeasure } from './creature/entities/attribute-measure/immunities-damage-measure.entity';
+import { LanguagesMeasure } from './creature/entities/attribute-measure/languages.measure';
+import { ResistsDamageMeasure } from './creature/entities/attribute-measure/resists-damage-measure.entity';
+import { SavingThrowMeasure } from './creature/entities/attribute-measure/saving-throw-measure.entity';
+import { SkillsMeasure } from './creature/entities/attribute-measure/skills.measure';
+import { SpeedsMeasure } from './creature/entities/attribute-measure/speeds-measure.entity';
+import { VulnerabilitiesDamageMeasure } from './creature/entities/attribute-measure/vulnerabilities-damage-measure.entity';
+import { Ability } from './creature/entities/actions-abilities/abilities.entity';
+import { Action } from './creature/entities/actions-abilities/action.entity';
+import { BonusAction } from './creature/entities/actions-abilities/bonus-action.entity';
+import { LegendaryAction } from './creature/entities/actions-abilities/legendary-action.entity';
+import { Creature } from './creature/entities/creature.entity';
+import { RegionsMeasure } from './creature/entities/attribute-measure/regions-measure.entity';
 
 @Module({
   imports: [
@@ -43,6 +58,21 @@ import { Region } from './creature/entities/attributes/region.entity';
         Language,
         Translation,
         Region,
+        ConditionsMeasure,
+        FeelingsMeasure,
+        ImmunitiesDamageMeasure,
+        LanguagesMeasure,
+        ResistsDamageMeasure,
+        SavingThrowMeasure,
+        SkillsMeasure,
+        SpeedsMeasure,
+        VulnerabilitiesDamageMeasure,
+        Ability,
+        Action,
+        BonusAction,
+        LegendaryAction,
+        Creature,
+        RegionsMeasure,
       ],
       synchronize: true,
     }),

@@ -6,21 +6,22 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Speed } from '../attributes/speed.entity';
-import { Damage } from '../attributes/damage.entity';
+import { Skill } from '../attributes/skill.entity';
 import { MultiFieldsENUM } from '../../dtos/income/attribute-measure/mutli-select.dto';
+import { SavingThrow } from '../attributes/saving-throw.entity';
 import { Creature } from '../creature.entity';
 
 @Entity()
-export class VulnerabilitiesDamageMeasure {
+export class SkillsMeasure {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Damage, (damage) => damage.vulnerabilities)
-  [MultiFieldsENUM.vulnerabilities]: Damage;
+  @Column()
+  amt: number;
 
-  @ManyToOne(
-    () => Creature,
-    (creature) => creature[MultiFieldsENUM.vulnerabilities],
-  )
+  @ManyToOne(() => Skill, (skill) => skill.skillsMeasures)
+  [MultiFieldsENUM.skills]: Skill;
+
+  @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.skills])
   creature: Creature;
 }

@@ -1,10 +1,14 @@
 import {
   Column,
   Entity,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Speed } from '../attributes/speed.entity';
+import { MultiFieldsENUM } from '../../dtos/income/attribute-measure/mutli-select.dto';
+import { Damage } from '../attributes/damage.entity';
+import { Creature } from '../creature.entity';
 
 @Entity()
 export class SpeedsMeasure {
@@ -14,6 +18,9 @@ export class SpeedsMeasure {
   @Column()
   amt: number;
 
-  @OneToOne(() => Speed)
-  ['speed-type']: Speed;
+  @ManyToOne(() => Speed, (speed) => speed.speedsMeasures)
+  [MultiFieldsENUM.speeds]: Speed;
+
+  @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.speeds])
+  creature: Creature;
 }

@@ -1,5 +1,7 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Feeling } from '../attributes/feeling.entity';
+import { MultiFieldsENUM } from '../../dtos/income/attribute-measure/mutli-select.dto';
+import { Creature } from '../creature.entity';
 
 @Entity()
 export class FeelingsMeasure {
@@ -12,6 +14,9 @@ export class FeelingsMeasure {
   @Column({ nullable: true })
   isMeasureEnable: boolean;
 
-  @OneToOne(() => Feeling)
-  ['feeling-type']: Feeling;
+  @ManyToOne(() => Feeling, (feel) => feel.feelingsMeasures)
+  [MultiFieldsENUM.feelings]: Feeling;
+
+  @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.feelings])
+  creature: Creature;
 }
