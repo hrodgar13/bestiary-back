@@ -18,6 +18,7 @@ import { SavingThrow } from './creature/entities/attributes/saving-throw.entity'
 import { Skill } from './creature/entities/attributes/skill.entity';
 import { Condition } from './creature/entities/attributes/condition.entity';
 import { Language } from './creature/entities/attributes/language.entity';
+import { Region } from './creature/entities/attributes/region.entity';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { Language } from './creature/entities/attributes/language.entity';
         Condition,
         Language,
         Translation,
+        Region,
       ],
       synchronize: true,
     }),

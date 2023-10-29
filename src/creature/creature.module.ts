@@ -24,6 +24,8 @@ import { Skill } from './entities/attributes/skill.entity';
 import { Condition } from './entities/attributes/condition.entity';
 import { Language } from './entities/attributes/language.entity';
 import { SkillController } from './controllers/attributes-controllers/skill/skill.controller';
+import { Region } from './entities/attributes/region.entity';
+import { RegionController } from './controllers/attributes-controllers/region/region.controller';
 
 @Module({
   controllers: [
@@ -38,6 +40,7 @@ import { SkillController } from './controllers/attributes-controllers/skill/skil
     FeelController,
     SkillController,
     LanguageController,
+    RegionController,
   ],
   providers: [AdditionService],
   exports: [],
@@ -55,6 +58,7 @@ import { SkillController } from './controllers/attributes-controllers/skill/skil
       Condition,
       Language,
       Translation,
+      Region,
     ]),
   ],
 })
