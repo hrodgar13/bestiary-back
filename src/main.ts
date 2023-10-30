@@ -10,11 +10,7 @@ async function bootstrap() {
 
   app.use('/uploads', express.static('uploads'))
 
-  app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true
-      })
-  )
+    app.useGlobalPipes(new ValidationPipe());
     app.setGlobalPrefix('api')
 
   await app.listen(3001);
