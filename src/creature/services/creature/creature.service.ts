@@ -9,7 +9,7 @@ import {Type} from "../../entities/attributes/type.entity";
 import {Size} from "../../entities/attributes/size.entity";
 import {ArmorTag} from "../../entities/attributes/armor-tag.entity";
 import {ImmunitiesDamageMeasure} from "../../entities/attribute-measure/immunities-damage-measure.entity";
-import {MultiFieldsENUM} from "../../dtos/income/attribute-measure/mutli-select.dto";
+import {MultiFieldsENUM, MutliSelectDto} from "../../dtos/income/attribute-measure/mutli-select.dto";
 import {VulnerabilitiesDamageMeasure} from "../../entities/attribute-measure/vulnerabilities-damage-measure.entity";
 import {ResistsDamageMeasure} from "../../entities/attribute-measure/resists-damage-measure.entity";
 import {SpeedsMeasure} from "../../entities/attribute-measure/speeds-measure.entity";
