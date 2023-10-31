@@ -17,7 +17,7 @@ export class LanguagesMeasure {
   id: number;
 
   @Column({ nullable: true })
-  amt: string;
+  amt: number;
 
   @ManyToOne(() => Language, (lang) => lang.languagesMeasures)
   [MultiFieldsENUM.languages]: Language;

@@ -43,6 +43,7 @@ import {Creature} from './entities/creature.entity';
 import {RegionsMeasure} from './entities/attribute-measure/regions-measure.entity';
 import {CreatureController} from "./controllers/creature/creature.controller";
 import {CreatureService} from "./services/creature/creature.service";
+import {AdditionMeasureService} from "./services/addition/addition-measure.service";
 
 @Module({
     controllers: [
@@ -62,7 +63,8 @@ import {CreatureService} from "./services/creature/creature.service";
     ],
     providers: [
         AdditionService,
-        CreatureService
+        // AdditionMeasureService,
+        CreatureService,
     ],
     exports: [],
     imports: [

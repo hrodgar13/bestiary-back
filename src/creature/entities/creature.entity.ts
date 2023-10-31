@@ -1,6 +1,6 @@
 import {
   Column,
-  Entity,
+  Entity, JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -36,7 +36,8 @@ export class Creature {
   @Column({ default: false })
   isFinished: boolean;
 
-  @OneToOne(() => Translation)
+  @OneToOne(() => Translation, {cascade: true})
+  @JoinColumn()
   creatureName: Translation;
 
   @ManyToOne(() => Alignment, (alignment) => alignment.creatures)
@@ -87,48 +88,49 @@ export class Creature {
   @Column({ nullable: true })
   masteryBonus: number;
 
-  @OneToOne(() => Translation)
+  @OneToOne(() => Translation, {cascade: true})
+  @JoinColumn()
   description: Translation;
 
-  @OneToMany(() => ImmunitiesDamageMeasure, (idm) => idm.creature)
+  @OneToMany(() => ImmunitiesDamageMeasure, (idm) => idm.creature, {cascade: true})
   [MultiFieldsENUM.immunities]: ImmunitiesDamageMeasure[];
 
-  @OneToMany(() => VulnerabilitiesDamageMeasure, (vdm) => vdm.creature)
+  @OneToMany(() => VulnerabilitiesDamageMeasure, (vdm) => vdm.creature, {cascade: true})
   [MultiFieldsENUM.vulnerabilities]: VulnerabilitiesDamageMeasure[];
 
-  @OneToMany(() => ResistsDamageMeasure, (rdm) => rdm.creature)
+  @OneToMany(() => ResistsDamageMeasure, (rdm) => rdm.creature, {cascade: true})
   [MultiFieldsENUM.resists]: ResistsDamageMeasure[];
 
-  @OneToMany(() => SpeedsMeasure, (speeds) => speeds.creature)
+  @OneToMany(() => SpeedsMeasure, (speeds) => speeds.creature, {cascade: true})
   [MultiFieldsENUM.speeds]: SpeedsMeasure[];
 
-  @OneToMany(() => FeelingsMeasure, (feelings) => feelings.creature)
+  @OneToMany(() => FeelingsMeasure, (feelings) => feelings.creature, {cascade: true})
   [MultiFieldsENUM.feelings]: FeelingsMeasure[];
 
-  @OneToMany(() => SavingThrowMeasure, (st) => st.creature)
+  @OneToMany(() => SavingThrowMeasure, (st) => st.creature, {cascade: true})
   [MultiFieldsENUM.savingThrows]: SavingThrowMeasure[];
 
-  @OneToMany(() => SkillsMeasure, (skill) => skill.creature)
+  @OneToMany(() => SkillsMeasure, (skill) => skill.creature, {cascade: true})
   [MultiFieldsENUM.skills]: SkillsMeasure[];
 
-  @OneToMany(() => ConditionsMeasure, (condition) => condition.creature)
+  @OneToMany(() => ConditionsMeasure, (condition) => condition.creature, {cascade: true})
   [MultiFieldsENUM.conditionsImmunities]: ConditionsMeasure[];
 
-  @OneToMany(() => LanguagesMeasure, (lang) => lang.creature)
+  @OneToMany(() => LanguagesMeasure, (lang) => lang.creature, {cascade: true})
   [MultiFieldsENUM.languages]: LanguagesMeasure[];
 
-  @OneToMany(() => RegionsMeasure, (rm) => rm.creature)
+  @OneToMany(() => RegionsMeasure, (rm) => rm.creature, {cascade: true})
   [MultiFieldsENUM.regions]: RegionsMeasure[];
 
-  @OneToMany(() => Ability, (ability) => ability.creature)
+  @OneToMany(() => Ability, (ability) => ability.creature, {cascade: true})
   [ActionsAbilitiesENUM.abilities]: Ability[];
 
-  @OneToMany(() => Action, (action) => action.creature)
+  @OneToMany(() => Action, (action) => action.creature, {cascade: true})
   [ActionsAbilitiesENUM.actions]: Action[];
 
-  @OneToMany(() => BonusAction, (action) => action.creature)
+  @OneToMany(() => BonusAction, (action) => action.creature, {cascade: true})
   [ActionsAbilitiesENUM.bonusActions]: BonusAction[];
 
-  @OneToMany(() => LegendaryAction, (action) => action.creature)
+  @OneToMany(() => LegendaryAction, (action) => action.creature, {cascade: true})
   [ActionsAbilitiesENUM.legendaryActions]: LegendaryAction[];
 }
