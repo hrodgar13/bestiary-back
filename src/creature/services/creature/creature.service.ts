@@ -35,6 +35,14 @@ import {BonusAction} from "../../entities/actions-abilities/bonus-action.entity"
 import {LegendaryAction} from "../../entities/actions-abilities/legendary-action.entity";
 import {rethrow} from "@nestjs/core/helpers/rethrow";
 
+interface FieldsConfig {
+    [key: string]: {
+        measureType: any;
+        repo: any;
+        entityRepo: any;
+    };
+}
+
 @Injectable()
 export class CreatureService {
 
@@ -148,64 +156,16 @@ export class CreatureService {
     private async assetActionsAbilitiesData(creature: Creature, actionsAbilities: ActionsAndAbilitiesAmount) {
         for (let select of Object.keys(actionsAbilities)) {
             if (select == ActionsAbilitiesENUM.abilities) {
-                const body = actionsAbilities[ActionsAbilitiesENUM.abilities]
-
-                let list: Ability[] = []
-
-                for (let item of body) {
-                    const entity = this.abilityRepo.create(item)
-
-                    await this.abilityRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[ActionsAbilitiesENUM.abilities] = list
+                creature[ActionsAbilitiesENUM.abilities] = await this.writeAbilityAction(select, actionsAbilities, this.abilityRepo)
             }
             if (select == ActionsAbilitiesENUM.actions) {
-                const body = actionsAbilities[ActionsAbilitiesENUM.actions]
-
-                let list: Action[] = []
-
-                for (let item of body) {
-                    const entity = this.actionRepo.create(item)
-
-                    await this.actionRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[ActionsAbilitiesENUM.actions] = list
+                creature[ActionsAbilitiesENUM.actions] = await this.writeAbilityAction(select, actionsAbilities, this.actionRepo)
             }
             if (select == ActionsAbilitiesENUM.bonusActions) {
-                const body = actionsAbilities[ActionsAbilitiesENUM.bonusActions]
-
-                let list: BonusAction[] = []
-
-                for (let item of body) {
-                    const entity = this.bonusActionRepository.create(item)
-
-                    await this.bonusActionRepository.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[ActionsAbilitiesENUM.bonusActions] = list
+                creature[ActionsAbilitiesENUM.bonusActions] = await this.writeAbilityAction(select, actionsAbilities, this.bonusActionRepository)
             }
             if (select == ActionsAbilitiesENUM.legendaryActions) {
-                const body = actionsAbilities[ActionsAbilitiesENUM.legendaryActions]
-
-                let list: LegendaryAction[] = []
-
-                for (let item of body) {
-                    const entity = this.legendaryActionRepo.create(item)
-
-                    await this.legendaryActionRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[ActionsAbilitiesENUM.legendaryActions] = list
+                creature[ActionsAbilitiesENUM.legendaryActions] = await this.writeAbilityAction(select, actionsAbilities, this.legendaryActionRepo)
             }
 
         }
@@ -234,5 +194,22 @@ export class CreatureService {
         }
 
         return list
+    }
+
+    private async writeAbilityAction(select: ActionsAbilitiesENUM, actionsAbilities: ActionsAndAbilitiesAmount, repo: Repository<Action | Ability | BonusAction | LegendaryAction>) {
+
+            const body = actionsAbilities[select]
+
+            let list = []
+
+            for (let item of body) {
+                const entity = repo.create(item)
+
+                await repo.save(entity)
+
+                list.push(entity)
+            }
+
+            return list
     }
 }

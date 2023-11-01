@@ -49,7 +49,7 @@ export class Creature {
   @ManyToOne(() => Size, (size) => size.creatures)
   size: Size;
 
-  @Column()
+  @Column({nullable: true})
   armorClass: number;
 
   @ManyToOne(() => ArmorTag, (armorTag) => armorTag.creatures)
