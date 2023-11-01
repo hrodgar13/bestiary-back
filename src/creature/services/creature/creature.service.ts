@@ -67,7 +67,6 @@ export class CreatureService {
         @InjectRepository(Action) private actionRepo: Repository<Action>,
         @InjectRepository(BonusAction) private bonusActionRepository: Repository<BonusAction>,
         @InjectRepository(LegendaryAction) private legendaryActionRepo: Repository<LegendaryAction>,
-
         private additionMeasure: AdditionService
     ) {
     }
@@ -99,7 +98,7 @@ export class CreatureService {
 
 
         creature = await this.assetMultiselectData(creature, body.multiSelects)
-        
+
         creature = await this.assetActionsAbilitiesData(creature, body.actionsAbilities)
 
         console.log(creature)
@@ -109,180 +108,38 @@ export class CreatureService {
 
     private async assetMultiselectData(creature: Creature, multiSelects: MutliSelectDto): Promise<Creature> {
         for (let select of Object.keys(multiSelects)) {
+            const body = multiSelects[select]
 
             if (select == MultiFieldsENUM.vulnerabilities) {
-                const body = multiSelects[select]
-
-                let list: VulnerabilitiesDamageMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.vulnerabilityDamageMeasureRepo.create()
-                    entity[MultiFieldsENUM.vulnerabilities] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.damageRepo)
-
-                    await this.vulnerabilityDamageMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.vulnerabilities] = list
+                creature[MultiFieldsENUM.vulnerabilities] = await this.writeMeasureAttribute<VulnerabilitiesDamageMeasure, Damage>(body, select, this.vulnerabilityDamageMeasureRepo, this.damageRepo)
             }
             if (select == MultiFieldsENUM.immunities) {
-                const body = multiSelects[select]
-
-                let list: ImmunitiesDamageMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.immunityDamageMeasureRepo.create()
-                    entity[MultiFieldsENUM.immunities] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.damageRepo)
-
-                    await this.immunityDamageMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.immunities] = list
+                creature[MultiFieldsENUM.immunities] = await this.writeMeasureAttribute<ImmunitiesDamageMeasure, Damage>(body, select, this.immunityDamageMeasureRepo, this.damageRepo)
             }
             if (select == MultiFieldsENUM.speeds) {
-                const body = multiSelects[select]
-
-                let list: SpeedsMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.speedDamageMeasureRepo.create()
-                    entity[MultiFieldsENUM.speeds] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.speedRepo)
-                    entity.amt = measureAttribute.amt
-
-                    await this.speedDamageMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.speeds] = list
+                creature[MultiFieldsENUM.speeds] = await this.writeMeasureAttribute<SpeedsMeasure, Speed>(body, select, this.speedDamageMeasureRepo, this.speedRepo)
             }
             if (select == MultiFieldsENUM.resists) {
-                const body = multiSelects[select]
-
-                let list: ResistsDamageMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.resistDamageMeasureRepo.create()
-                    entity[MultiFieldsENUM.resists] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.damageRepo)
-
-                    await this.resistDamageMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.resists] = list
+                creature[MultiFieldsENUM.resists] = await this.writeMeasureAttribute<ResistsDamageMeasure, Damage>(body, select, this.resistDamageMeasureRepo, this.damageRepo)
             }
             if (select == MultiFieldsENUM.feelings) {
-                const body = multiSelects[select]
-
-                let list: FeelingsMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.feelingMeasureRepo.create()
-
-                    entity[MultiFieldsENUM.feelings] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.feelingRepo)
-                    entity.isMeasureEnable = measureAttribute.msr
-                    entity.amt = measureAttribute.amt
-
-                    await this.feelingMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.feelings] = list
+                creature[MultiFieldsENUM.feelings] = await this.writeMeasureAttribute<FeelingsMeasure, Feeling>(body, select, this.feelingMeasureRepo, this.feelingRepo)
             }
             if (select == MultiFieldsENUM.savingThrows) {
-                const body = multiSelects[select]
-
-                let list: SavingThrowMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.savingThrowMeasureRepo.create()
-
-                    entity[MultiFieldsENUM.savingThrows] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.savingThrowsRepo)
-                    entity.amt = measureAttribute.amt
-
-                    await this.savingThrowMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.savingThrows] = list
+                creature[MultiFieldsENUM.savingThrows] = await this.writeMeasureAttribute<SavingThrowMeasure, SavingThrow>(body, select, this.savingThrowMeasureRepo, this.savingThrowsRepo)
             }
             if (select == MultiFieldsENUM.skills) {
-                const body = multiSelects[select]
-
-                let list: SkillsMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.skillMeasureRepo.create()
-
-                    entity[MultiFieldsENUM.skills] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.skillsRepo)
-                    entity.amt = measureAttribute.amt
-
-                    await this.skillMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.skills] = list
+                creature[MultiFieldsENUM.skills] = await this.writeMeasureAttribute<SkillsMeasure, Skill>(body, select, this.skillMeasureRepo, this.skillsRepo)
             }
             if (select == MultiFieldsENUM.conditionsImmunities) {
-                const body = multiSelects[select]
-
-                let list: ConditionsMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.conditionMeasureRepo.create()
-
-                    entity[MultiFieldsENUM.conditionsImmunities] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.conditionsImmunitiesRepo)
-
-                    await this.conditionsImmunitiesRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.conditionsImmunities] = list
+                creature[MultiFieldsENUM.conditionsImmunities] = await this.writeMeasureAttribute<ConditionsMeasure, Condition>(body, select, this.conditionMeasureRepo, this.conditionsImmunitiesRepo)
             }
             if (select == MultiFieldsENUM.languages) {
-                const body = multiSelects[select]
-
-                let list: LanguagesMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.languageMeasureRepo.create()
-
-                    entity[MultiFieldsENUM.languages] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.languagesRepo)
-                    entity.amt = measureAttribute.amt
-
-                    await this.languageMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.languages] = list
+                creature[MultiFieldsENUM.languages] = await this.writeMeasureAttribute<LanguagesMeasure, Language>(body, select, this.languageMeasureRepo, this.languagesRepo)
             }
             if (select == MultiFieldsENUM.regions) {
-                const body = multiSelects[select]
-
-                let list: RegionsMeasure[] = []
-
-                for(let measureAttribute of body) {
-                    const entity = this.regionMeasureRepo.create()
-
-                    entity[MultiFieldsENUM.regions] = await this.additionMeasure.getOne(measureAttribute.attributeId, this.regionsRepo)
-
-                    await this.regionMeasureRepo.save(entity)
-
-                    list.push(entity)
-                }
-
-                creature[MultiFieldsENUM.regions] = list
+                creature[MultiFieldsENUM.regions] = await this.writeMeasureAttribute<RegionsMeasure, Region>(body, select, this.regionMeasureRepo, this.regionsRepo)
             }
-
         }
 
         return creature
@@ -290,12 +147,12 @@ export class CreatureService {
 
     private async assetActionsAbilitiesData(creature: Creature, actionsAbilities: ActionsAndAbilitiesAmount) {
         for (let select of Object.keys(actionsAbilities)) {
-            if(select == ActionsAbilitiesENUM.abilities) {
+            if (select == ActionsAbilitiesENUM.abilities) {
                 const body = actionsAbilities[ActionsAbilitiesENUM.abilities]
 
                 let list: Ability[] = []
 
-                for (let item of  body) {
+                for (let item of body) {
                     const entity = this.abilityRepo.create(item)
 
                     await this.abilityRepo.save(entity)
@@ -305,12 +162,12 @@ export class CreatureService {
 
                 creature[ActionsAbilitiesENUM.abilities] = list
             }
-            if(select == ActionsAbilitiesENUM.actions) {
+            if (select == ActionsAbilitiesENUM.actions) {
                 const body = actionsAbilities[ActionsAbilitiesENUM.actions]
 
                 let list: Action[] = []
 
-                for (let item of  body) {
+                for (let item of body) {
                     const entity = this.actionRepo.create(item)
 
                     await this.actionRepo.save(entity)
@@ -320,12 +177,12 @@ export class CreatureService {
 
                 creature[ActionsAbilitiesENUM.actions] = list
             }
-            if(select == ActionsAbilitiesENUM.bonusActions) {
+            if (select == ActionsAbilitiesENUM.bonusActions) {
                 const body = actionsAbilities[ActionsAbilitiesENUM.bonusActions]
 
                 let list: BonusAction[] = []
 
-                for (let item of  body) {
+                for (let item of body) {
                     const entity = this.bonusActionRepository.create(item)
 
                     await this.bonusActionRepository.save(entity)
@@ -335,12 +192,12 @@ export class CreatureService {
 
                 creature[ActionsAbilitiesENUM.bonusActions] = list
             }
-            if(select == ActionsAbilitiesENUM.legendaryActions) {
+            if (select == ActionsAbilitiesENUM.legendaryActions) {
                 const body = actionsAbilities[ActionsAbilitiesENUM.legendaryActions]
 
                 let list: LegendaryAction[] = []
 
-                for (let item of  body) {
+                for (let item of body) {
                     const entity = this.legendaryActionRepo.create(item)
 
                     await this.legendaryActionRepo.save(entity)
@@ -354,5 +211,28 @@ export class CreatureService {
         }
 
         return creature;
+    }
+
+    private async writeMeasureAttribute<Measure, Attribute>(body: any, select: MultiFieldsENUM, repositoryMeasure: Repository<Measure>, attributeRepo: Repository<Attribute>): Promise<Measure[]> {
+        let list: Measure[] = []
+
+        for (let measureAttribute of body) {
+            const entity = repositoryMeasure.create()
+            entity[select] = await this.additionMeasure.getOne(measureAttribute.attributeId, attributeRepo)
+
+            if (measureAttribute.isMeasureEnable) {
+                entity['isMeasureEnable'] = measureAttribute.msr
+            }
+
+            if (measureAttribute.amt) {
+                entity['amt'] = measureAttribute.amt
+            }
+
+            await repositoryMeasure.save(entity)
+
+            list.push(entity)
+        }
+
+        return list
     }
 }
