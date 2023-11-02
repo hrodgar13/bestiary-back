@@ -9,7 +9,7 @@ export class Type {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  type: Translation;
+  attrName: Translation;
 
   @OneToMany(() => Creature, (creatures) => creatures.type)
   creatures: Creature[];

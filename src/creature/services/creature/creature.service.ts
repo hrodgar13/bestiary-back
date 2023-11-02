@@ -33,7 +33,6 @@ import {Ability} from "../../entities/actions-abilities/abilities.entity";
 import {Action} from "../../entities/actions-abilities/action.entity";
 import {BonusAction} from "../../entities/actions-abilities/bonus-action.entity";
 import {LegendaryAction} from "../../entities/actions-abilities/legendary-action.entity";
-import {rethrow} from "@nestjs/core/helpers/rethrow";
 import {CreatureListDto} from "../../dtos/outcome/creature-list.dto";
 
 @Injectable()
@@ -191,25 +190,26 @@ export class CreatureService {
 
     private async writeAbilityAction(select: ActionsAbilitiesENUM, actionsAbilities: ActionsAndAbilitiesAmount, repo: Repository<Action | Ability | BonusAction | LegendaryAction>) {
 
-            const body = actionsAbilities[select]
+        const body = actionsAbilities[select]
 
-            let list = []
+        let list = []
 
-            for (let item of body) {
-                const entity = repo.create(item)
+        for (let item of body) {
+            const entity = repo.create(item)
 
-                await repo.save(entity)
+            await repo.save(entity)
 
-                list.push(entity)
-            }
+            list.push(entity)
+        }
 
-            return list
+        return list
     }
 
     async getCreaturesList(): Promise<CreatureListDto[]> {
         let beastList: CreatureListDto[] = []
 
         const list: Creature[] = await this.creatureRepo.createQueryBuilder('creature')
+            .leftJoinAndSelect('creature.creatureName', 'name')
             .andWhere('creature.isFinished IS TRUE')
             .orderBy('creature.dangerLevel', 'ASC')
             .getMany()
@@ -217,7 +217,7 @@ export class CreatureService {
         list.forEach(beast => {
             const isDangLvlExist = beastList.findIndex(item => item.creatureDangerLvl === beast.dangerLevel)
 
-            if(isDangLvlExist === -1) {
+            if (isDangLvlExist === -1) {
                 beastList.push({
                     creatureDangerLvl: beast.dangerLevel,
                     creatures: [
@@ -236,5 +236,36 @@ export class CreatureService {
         })
 
         return beastList
+    }
+
+    async getCreatureById(id: number) {
+        const query = this.creatureRepo.createQueryBuilder('creature')
+            .andWhere('creature.id = :id', {id})
+            .leftJoinAndSelect('creature.creatureName', 'nameTranslations')
+            .leftJoinAndSelect('creature.alignment', 'alignment')
+            .leftJoinAndSelect('alignment.attrName', 'alTranslation')
+            .leftJoinAndSelect('creature.type', 'type')
+            .leftJoinAndSelect('type.attrName', 'typeT')
+            .leftJoinAndSelect('creature.size', 'size')
+            .leftJoinAndSelect('size.attrName', 'sizeT')
+            .leftJoinAndSelect('creature.armorTag', 'armorTag')
+            .leftJoinAndSelect('armorTag.attrName', 'armorTagT')
+            .leftJoinAndSelect('creature.description', 'descriptionT')
+
+        for (let key of Object.keys(MultiFieldsENUM)) {
+            query.leftJoinAndSelect(`creature.${key}`, key)
+                .leftJoinAndSelect(`${key}.${key}`, `${key}Attribute`)
+                .leftJoinAndSelect(`${key}Attribute.attrName`, `${key}attrNameT`)
+        }
+
+        for (let key of Object.keys(ActionsAbilitiesENUM)) {
+            query.leftJoinAndSelect(`creature.${key}`, key)
+                .leftJoinAndSelect(`${key}.title`, `${key}titleT`)
+                .leftJoinAndSelect(`${key}.description`, `${key}descriptionT`)
+        }
+
+        const creature = await query.getOne()
+
+        return creature
     }
 }

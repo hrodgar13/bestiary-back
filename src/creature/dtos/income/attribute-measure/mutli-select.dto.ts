@@ -16,9 +16,9 @@ export enum MultiFieldsENUM {
   speeds = 'speeds',
   resists = 'resists',
   feelings = 'feelings',
-  savingThrows = 'saving-throws',
+  savingThrows = 'savingThrows',
   skills = 'skills',
-  conditionsImmunities = 'conditions-immunities',
+  conditionsImmunities = 'conditionsImmunities',
   languages = 'languages',
   regions = 'regions',
 }

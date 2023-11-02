@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class AdditionService {
   async getAll(repo: Repository<any>, route: string) {
-    return await repo.find({ relations: [route] });
+    return await repo.find({ relations: ['attrName'] });
   }
 
   async getOne(id: number, repo: Repository<any>) {
@@ -16,7 +16,7 @@ export class AdditionService {
   }
 
   async update(id: number, body, repo: Repository<any>) {
-    return await repo.update(id, repo);
+    return await repo.update(id, body);
   }
 
   async delete(id: number, repo: Repository<any>) {

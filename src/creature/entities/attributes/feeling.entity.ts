@@ -16,7 +16,7 @@ export class Feeling {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  feeling: Translation;
+  attrName: Translation;
 
   @OneToMany(() => FeelingsMeasure, (sm) => sm[MultiFieldsENUM.feelings])
   feelingsMeasures: FeelingsMeasure[];

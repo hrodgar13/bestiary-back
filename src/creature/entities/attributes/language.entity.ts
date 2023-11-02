@@ -11,7 +11,7 @@ export class Language {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  language: Translation;
+  attrName: Translation;
 
   @OneToMany(() => LanguagesMeasure, (lang) => lang[MultiFieldsENUM.languages])
   languagesMeasures: LanguagesMeasure[];

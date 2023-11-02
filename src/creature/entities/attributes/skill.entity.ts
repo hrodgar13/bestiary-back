@@ -11,7 +11,7 @@ export class Skill {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  skill: Translation;
+  attrName: Translation;
 
   @OneToMany(() => SkillsMeasure, (skill) => skill[MultiFieldsENUM.skills])
   skillsMeasures: SkillsMeasure[];

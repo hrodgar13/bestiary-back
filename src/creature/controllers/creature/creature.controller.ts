@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Request, UseGuards} from '@nestjs/common';
 import {CreaturePayloadDto} from "../../dtos/income/creature.dto";
 import {CreatureService} from "../../services/creature/creature.service";
 import {JwtAuthGuard} from "../../../auth/guards/jwt.guard";
@@ -23,5 +23,10 @@ export class CreatureController {
     @Get()
     getCreaturesList() {
         return this.creatureService.getCreaturesList()
+    }
+
+    @Get(':id')
+    getCreatureById(@Param('id') id: number) {
+        return this.creatureService.getCreatureById(id)
     }
 }

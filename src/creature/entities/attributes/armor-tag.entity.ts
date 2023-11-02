@@ -9,7 +9,7 @@ export class ArmorTag {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  ['armor-tag']: Translation;
+  attrName: Translation;
 
   @OneToMany(() => Creature, (creatures) => creatures.armorTag)
   creatures: Creature[];

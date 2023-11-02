@@ -16,7 +16,7 @@ export class Condition {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  condition: Translation;
+  attrName: Translation;
 
   @OneToMany(
     () => ConditionsMeasure,

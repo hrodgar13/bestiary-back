@@ -16,7 +16,7 @@ export class Region {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  region: Translation;
+  attrName: Translation;
 
   @OneToMany(() => RegionsMeasure, (rm) => rm[MultiFieldsENUM.regions])
   regionsMeasure: RegionsMeasure[];

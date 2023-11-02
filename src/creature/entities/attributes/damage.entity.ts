@@ -18,7 +18,7 @@ export class Damage {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  damage: Translation;
+  attrName: Translation;
 
   @OneToMany(
     () => ImmunitiesDamageMeasure,

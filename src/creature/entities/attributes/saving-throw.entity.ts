@@ -17,7 +17,7 @@ export class SavingThrow {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  ['saving-throw']: Translation;
+  attrName: Translation;
 
   @OneToMany(() => SavingThrowMeasure, (st) => st[MultiFieldsENUM.savingThrows])
   stMeasure: SavingThrowMeasure[];

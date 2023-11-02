@@ -9,7 +9,7 @@ export class Size {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  size: Translation;
+  attrName: Translation;
 
   @OneToMany(() => Creature, (creatures) => creatures.size)
   creatures: Creature[];

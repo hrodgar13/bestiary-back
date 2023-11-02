@@ -9,7 +9,7 @@ export class Alignment {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  alignment: Translation;
+  attrName: Translation;
 
   @OneToMany(() => Creature, (creatures) => creatures.alignment)
   creatures: Creature[];

@@ -11,7 +11,7 @@ export class Speed {
 
   @OneToOne(() => Translation, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn()
-  speed: Translation;
+  attrName: Translation;
 
   @OneToMany(() => SpeedsMeasure, (sm) => sm[MultiFieldsENUM.speeds])
   speedsMeasures: SpeedsMeasure[];
