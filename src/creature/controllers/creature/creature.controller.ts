@@ -1,4 +1,4 @@
-import {Body, Controller, Post, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Post, Request, UseGuards} from '@nestjs/common';
 import {CreaturePayloadDto} from "../../dtos/income/creature.dto";
 import {CreatureService} from "../../services/creature/creature.service";
 import {JwtAuthGuard} from "../../../auth/guards/jwt.guard";
@@ -12,10 +12,16 @@ export class CreatureController {
     ) {
     }
 
-    @Post()
+
     @UseGuards(JwtAuthGuard)
     @Roles([RolesEnum.ADMIN])
+    @Post()
     createCreature(@Request() req, @Body() body: CreaturePayloadDto) {
         return this.creatureService.createCreature(req.user.id, body)
+    }
+
+    @Get()
+    getCreaturesList() {
+        return this.creatureService.getCreaturesList()
     }
 }

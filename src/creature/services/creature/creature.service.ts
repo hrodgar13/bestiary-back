@@ -34,14 +34,7 @@ import {Action} from "../../entities/actions-abilities/action.entity";
 import {BonusAction} from "../../entities/actions-abilities/bonus-action.entity";
 import {LegendaryAction} from "../../entities/actions-abilities/legendary-action.entity";
 import {rethrow} from "@nestjs/core/helpers/rethrow";
-
-interface FieldsConfig {
-    [key: string]: {
-        measureType: any;
-        repo: any;
-        entityRepo: any;
-    };
-}
+import {CreatureListDto} from "../../dtos/outcome/creature-list.dto";
 
 @Injectable()
 export class CreatureService {
@@ -211,5 +204,37 @@ export class CreatureService {
             }
 
             return list
+    }
+
+    async getCreaturesList(): Promise<CreatureListDto[]> {
+        let beastList: CreatureListDto[] = []
+
+        const list: Creature[] = await this.creatureRepo.createQueryBuilder('creature')
+            .andWhere('creature.isFinished IS TRUE')
+            .orderBy('creature.dangerLevel', 'ASC')
+            .getMany()
+
+        list.forEach(beast => {
+            const isDangLvlExist = beastList.findIndex(item => item.creatureDangerLvl === beast.dangerLevel)
+
+            if(isDangLvlExist === -1) {
+                beastList.push({
+                    creatureDangerLvl: beast.dangerLevel,
+                    creatures: [
+                        {
+                            creatureName: beast.creatureName,
+                            id: beast.id
+                        }
+                    ]
+                })
+            } else {
+                beastList[isDangLvlExist].creatures.push({
+                    creatureName: beast.creatureName,
+                    id: beast.id
+                })
+            }
+        })
+
+        return beastList
     }
 }
