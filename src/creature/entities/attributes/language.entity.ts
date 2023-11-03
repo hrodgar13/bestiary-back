@@ -13,6 +13,6 @@ export class Language {
   @JoinColumn()
   attrName: Translation;
 
-  @OneToMany(() => LanguagesMeasure, (lang) => lang[MultiFieldsENUM.languages])
+  @OneToMany(() => LanguagesMeasure, (lang) => lang.attribute)
   languagesMeasures: LanguagesMeasure[];
 }

@@ -17,7 +17,7 @@ export class SavingThrowMeasure {
   amt: number;
 
   @ManyToOne(() => SavingThrow, (st) => st.stMeasure)
-  [MultiFieldsENUM.savingThrows]: SavingThrow;
+  attribute: SavingThrow;
 
   @ManyToOne(
     () => Creature,

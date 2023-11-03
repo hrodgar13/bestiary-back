@@ -16,7 +16,7 @@ export class VulnerabilitiesDamageMeasure {
   id: number;
 
   @ManyToOne(() => Damage, (damage) => damage.vulnerabilities)
-  [MultiFieldsENUM.vulnerabilities]: Damage;
+  attribute: Damage;
 
   @ManyToOne(
     () => Creature,

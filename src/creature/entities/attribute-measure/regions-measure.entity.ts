@@ -9,7 +9,7 @@ export class RegionsMeasure {
   id: number;
 
   @ManyToOne(() => Region, (regions) => regions.regionsMeasure)
-  [MultiFieldsENUM.regions]: Region;
+  attribute: Region;
 
   @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.regions])
   creature: Creature;

@@ -20,7 +20,7 @@ export class LanguagesMeasure {
   amt: number;
 
   @ManyToOne(() => Language, (lang) => lang.languagesMeasures)
-  [MultiFieldsENUM.languages]: Language;
+  attribute: Language;
 
   @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.languages])
   creature: Creature;

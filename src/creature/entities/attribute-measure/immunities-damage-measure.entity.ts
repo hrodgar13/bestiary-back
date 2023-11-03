@@ -9,7 +9,7 @@ export class ImmunitiesDamageMeasure {
   id: number;
 
   @ManyToOne(() => Damage, (damage) => damage.immunities)
-  [MultiFieldsENUM.immunities]: Damage;
+  attribute: Damage;
 
   @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.immunities])
   creature: Creature;

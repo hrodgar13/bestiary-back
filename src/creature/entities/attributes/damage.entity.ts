@@ -22,16 +22,16 @@ export class Damage {
 
   @OneToMany(
     () => ImmunitiesDamageMeasure,
-    (idm) => idm[MultiFieldsENUM.immunities],
+    (idm) => idm.attribute,
   )
   immunities: ImmunitiesDamageMeasure[];
 
   @OneToMany(
     () => VulnerabilitiesDamageMeasure,
-    (vdm) => vdm[MultiFieldsENUM.vulnerabilities],
+    (vdm) => vdm.attribute,
   )
   vulnerabilities: VulnerabilitiesDamageMeasure[];
 
-  @OneToMany(() => ResistsDamageMeasure, (vdm) => vdm[MultiFieldsENUM.resists])
+  @OneToMany(() => ResistsDamageMeasure, (vdm) => vdm.attribute)
   resists: ResistsDamageMeasure[];
 }

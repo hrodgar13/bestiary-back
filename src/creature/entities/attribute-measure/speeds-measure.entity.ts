@@ -19,7 +19,7 @@ export class SpeedsMeasure {
   amt: number;
 
   @ManyToOne(() => Speed, (speed) => speed.speedsMeasures)
-  [MultiFieldsENUM.speeds]: Speed;
+  attribute: Speed;
 
   @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.speeds])
   creature: Creature;

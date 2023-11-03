@@ -18,6 +18,6 @@ export class Feeling {
   @JoinColumn()
   attrName: Translation;
 
-  @OneToMany(() => FeelingsMeasure, (sm) => sm[MultiFieldsENUM.feelings])
+  @OneToMany(() => FeelingsMeasure, (sm) => sm.attribute)
   feelingsMeasures: FeelingsMeasure[];
 }

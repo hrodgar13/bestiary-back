@@ -13,6 +13,6 @@ export class Speed {
   @JoinColumn()
   attrName: Translation;
 
-  @OneToMany(() => SpeedsMeasure, (sm) => sm[MultiFieldsENUM.speeds])
+  @OneToMany(() => SpeedsMeasure, (sm) => sm.attribute)
   speedsMeasures: SpeedsMeasure[];
 }

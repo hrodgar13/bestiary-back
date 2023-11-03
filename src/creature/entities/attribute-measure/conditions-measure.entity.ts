@@ -9,7 +9,7 @@ export class ConditionsMeasure {
   id: number;
 
   @ManyToOne(() => Condition, (condition) => condition.conditionsMeasures)
-  [MultiFieldsENUM.conditionsImmunities]: Condition;
+  attribute: Condition;
 
   @ManyToOne(
     () => Creature,

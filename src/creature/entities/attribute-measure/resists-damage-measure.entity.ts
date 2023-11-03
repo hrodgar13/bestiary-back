@@ -15,7 +15,7 @@ export class ResistsDamageMeasure {
   id: number;
 
   @ManyToOne(() => Damage, (damage) => damage.resists)
-  [MultiFieldsENUM.resists]: Damage;
+  attribute: Damage;
 
   @ManyToOne(
       () => Creature,

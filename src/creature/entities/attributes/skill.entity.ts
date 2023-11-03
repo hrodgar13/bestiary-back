@@ -13,6 +13,6 @@ export class Skill {
   @JoinColumn()
   attrName: Translation;
 
-  @OneToMany(() => SkillsMeasure, (skill) => skill[MultiFieldsENUM.skills])
+  @OneToMany(() => SkillsMeasure, (skill) => skill.attribute)
   skillsMeasures: SkillsMeasure[];
 }

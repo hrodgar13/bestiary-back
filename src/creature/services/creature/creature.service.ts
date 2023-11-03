@@ -254,7 +254,7 @@ export class CreatureService {
 
         for (let key of Object.keys(MultiFieldsENUM)) {
             query.leftJoinAndSelect(`creature.${key}`, key)
-                .leftJoinAndSelect(`${key}.${key}`, `${key}Attribute`)
+                .leftJoinAndSelect(`${key}.attribute`, `${key}Attribute`)
                 .leftJoinAndSelect(`${key}Attribute.attrName`, `${key}attrNameT`)
         }
 

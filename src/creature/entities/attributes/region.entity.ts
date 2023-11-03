@@ -18,6 +18,6 @@ export class Region {
   @JoinColumn()
   attrName: Translation;
 
-  @OneToMany(() => RegionsMeasure, (rm) => rm[MultiFieldsENUM.regions])
+  @OneToMany(() => RegionsMeasure, (rm) => rm.attribute)
   regionsMeasure: RegionsMeasure[];
 }

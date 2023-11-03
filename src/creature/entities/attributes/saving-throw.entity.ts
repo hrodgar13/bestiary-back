@@ -19,6 +19,6 @@ export class SavingThrow {
   @JoinColumn()
   attrName: Translation;
 
-  @OneToMany(() => SavingThrowMeasure, (st) => st[MultiFieldsENUM.savingThrows])
+  @OneToMany(() => SavingThrowMeasure, (st) => st.attribute)
   stMeasure: SavingThrowMeasure[];
 }

@@ -15,7 +15,7 @@ export class FeelingsMeasure {
   isMeasureEnable: boolean;
 
   @ManyToOne(() => Feeling, (feel) => feel.feelingsMeasures)
-  [MultiFieldsENUM.feelings]: Feeling;
+  attribute: Feeling;
 
   @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.feelings])
   creature: Creature;

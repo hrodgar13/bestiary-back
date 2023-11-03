@@ -20,7 +20,7 @@ export class Condition {
 
   @OneToMany(
     () => ConditionsMeasure,
-    (condition) => condition[MultiFieldsENUM.conditionsImmunities],
+    (condition) => condition.attribute,
   )
   conditionsMeasures: ConditionsMeasure[];
 }

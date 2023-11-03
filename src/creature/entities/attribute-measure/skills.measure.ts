@@ -20,7 +20,7 @@ export class SkillsMeasure {
   amt: number;
 
   @ManyToOne(() => Skill, (skill) => skill.skillsMeasures)
-  [MultiFieldsENUM.skills]: Skill;
+  attribute: Skill;
 
   @ManyToOne(() => Creature, (creature) => creature[MultiFieldsENUM.skills])
   creature: Creature;
