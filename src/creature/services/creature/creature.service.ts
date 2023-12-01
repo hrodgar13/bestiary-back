@@ -71,8 +71,15 @@ export class CreatureService {
     ) {
     }
 
-    async createCreature(userId: any, body: CreaturePayloadDto) {
-        let creature = this.creatureRepo.create()
+    async createOrPatchCreature(userId: any, body: CreaturePayloadDto, id: number | null = null) {
+        let creature: Creature
+
+        if(id) {
+            creature = await this.creatureRepo.findOne({where: {id}})
+        }
+        else {
+            creature = this.creatureRepo.create()
+        }
 
         creature.isFinished = body.isFinished
 
@@ -100,8 +107,6 @@ export class CreatureService {
         creature = await this.assetMultiselectData(creature, body.multiSelects)
 
         creature = await this.assetActionsAbilitiesData(creature, body.actionsAbilities)
-
-        console.log(creature)
 
         return this.creatureRepo.save(creature)
     }
