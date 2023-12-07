@@ -34,7 +34,6 @@ export class CreatureController {
     @Roles([RolesEnum.ADMIN])
     @Patch(':id')
     patchCreature(@Param('id') id: number, @Request() req, @Body() body: CreaturePayloadDto) {
-        console.log(body.isFinished)
         return this.creatureService.createOrPatchCreature(req.user.id, body, id)
     }
 }
