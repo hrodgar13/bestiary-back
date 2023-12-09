@@ -5,7 +5,7 @@ import {JwtAuthGuard} from "../../../auth/guards/jwt.guard";
 import {Roles} from "../../../auth/decorators/roles.decorator";
 import {RolesEnum} from "../../../auth/roles/roles.enum";
 
-@Controller('creature')
+@Controller()
 export class CreatureController {
     constructor(
         private readonly creatureService: CreatureService
@@ -15,24 +15,29 @@ export class CreatureController {
 
     @UseGuards(JwtAuthGuard)
     @Roles([RolesEnum.ADMIN])
-    @Post()
+    @Post('creature')
     createCreature(@Request() req, @Body() body: CreaturePayloadDto) {
         return this.creatureService.createOrPatchCreature(req.user.id, body)
     }
 
-    @Get()
+    @Get('creature')
     getCreaturesList() {
-        return this.creatureService.getCreaturesList()
+        return this.creatureService.getCreaturesList(true)
     }
 
-    @Get(':id')
+    @Get('creature-unfinished')
+    getCreaturesUnfinishedList() {
+        return this.creatureService.getCreaturesList(false)
+    }
+
+    @Get('creature/:id')
     getCreatureById(@Param('id') id: number) {
         return this.creatureService.getCreatureById(id)
     }
 
     @UseGuards(JwtAuthGuard)
     @Roles([RolesEnum.ADMIN])
-    @Patch(':id')
+    @Patch('creature/:id')
     patchCreature(@Param('id') id: number, @Request() req, @Body() body: CreaturePayloadDto) {
         return this.creatureService.createOrPatchCreature(req.user.id, body, id)
     }

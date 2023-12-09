@@ -42,7 +42,7 @@ export class CreatureService {
         @InjectRepository(Creature) private creatureRepo: Repository<Creature>,
         @InjectRepository(ImmunitiesDamageMeasure) private immunityDamageMeasureRepo: Repository<ImmunitiesDamageMeasure>,
         @InjectRepository(VulnerabilitiesDamageMeasure) private vulnerabilityDamageMeasureRepo: Repository<VulnerabilitiesDamageMeasure>,
-        @InjectRepository(SpeedsMeasure) private speedDamageMeasureRepo: Repository<SpeedsMeasure>,
+        @InjectRepository(SpeedsMeasure) private speedMeasureRepo: Repository<SpeedsMeasure>,
         @InjectRepository(ResistsDamageMeasure) private resistDamageMeasureRepo: Repository<ResistsDamageMeasure>,
         @InjectRepository(FeelingsMeasure) private feelingMeasureRepo: Repository<FeelingsMeasure>,
         @InjectRepository(SavingThrowMeasure) private savingThrowMeasureRepo: Repository<SavingThrowMeasure>,
@@ -122,7 +122,7 @@ export class CreatureService {
                 creature[MultiFieldsENUM.immunities] = await this.writeMeasureAttribute<ImmunitiesDamageMeasure, Damage>(body, select, this.immunityDamageMeasureRepo, this.damageRepo)
             }
             if (select == MultiFieldsENUM.speeds) {
-                creature[MultiFieldsENUM.speeds] = await this.writeMeasureAttribute<SpeedsMeasure, Speed>(body, select, this.speedDamageMeasureRepo, this.speedRepo)
+                creature[MultiFieldsENUM.speeds] = await this.writeMeasureAttribute<SpeedsMeasure, Speed>(body, select, this.speedMeasureRepo, this.speedRepo)
             }
             if (select == MultiFieldsENUM.resists) {
                 creature[MultiFieldsENUM.resists] = await this.writeMeasureAttribute<ResistsDamageMeasure, Damage>(body, select, this.resistDamageMeasureRepo, this.damageRepo)
@@ -175,7 +175,7 @@ export class CreatureService {
 
         for (let measureAttribute of body) {
             const entity = repositoryMeasure.create()
-            entity[select] = await this.additionMeasure.getOne(measureAttribute.attributeId, attributeRepo)
+            entity['attribute'] = await this.additionMeasure.getOne(measureAttribute.attributeId, attributeRepo)
 
             if (measureAttribute.isMeasureEnable) {
                 entity['isMeasureEnable'] = measureAttribute.msr
@@ -210,14 +210,20 @@ export class CreatureService {
         return list
     }
 
-    async getCreaturesList(): Promise<CreatureListDto[]> {
+    async getCreaturesList(isFinished: boolean = true): Promise<CreatureListDto[]> {
         let beastList: CreatureListDto[] = []
 
-        const list: Creature[] = await this.creatureRepo.createQueryBuilder('creature')
+        let query =  this.creatureRepo.createQueryBuilder('creature')
             .leftJoinAndSelect('creature.creatureName', 'name')
-            .andWhere('creature.isFinished IS TRUE')
             .orderBy('creature.dangerLevel', 'ASC')
-            .getMany()
+
+        if(isFinished) {
+            query = query.andWhere(`creature.isFinished IS TRUE`)
+        } else {
+            query = query.andWhere(`creature.isFinished IS NOT TRUE`)
+        }
+
+        const list: Creature[] = await query.getMany()
 
         list.forEach(beast => {
             const isDangLvlExist = beastList.findIndex(item => item.creatureDangerLvl === beast.dangerLevel)
@@ -244,7 +250,7 @@ export class CreatureService {
     }
 
     async getCreatureById(id: number) {
-        const query = this.creatureRepo.createQueryBuilder('creature')
+        let query = this.creatureRepo.createQueryBuilder('creature')
             .andWhere('creature.id = :id', {id})
             .leftJoinAndSelect('creature.creatureName', 'nameTranslations')
             .leftJoinAndSelect('creature.alignment', 'alignment')
@@ -258,13 +264,13 @@ export class CreatureService {
             .leftJoinAndSelect('creature.description', 'descriptionT')
 
         for (let key of Object.keys(MultiFieldsENUM)) {
-            query.leftJoinAndSelect(`creature.${key}`, key)
+            query = query.leftJoinAndSelect(`creature.${key}`, key)
                 .leftJoinAndSelect(`${key}.attribute`, `${key}Attribute`)
                 .leftJoinAndSelect(`${key}Attribute.attrName`, `${key}attrNameT`)
         }
 
         for (let key of Object.keys(ActionsAbilitiesENUM)) {
-            query.leftJoinAndSelect(`creature.${key}`, key)
+            query = query.leftJoinAndSelect(`creature.${key}`, key)
                 .leftJoinAndSelect(`${key}.title`, `${key}titleT`)
                 .leftJoinAndSelect(`${key}.description`, `${key}descriptionT`)
         }
