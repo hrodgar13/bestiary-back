@@ -34,6 +34,8 @@ import {Action} from "../../entities/actions-abilities/action.entity";
 import {BonusAction} from "../../entities/actions-abilities/bonus-action.entity";
 import {LegendaryAction} from "../../entities/actions-abilities/legendary-action.entity";
 import {CreatureListDto} from "../../dtos/outcome/creature-list.dto";
+import {CreatureFilter} from "../../dtos/income/filters/creature-filter.dto";
+import {filter} from "rxjs";
 
 @Injectable()
 export class CreatureService {
@@ -210,7 +212,7 @@ export class CreatureService {
         return list
     }
 
-    async getCreaturesList(isFinished: boolean = true): Promise<CreatureListDto[]> {
+    async getCreaturesList(isFinished: boolean = true, filter?: CreatureFilter): Promise<CreatureListDto[]> {
         let beastList: CreatureListDto[] = []
 
         let query =  this.creatureRepo.createQueryBuilder('creature')
@@ -221,6 +223,21 @@ export class CreatureService {
             query = query.andWhere(`creature.isFinished IS TRUE`)
         } else {
             query = query.andWhere(`creature.isFinished IS NOT TRUE`)
+        }
+
+        if(filter && Object.keys(filter)) {
+            for (let queryPar of Object.keys(filter)) {
+                if (filter[queryPar].length) {
+                    if(queryPar.includes('_MSR')){
+                        query = query.leftJoinAndSelect(`creature.${queryPar.split('_MSR')[0]}`, `${queryPar}_MSR`)
+                            .leftJoinAndSelect(`${queryPar}_MSR.attribute`, queryPar)
+                            .andWhere(`${queryPar}.id IN (:...attributeIds)`, {attributeIds: filter[queryPar]})
+                    } else {
+                        query = query.leftJoinAndSelect(`creature.${queryPar}`, queryPar)
+                            .andWhere(`${queryPar}.id IN (:...attributeIds)`, {attributeIds: filter[queryPar]})
+                    }
+                }
+            }
         }
 
         const list: Creature[] = await query.getMany()
