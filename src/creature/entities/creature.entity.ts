@@ -1,136 +1,62 @@
-import {
-  Column,
-  Entity, JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Translation } from './translations/translation.entity';
-import { Alignment } from './attributes/alignment.entity';
-import { Type } from './attributes/type.entity';
-import { Size } from './attributes/size.entity';
-import { ArmorTag } from './attributes/armor-tag.entity';
-import { MultiFieldsENUM } from '../dtos/income/attribute-measure/mutli-select.dto';
-import { ImmunitiesDamageMeasure } from './attribute-measure/immunities-damage-measure.entity';
-import { VulnerabilitiesDamageMeasure } from './attribute-measure/vulnerabilities-damage-measure.entity';
-import { ResistsDamageMeasure } from './attribute-measure/resists-damage-measure.entity';
-import { SpeedsMeasure } from './attribute-measure/speeds-measure.entity';
-import { FeelingsMeasure } from './attribute-measure/feelings-measure.entity';
-import { SavingThrowMeasure } from './attribute-measure/saving-throw-measure.entity';
-import { SkillsMeasure } from './attribute-measure/skills.measure';
-import { ConditionsMeasure } from './attribute-measure/conditions-measure.entity';
-import { LanguagesMeasure } from './attribute-measure/languages.measure';
-import { Ability } from './actions-abilities/abilities.entity';
-import { RegionsMeasure } from './attribute-measure/regions-measure.entity';
-import { ActionsAbilitiesENUM } from '../dtos/income/actions/action-ability-block.dto';
-import { Action } from './actions-abilities/action.entity';
-import { BonusAction } from './actions-abilities/bonus-action.entity';
-import { LegendaryAction } from './actions-abilities/legendary-action.entity';
+import {Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, JoinColumn, PrimaryGeneratedColumn} from "typeorm";
+import {Translation} from "./translation.entity";
+import {Measure} from "./measure.entity";
+import {Attribute} from "./attribute.entity";
+import {ActionsAbilities} from "./actions-abilities.entity";
+import {StatBlock} from "./stat-block.entity";
 
 @Entity()
 export class Creature {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number
 
-  @Column({ default: false })
-  isFinished: boolean;
+    @OneToOne(() => Translation)
+    @JoinColumn()
+    name: Translation
 
-  @OneToOne(() => Translation, {cascade: true})
-  @JoinColumn()
-  creatureName: Translation;
+    @Column({nullable: true})
+    armor_class: number
 
-  @ManyToOne(() => Alignment, (alignment) => alignment.creatures)
-  alignment: Alignment;
+    @Column({nullable: true})
+    hits: string
 
-  @ManyToOne(() => Type, (type) => type.creatures)
-  type: Type;
+    @Column({nullable: true})
+    hits_in_dice: string
 
-  @ManyToOne(() => Size, (size) => size.creatures)
-  size: Size;
+    @Column({nullable: true})
+    danger_lvl: number
 
-  @Column({nullable: true})
-  armorClass: number;
+    @Column({nullable: true})
+    experience: string
 
-  @ManyToOne(() => ArmorTag, (armorTag) => armorTag.creatures)
-  armorTag: ArmorTag;
+    @Column({nullable: true})
+    mastery_bonus: number
 
-  @Column({ nullable: true })
-  hits: number;
+    @OneToOne(() => StatBlock)
+    @JoinColumn()
+    stat_block: StatBlock
 
-  @Column({ nullable: true })
-  hitsInDice: string;
+    @OneToMany(() => Measure, (msr) => msr.creature)
+    measures: Measure[]
 
-  @Column({ nullable: true })
-  strength: number;
+    @ManyToMany(() => Attribute)
+    @JoinTable({
+        name: 'creature_to_attributes',
+        joinColumn: {
+            name: 'creature_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'attribute_id',
+            referencedColumnName: 'id'
+        }
+    })
+    users: Attribute[]
 
-  @Column({ nullable: true })
-  dexterity: number;
+    @OneToMany(() => ActionsAbilities, (acab) => acab.creature)
+    action_abilities: ActionsAbilities[]
 
-  @Column({ nullable: true })
-  construction: number;
-
-  @Column({ nullable: true })
-  intelligence: number;
-
-  @Column({ nullable: true })
-  wisdom: number;
-
-  @Column({ nullable: true })
-  charisma: number;
-
-  @Column({ nullable: true })
-  dangerLevel: number;
-
-  @Column({ nullable: true })
-  experience: string;
-
-  @Column({ nullable: true })
-  masteryBonus: number;
-
-  @OneToOne(() => Translation, {cascade: true})
-  @JoinColumn()
-  description: Translation;
-
-  @OneToMany(() => ImmunitiesDamageMeasure, (idm) => idm.creature, {cascade: true})
-  [MultiFieldsENUM.immunities]: ImmunitiesDamageMeasure[];
-
-  @OneToMany(() => VulnerabilitiesDamageMeasure, (vdm) => vdm.creature, {cascade: true})
-  [MultiFieldsENUM.vulnerabilities]: VulnerabilitiesDamageMeasure[];
-
-  @OneToMany(() => ResistsDamageMeasure, (rdm) => rdm.creature, {cascade: true})
-  [MultiFieldsENUM.resists]: ResistsDamageMeasure[];
-
-  @OneToMany(() => SpeedsMeasure, (speeds) => speeds.creature, {cascade: true})
-  [MultiFieldsENUM.speeds]: SpeedsMeasure[];
-
-  @OneToMany(() => FeelingsMeasure, (feelings) => feelings.creature, {cascade: true})
-  [MultiFieldsENUM.feelings]: FeelingsMeasure[];
-
-  @OneToMany(() => SavingThrowMeasure, (st) => st.creature, {cascade: true})
-  [MultiFieldsENUM.savingThrows]: SavingThrowMeasure[];
-
-  @OneToMany(() => SkillsMeasure, (skill) => skill.creature, {cascade: true})
-  [MultiFieldsENUM.skills]: SkillsMeasure[];
-
-  @OneToMany(() => ConditionsMeasure, (condition) => condition.creature, {cascade: true})
-  [MultiFieldsENUM.conditionsImmunities]: ConditionsMeasure[];
-
-  @OneToMany(() => LanguagesMeasure, (lang) => lang.creature, {cascade: true})
-  [MultiFieldsENUM.languages]: LanguagesMeasure[];
-
-  @OneToMany(() => RegionsMeasure, (rm) => rm.creature, {cascade: true})
-  [MultiFieldsENUM.regions]: RegionsMeasure[];
-
-  @OneToMany(() => Ability, (ability) => ability.creature, {cascade: true})
-  [ActionsAbilitiesENUM.abilities]: Ability[];
-
-  @OneToMany(() => Action, (action) => action.creature, {cascade: true})
-  [ActionsAbilitiesENUM.actions]: Action[];
-
-  @OneToMany(() => BonusAction, (action) => action.creature, {cascade: true})
-  [ActionsAbilitiesENUM.bonusActions]: BonusAction[];
-
-  @OneToMany(() => LegendaryAction, (action) => action.creature, {cascade: true})
-  [ActionsAbilitiesENUM.legendaryActions]: LegendaryAction[];
+    @OneToOne(() => Translation)
+    @JoinColumn()
+    description: Translation
 }
