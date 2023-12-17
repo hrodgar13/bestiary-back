@@ -176,20 +176,22 @@ export class CreatureService {
         let list: Measure[] = []
 
         for (let measureAttribute of body) {
-            const entity = repositoryMeasure.create()
-            entity['attribute'] = await this.additionMeasure.getOne(measureAttribute.attributeId, attributeRepo)
+            if(!measureAttribute.id) {
+                const entity = repositoryMeasure.create()
+                entity['attribute'] = await this.additionMeasure.getOne(measureAttribute.attributeId, attributeRepo)
 
-            if (measureAttribute.isMeasureEnable) {
-                entity['isMeasureEnable'] = measureAttribute.msr
+                if (measureAttribute.isMeasureEnable) {
+                    entity['isMeasureEnable'] = measureAttribute.msr
+                }
+
+                if (measureAttribute.amt) {
+                    entity['amt'] = measureAttribute.amt
+                }
+
+                await repositoryMeasure.save(entity)
+
+                list.push(entity)
             }
-
-            if (measureAttribute.amt) {
-                entity['amt'] = measureAttribute.amt
-            }
-
-            await repositoryMeasure.save(entity)
-
-            list.push(entity)
         }
 
         return list
