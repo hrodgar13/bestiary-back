@@ -7,7 +7,7 @@ export class CreateActionAbilityDto {
     id?: number
 
     @IsString()
-    actionType: string
+    action_type: string
 
     @IsObject()
     title: CreateTranslationDto

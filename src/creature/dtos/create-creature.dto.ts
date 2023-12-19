@@ -2,9 +2,9 @@ import {IsArray, IsBoolean, IsNumber, IsObject, IsOptional, IsString} from "clas
 import {CreateTranslationDto} from "./create-translation.dto";
 import {CreateStatBlockDto} from "./create-stat-block.dto";
 import {CreateMeasureDto} from "./create-measure.dto";
-import {CreateActionAbilityDto} from "../../../dist/creature/dtos/create-action-ability";
+import {CreateActionAbilityDto} from "./create-action-ability.dto";
 
-export class CreateCreature {
+export class CreateCreatureDto {
   @IsOptional()
   @IsNumber()
   id?: number
@@ -16,7 +16,7 @@ export class CreateCreature {
   name: CreateTranslationDto
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   armor_class: number | null
 
   @IsOptional()
@@ -28,7 +28,7 @@ export class CreateCreature {
   hits_in_dice: string | null
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   danger_lvl: number | null
 
   @IsOptional()
@@ -36,7 +36,7 @@ export class CreateCreature {
   experience: string | null
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   mastery_bonus: number | null
 
   @IsObject()

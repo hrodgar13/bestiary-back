@@ -8,13 +8,17 @@ import {Attribute} from "./entities/attribute.entity";
 import {Measure} from "./entities/measure.entity";
 import {AttributeController} from "./contollers/attribute.controller";
 import {AttributeService} from "./services/attribute.service";
+import {CreatureController} from "./contollers/creature.controller";
+import {CreatureService} from "./services/creature.service";
 
 @Module({
     controllers: [
-        AttributeController
+        AttributeController,
+        CreatureController
     ],
     providers: [
-        AttributeService
+        AttributeService,
+        CreatureService
     ],
     exports: [],
     imports: [
