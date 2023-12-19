@@ -1,7 +1,8 @@
-import {IsOptional} from "class-validator";
+import {IsOptional, IsString} from "class-validator";
 import {CreateTranslationDto} from "./create-translation.dto";
 
 export class CreateAttributeDto {
+    @IsString()
     attr_cat: string
     name: CreateTranslationDto
 }
