@@ -7,6 +7,9 @@ export class Measure {
     @PrimaryGeneratedColumn()
     id: number
 
+    @Column()
+    measure_cat: string
+
     @Column({nullable: true})
     amt: number | null
 

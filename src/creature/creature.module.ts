@@ -6,10 +6,16 @@ import {StatBlock} from "./entities/stat-block.entity";
 import {Translation} from "./entities/translation.entity";
 import {Attribute} from "./entities/attribute.entity";
 import {Measure} from "./entities/measure.entity";
+import {AttributeController} from "./contollers/attribute.controller";
+import {AttributeService} from "./services/attribute.service";
 
 @Module({
-    controllers: [],
-    providers: [],
+    controllers: [
+        AttributeController
+    ],
+    providers: [
+        AttributeService
+    ],
     exports: [],
     imports: [
         TypeOrmModule.forFeature([

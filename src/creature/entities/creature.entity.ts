@@ -10,6 +10,9 @@ export class Creature {
     @PrimaryGeneratedColumn()
     id: number
 
+    @Column()
+    isFinished: boolean
+
     @OneToOne(() => Translation)
     @JoinColumn()
     name: Translation
@@ -51,7 +54,7 @@ export class Creature {
             referencedColumnName: 'id'
         }
     })
-    users: Attribute[]
+    attributes: Attribute[]
 
     @OneToMany(() => ActionsAbilities, (acab) => acab.creature)
     action_abilities: ActionsAbilities[]
