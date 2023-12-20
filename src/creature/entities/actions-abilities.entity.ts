@@ -10,11 +10,11 @@ export class ActionsAbilities {
     @Column()
     action_type: string
 
-    @OneToOne(() => Translation)
+    @OneToOne(() => Translation, {cascade: true, onDelete: 'CASCADE'})
     @JoinColumn()
     title: Translation
 
-    @OneToOne(() => Translation)
+    @OneToOne(() => Translation, {cascade: true, onDelete: 'CASCADE'})
     @JoinColumn()
     description: Translation
 

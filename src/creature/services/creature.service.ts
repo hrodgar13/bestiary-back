@@ -50,9 +50,7 @@ export class CreatureService {
 
         creature.description = await this.translationRepo.save(createBeast.description)
 
-        await this.creatureRepository.save(creature)
-
-        return {message: 'Saved'}
+        return await this.creatureRepository.save(creature)
     }
 
     private async generateCreatureMeasures(measures: CreateMeasureDto[]): Promise<Measure[]>  {
@@ -94,5 +92,28 @@ export class CreatureService {
         }
 
         return actionAbilitiesList;
+    }
+
+    async patchBeast(body: CreateCreatureDto, id: number) {
+        const creature = await this.creatureRepository.findOne({where: {id}, relations: ['stat_block', 'measures', 'name', 'attributes', 'action_abilities', 'description', 'attributes.name', 'measures.attribute', 'measures.attribute.name', 'action_abilities.title', 'action_abilities.description']})
+
+        await this.clearOldProperties(creature)
+        return await this.createBeast(body)
+    }
+
+    private async clearOldProperties(creature: Creature) {
+        for(let measure of creature.measures) {
+            await this.measureRepo.delete(measure.id)
+        }
+
+        for(let action of creature.action_abilities) {
+            await this.actionAbilityRepo.delete(action.id)
+        }
+
+        await this.statBlockRepo.delete(creature.stat_block.id)
+
+        await this.translationRepo.delete(creature.name)
+
+        await this.translationRepo.delete(creature.description)
     }
 }

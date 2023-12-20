@@ -1,4 +1,4 @@
-import {Body, Controller, Post} from "@nestjs/common";
+import {Body, Controller, Param, Patch, Post} from "@nestjs/common";
 import {CreateCreatureDto} from "../dtos/create-creature.dto";
 import {CreatureService} from "../services/creature.service";
 
@@ -12,5 +12,10 @@ export class CreatureController {
     @Post()
     createBeast(@Body() createBeast: CreateCreatureDto) {
         return this.creatureService.createBeast(createBeast)
+    }
+
+    @Patch(':id')
+    patchBeast(@Param('id') id: number, @Body() body: CreateCreatureDto) {
+        return this.creatureService.patchBeast(body, id)
     }
 }
