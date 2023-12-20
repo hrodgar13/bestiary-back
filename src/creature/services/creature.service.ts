@@ -105,15 +105,10 @@ export class CreatureService {
         for(let measure of creature.measures) {
             await this.measureRepo.delete(measure.id)
         }
-
         for(let action of creature.action_abilities) {
             await this.actionAbilityRepo.delete(action.id)
         }
 
-        await this.statBlockRepo.delete(creature.stat_block.id)
-
-        await this.translationRepo.delete(creature.name)
-
-        await this.translationRepo.delete(creature.description)
+        console.log('work')
     }
 }
