@@ -1,5 +1,5 @@
-import {Body, Controller, Param, Patch, Post} from "@nestjs/common";
-import {CreateCreatureDto} from "../dtos/create-creature.dto";
+import {Body, Controller, Get, Param, Patch, Post, Query} from "@nestjs/common";
+import {CreateCreatureDto} from "../dtos/create/create-creature.dto";
 import {CreatureService} from "../services/creature.service";
 
 @Controller('creature')
@@ -17,5 +17,15 @@ export class CreatureController {
     @Patch(':id')
     patchBeast(@Param('id') id: number, @Body() body: CreateCreatureDto) {
         return this.creatureService.patchBeast(body, id)
+    }
+
+    @Get('list')
+    getCreaturesList(@Query('unfinished') unfinished: boolean ) {
+        return this.creatureService.getCreaturesList()
+    }
+
+    @Get('list/:id')
+    getOneCreature(@Param('id') id: number) {
+        return this.creatureService.getOneCreature(id)
     }
 }

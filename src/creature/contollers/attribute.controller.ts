@@ -1,6 +1,6 @@
 import {Body, Controller, Delete, Get, Param, Patch, Post} from "@nestjs/common";
 import {AttributeService} from "../services/attribute.service";
-import {CreateAttributeDto} from "../dtos/create-attribute.dto";
+import {CreateAttributeDto} from "../dtos/create/create-attribute.dto";
 
 @Controller('attribute')
 export class AttributeController {

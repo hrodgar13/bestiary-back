@@ -1,5 +1,5 @@
 import {Injectable} from "@nestjs/common";
-import {CreateAttributeDto} from "../dtos/create-attribute.dto";
+import {CreateAttributeDto} from "../dtos/create/create-attribute.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Attribute} from "../entities/attribute.entity";
 import {Repository} from "typeorm";
