@@ -1,16 +1,17 @@
 import {Injectable} from "@nestjs/common";
-import {CreateCreatureDto} from "../dtos/create/create-creature.dto";
+import {CreateCreatureDto} from "../dtos/creature/create/create-creature.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Creature} from "../entities/creature.entity";
 import {Repository} from "typeorm";
 import {Translation} from "../entities/translation.entity";
 import {generate} from "rxjs";
-import {CreateMeasureDto} from "../dtos/create/create-measure.dto";
+import {CreateMeasureDto} from "../dtos/creature/create/create-measure.dto";
 import {Measure} from "../entities/measure.entity";
 import {Attribute} from "../entities/attribute.entity";
-import {CreateActionAbilityDto} from "../dtos/create/create-action-ability.dto";
+import {CreateActionAbilityDto} from "../dtos/creature/create/create-action-ability.dto";
 import {ActionsAbilities} from "../entities/actions-abilities.entity";
 import {StatBlock} from "../entities/stat-block.entity";
+import {FilteredCreatureListDto} from "../dtos/filters/filtered-creature-list-item.dto";
 
 @Injectable()
 export class CreatureService {
@@ -60,8 +61,32 @@ export class CreatureService {
         return await this.creatureRepository.save(creature)
     }
 
-    async getCreaturesList() {
+    async getCreaturesList(finished: string): Promise<FilteredCreatureListDto[]> {
+        const query = this.creatureRepository.createQueryBuilder('creature')
+            .andWhere(`creature.isFinished IS ${finished}`)
+            .leftJoinAndSelect('creature.name', 'name')
+            .orderBy('creature.danger_lvl')
 
+        const creatures = await query.getMany()
+
+        let filteredCreature: FilteredCreatureListDto[] = []
+
+        creatures.forEach(item => {
+            const idx = filteredCreature.findIndex(dng => dng.dangerLvl === item.danger_lvl)
+
+            const creature = {id: item.id, creatureName: item.name}
+
+            if(idx === -1) {
+                filteredCreature.push({
+                    dangerLvl: item.danger_lvl,
+                    creature: [creature]
+                })
+            } else {
+                filteredCreature[idx].creature.push(creature)
+            }
+        })
+
+        return filteredCreature
     }
 
     async getOneCreature(id: number) {

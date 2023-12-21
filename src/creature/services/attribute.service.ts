@@ -1,9 +1,10 @@
 import {Injectable} from "@nestjs/common";
-import {CreateAttributeDto} from "../dtos/create/create-attribute.dto";
+import {CreateAttributeDto} from "../dtos/creature/create/create-attribute.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Attribute} from "../entities/attribute.entity";
 import {Repository} from "typeorm";
 import {Translation} from "../entities/translation.entity";
+import {FiltersListDto} from "../dtos/filters/get-filters-list.dto";
 
 @Injectable()
 export class AttributeService {
@@ -53,5 +54,28 @@ export class AttributeService {
 
     deleteAttribute(id: number) {
         
+    }
+
+    async getAllAttributesSortedByCategory() {
+        const attributesForFilter: FiltersListDto[] = []
+
+        const attributes = await this.attributeRepository.find({relations: ['name']})
+
+        attributes.forEach(attribute => {
+            const persistCategoryIdx = attributesForFilter.findIndex(item => item.filter_cat === attribute.attr_cat)
+
+            if(persistCategoryIdx === -1) {
+                const newFilter: FiltersListDto = {
+                    filter_cat: attribute.attr_cat,
+                    filter_values: [attribute]
+                }
+
+                attributesForFilter.push(newFilter)
+            } else {
+                attributesForFilter[persistCategoryIdx].filter_values.push(attribute)
+            }
+        })
+
+        return attributesForFilter
     }
 }

@@ -1,10 +1,15 @@
 import {Body, Controller, Delete, Get, Param, Patch, Post} from "@nestjs/common";
 import {AttributeService} from "../services/attribute.service";
-import {CreateAttributeDto} from "../dtos/create/create-attribute.dto";
+import {CreateAttributeDto} from "../dtos/creature/create/create-attribute.dto";
 
 @Controller('attribute')
 export class AttributeController {
     constructor(private readonly attributeService: AttributeService) {
+    }
+
+    @Get()
+    getAllAttributesSortedByCategory() {
+        return this.attributeService.getAllAttributesSortedByCategory()
     }
 
     @Get(':category')

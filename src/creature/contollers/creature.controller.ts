@@ -1,5 +1,5 @@
 import {Body, Controller, Get, Param, Patch, Post, Query} from "@nestjs/common";
-import {CreateCreatureDto} from "../dtos/create/create-creature.dto";
+import {CreateCreatureDto} from "../dtos/creature/create/create-creature.dto";
 import {CreatureService} from "../services/creature.service";
 
 @Controller('creature')
@@ -20,8 +20,8 @@ export class CreatureController {
     }
 
     @Get('list')
-    getCreaturesList(@Query('unfinished') unfinished: boolean ) {
-        return this.creatureService.getCreaturesList()
+    getCreaturesList(@Query('finished') finished: string ) {
+        return this.creatureService.getCreaturesList(finished)
     }
 
     @Get('list/:id')
