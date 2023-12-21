@@ -16,7 +16,6 @@ export class CreateCreatureDto {
   name: CreateTranslationDto
 
   @IsOptional()
-  @IsString()
   armor_class: number | null
 
   @IsOptional()
@@ -28,7 +27,6 @@ export class CreateCreatureDto {
   hits_in_dice: string | null
 
   @IsOptional()
-  @IsString()
   danger_lvl: number | null
 
   @IsOptional()
@@ -36,7 +34,6 @@ export class CreateCreatureDto {
   experience: string | null
 
   @IsOptional()
-  @IsString()
   mastery_bonus: number | null
 
   @IsObject()
