@@ -100,8 +100,6 @@ export class AttributeService {
             }
         }
 
-        console.log(attributes)
-
         return  attributes
     }
 }
