@@ -5,6 +5,7 @@ import {Attribute} from "../entities/attribute.entity";
 import {Repository} from "typeorm";
 import {Translation} from "../entities/translation.entity";
 import {FiltersListDto} from "../dtos/filters/get-filters-list.dto";
+import {FilterEnum} from "../../static/filter.enum";
 
 @Injectable()
 export class AttributeService {
@@ -57,9 +58,9 @@ export class AttributeService {
     }
 
     async getAllAttributesSortedByCategory() {
-        const attributesForFilter: FiltersListDto[] = []
+        let attributesForFilter: FiltersListDto[] = []
 
-        const attributes = await this.attributeRepository.find({relations: ['name']})
+        let attributes = await this.attributeRepository.find({relations: ['name']})
 
         attributes.forEach(attribute => {
             const persistCategoryIdx = attributesForFilter.findIndex(item => item.filter_cat === attribute.attr_cat)
@@ -76,6 +77,31 @@ export class AttributeService {
             }
         })
 
+        attributesForFilter = this.convertDamageInIRV(attributesForFilter)
+
         return attributesForFilter
+    }
+
+    private convertDamageInIRV(attributes: FiltersListDto[]): FiltersListDto[] {
+        if(attributes.length) {
+            const attrIdx = attributes.findIndex(item => item.filter_cat === 'damage')
+
+            if(attrIdx !== -1) {
+                const attributeBody = attributes[attrIdx].filter_values
+
+                attributes.splice(attrIdx, 1)
+
+                Object.values(FilterEnum).forEach(item => {
+                    attributes.push({
+                        filter_cat: item,
+                        filter_values: attributeBody
+                    })
+                })
+            }
+        }
+
+        console.log(attributes)
+
+        return  attributes
     }
 }
