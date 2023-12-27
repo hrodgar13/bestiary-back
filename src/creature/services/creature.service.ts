@@ -61,11 +61,26 @@ export class CreatureService {
         return await this.creatureRepository.save(creature)
     }
 
-    async getCreaturesList(finished: string): Promise<FilteredCreatureListDto[]> {
-        const query = this.creatureRepository.createQueryBuilder('creature')
+    async getCreaturesList(finished: string, perPage: number, search: string, queryParams: any): Promise<FilteredCreatureListDto[]> {
+        let query = this.creatureRepository.createQueryBuilder('creature')
             .andWhere(`creature.isFinished IS ${finished}`)
             .leftJoinAndSelect('creature.name', 'name')
+            .leftJoin('creature.attributes', 'attributes')
+            .leftJoin('creature.measures', 'measures')
+            .leftJoin('measures.attribute', 'msr_attr')
             .orderBy('creature.danger_lvl')
+
+        for (const param of Object.keys(queryParams)) {
+            if(param !== 'perPage' && param !== 'finished' && param !== 'search') {
+
+                if(param === 'alignment' || param === 'size' || param === 'type') {
+                    query = query.andWhere('attributes.attr_cat = :attr_cat AND attributes.id IN (:...attributesIds)', {attr_cat: param, attributesIds: queryParams[param].split(',')})
+                } else {
+                    query = query.andWhere('measures.measure_cat = :measure_cat AND measures.attribute.id IN (:...msrAttrIds)', {measure_cat: param, msrAttrIds:  queryParams[param].split(',')})
+                }
+
+            }
+        }
 
         const creatures = await query.getMany()
 

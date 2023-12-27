@@ -20,10 +20,9 @@ export class CreatureController {
     }
 
     @Get('list')
-    getCreaturesList(@Query('finished') finished: string, @Query() queryParams,) {
-        console.log(queryParams)
+    getCreaturesList(@Query('finished') finished: string,@Query('perPage') perPage: number, @Query('search') search: string, @Query() queryParams,) {
 
-        return this.creatureService.getCreaturesList(finished)
+        return this.creatureService.getCreaturesList(finished, perPage, search, queryParams)
     }
 
     @Get('list/:id')
