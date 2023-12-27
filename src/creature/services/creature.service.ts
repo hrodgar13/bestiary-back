@@ -2,7 +2,7 @@ import {Injectable} from "@nestjs/common";
 import {CreateCreatureDto} from "../dtos/creature/create/create-creature.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Creature} from "../entities/creature.entity";
-import {Repository} from "typeorm";
+import {Brackets, Repository} from "typeorm";
 import {Translation} from "../entities/translation.entity";
 import {generate} from "rxjs";
 import {CreateMeasureDto} from "../dtos/creature/create/create-measure.dto";
@@ -34,7 +34,7 @@ export class CreatureService {
         }
 
         creature.name = await this.translationRepo.save(createBeast.name)
-        creature.description = createBeast.description
+        creature.description = await this.translationRepo.save(createBeast.description)
         creature.armor_class = createBeast.armor_class
         creature.hits = createBeast.hits
         creature.experience = createBeast.experience
@@ -70,6 +70,16 @@ export class CreatureService {
             .leftJoin('measures.attribute', 'msr_attr')
             .orderBy('creature.danger_lvl')
 
+        if(search !== '') {
+            console.log(search)
+            query = query.andWhere(
+                new Brackets(qb => {
+                    qb.where('name.en like :search_en', {search_en: `%${search}%`})
+                        .orWhere('name.ua like :search_ua', {search_ua: `%${search}%`});
+                })
+            );
+        }
+
         for (const param of Object.keys(queryParams)) {
             if(param !== 'perPage' && param !== 'finished' && param !== 'search') {
 
@@ -81,6 +91,8 @@ export class CreatureService {
 
             }
         }
+
+        query = query.take(perPage)
 
         const creatures = await query.getMany()
 
