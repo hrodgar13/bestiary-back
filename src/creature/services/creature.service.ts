@@ -12,6 +12,7 @@ import {CreateActionAbilityDto} from "../dtos/creature/create/create-action-abil
 import {ActionsAbilities} from "../entities/actions-abilities.entity";
 import {StatBlock} from "../entities/stat-block.entity";
 import {FilteredCreatureListDto} from "../dtos/filters/filtered-creature-list-item.dto";
+import {FilteredCreatureDataMetaDto} from "../dtos/filters/filtered-creature.data-meta.dto";
 
 @Injectable()
 export class CreatureService {
@@ -61,7 +62,7 @@ export class CreatureService {
         return await this.creatureRepository.save(creature)
     }
 
-    async getCreaturesList(finished: string, perPage: number, search: string, queryParams: any): Promise<FilteredCreatureListDto[]> {
+    async getCreaturesList(finished: string, perPage: number, search: string, queryParams: any): Promise<FilteredCreatureDataMetaDto> {
         let query = this.creatureRepository.createQueryBuilder('creature')
             .andWhere(`creature.isFinished IS ${finished}`)
             .leftJoinAndSelect('creature.name', 'name')
@@ -71,7 +72,6 @@ export class CreatureService {
             .orderBy('creature.danger_lvl')
 
         if(search !== '') {
-            console.log(search)
             query = query.andWhere(
                 new Brackets(qb => {
                     qb.where('name.en like :search_en', {search_en: `%${search}%`})
@@ -92,9 +92,9 @@ export class CreatureService {
             }
         }
 
-        query = query.take(perPage)
+        query = query.take(Number(perPage))
 
-        const creatures = await query.getMany()
+        const [creatures, count] = await query.getManyAndCount()
 
         let filteredCreature: FilteredCreatureListDto[] = []
 
@@ -113,7 +113,7 @@ export class CreatureService {
             }
         })
 
-        return filteredCreature
+        return {creatures: filteredCreature,total: count}
     }
 
     async getOneCreature(id: number) {
