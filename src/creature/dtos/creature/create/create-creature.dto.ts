@@ -20,6 +20,10 @@ export class CreateCreatureDto {
 
   @IsOptional()
   @IsString()
+  image: string
+
+  @IsOptional()
+  @IsString()
   hits: string | null
 
   @IsOptional()

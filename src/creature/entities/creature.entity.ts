@@ -18,6 +18,9 @@ export class Creature {
     name: Translation
 
     @Column({nullable: true})
+    image: string | null
+
+    @Column({nullable: true})
     armor_class: number
 
     @Column({nullable: true})

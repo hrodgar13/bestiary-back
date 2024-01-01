@@ -37,6 +37,7 @@ export class CreatureService {
         creature.name = await this.translationRepo.save(createBeast.name)
         creature.description = await this.translationRepo.save(createBeast.description)
         creature.armor_class = createBeast.armor_class
+        creature.image = createBeast.image
         creature.hits = createBeast.hits
         creature.experience = createBeast.experience
         creature.isFinished = createBeast.isFinished
