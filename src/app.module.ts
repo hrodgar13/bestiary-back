@@ -22,7 +22,7 @@ import {FileUploadController} from "./creature/contollers/file-upload.controller
         MulterModule.register({dest: './uploads'}),
         TypeOrmModule.forRoot({
             type: 'sqlite',
-            database: 'dist/ViribusUnitis.sqlite',
+            database: 'ViribusUnitis.sqlite',
             entities: [
                 User,
                 Creature,
