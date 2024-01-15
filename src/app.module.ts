@@ -21,8 +21,9 @@ import {FileUploadController} from "./creature/contollers/file-upload.controller
         AuthModule,
         MulterModule.register({dest: './uploads'}),
         TypeOrmModule.forRoot({
-            type: 'sqlite',
-            database: 'dist/ViribusUnitis.sqlite',
+            type: "postgres",
+            url: 'postgres://junaapxa:YO4gMLgHu9FG70RCqacAJIDpri3TnKeG@snuffleupagus.db.elephantsql.com/junaapxa',
+            logging: true,
             entities: [
                 User,
                 Creature,
