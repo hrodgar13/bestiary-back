@@ -14,16 +14,22 @@ import {Attribute} from "./creature/entities/attribute.entity";
 import {Measure} from "./creature/entities/measure.entity";
 import {FileUploadService} from "./creature/services/file-upload.service";
 import {FileUploadController} from "./creature/contollers/file-upload.controller";
+import {ConfigModule, ConfigService} from "@nestjs/config";
 
 @Module({
     imports: [
         CreatureModule,
         AuthModule,
         MulterModule.register({dest: './uploads'}),
-        TypeOrmModule.forRoot({
-            type: "postgres",
-            url: 'postgres://junaapxa:YO4gMLgHu9FG70RCqacAJIDpri3TnKeG@snuffleupagus.db.elephantsql.com/junaapxa',
-            logging: true,
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule],
+            useFactory: (configService: ConfigService) => ({
+                type: 'postgres',
+                host: 'localhost',
+                port: +configService.get<number>('TYPEORM_PORT'),
+                username: configService.get('TYPEORM_USERNAME'),
+                password: configService.get('TYPEORM_PASSWORD'),
+                database: configService.get('TYPEORM_DATABASE'),
             entities: [
                 User,
                 Creature,
@@ -33,8 +39,17 @@ import {FileUploadController} from "./creature/contollers/file-upload.controller
                 Attribute,
                 Measure,
             ],
-            synchronize: true,
+                synchronize: true,
+            }),
+            inject: [ConfigService]
         }),
+        TypeOrmModule.forFeature([User,
+            Creature,
+            ActionsAbilities,
+            StatBlock,
+            Translation,
+            Attribute,
+            Measure,]),
     ],
     controllers: [
         AppController,

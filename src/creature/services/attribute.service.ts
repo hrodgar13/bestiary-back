@@ -36,7 +36,9 @@ export class AttributeService {
 
             attribute.name.en = body.name.en
             attribute.name.ua = body.name.ua
-            attribute.attr_cat = body.attr_cat
+
+            await this.translationRepository.update(attribute.name.id, {en: body.name.en, ua: body.name.ua})
+
         } else {
             attribute = this.attributeRepository.create()
             attribute.attr_cat = body.attr_cat
@@ -46,15 +48,17 @@ export class AttributeService {
             attribute_translation.en = body.name.en
             attribute_translation.ua = body.name.ua
             attribute.name = await this.translationRepository.save(attribute_translation)
-        }
 
-        await this.attributeRepository.save(attribute)
+            await this.attributeRepository.save(attribute)
+        }
 
         return attribute
     }
 
-    deleteAttribute(id: number) {
-        
+    async deleteAttribute(id: number) {
+        await this.attributeRepository.delete(id)
+
+        return {message: 'Item deleted successfully'}
     }
 
     async getAllAttributesSortedByCategory() {
