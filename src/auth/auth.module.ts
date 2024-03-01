@@ -9,12 +9,13 @@ import {LocalStrategy} from "./strategies/local.startegy";
 import {JwtStrategy} from "./strategies/jwt.strategy";
 import {APP_GUARD} from "@nestjs/core";
 import {RolesGuard} from "./guards/roles.guard";
+import {Request} from "./entities/messages.entity";
 
 @Module({
     controllers: [AuthController],
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
-        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([User, Request]),
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({

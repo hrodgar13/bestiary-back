@@ -1,6 +1,10 @@
-import {Body, Controller, Get, Param, Patch, Post, Query} from "@nestjs/common";
+import {Body, Controller, Get, Param, Patch, Post, Query, UseGuards} from "@nestjs/common";
 import {CreateCreatureDto} from "../dtos/creature/create/create-creature.dto";
 import {CreatureService} from "../services/creature.service";
+import {JwtAuthGuard} from "../../auth/guards/jwt.guard";
+import {Roles} from "../../auth/decorators/roles.decorator";
+import {RolesGuard} from "../../auth/guards/roles.guard";
+import {RolesEnum} from "../../auth/roles/roles.enum";
 
 @Controller('creature')
 export class CreatureController {
@@ -10,6 +14,8 @@ export class CreatureController {
     ) {
     }
     @Post()
+    @UseGuards(JwtAuthGuard)
+    @Roles([RolesEnum.ADMIN])
     createBeast(@Body() createBeast: CreateCreatureDto) {
         return this.creatureService.createBeast(createBeast)
     }

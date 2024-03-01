@@ -15,6 +15,7 @@ import {Measure} from "./creature/entities/measure.entity";
 import {FileUploadService} from "./creature/services/file-upload.service";
 import {FileUploadController} from "./creature/contollers/file-upload.controller";
 import {ConfigModule, ConfigService} from "@nestjs/config";
+import {Request} from "./auth/entities/messages.entity";
 
 @Module({
     imports: [
@@ -30,26 +31,30 @@ import {ConfigModule, ConfigService} from "@nestjs/config";
                 username: configService.get('TYPEORM_USERNAME'),
                 password: configService.get('TYPEORM_PASSWORD'),
                 database: configService.get('TYPEORM_DATABASE'),
-            entities: [
-                User,
-                Creature,
-                ActionsAbilities,
-                StatBlock,
-                Translation,
-                Attribute,
-                Measure,
-            ],
+                entities: [
+                    User,
+                    Creature,
+                    ActionsAbilities,
+                    StatBlock,
+                    Translation,
+                    Attribute,
+                    Measure,
+                    Request
+                ],
                 synchronize: true,
             }),
             inject: [ConfigService]
         }),
-        TypeOrmModule.forFeature([User,
+        TypeOrmModule.forFeature([
+            User,
             Creature,
             ActionsAbilities,
             StatBlock,
             Translation,
             Attribute,
-            Measure,]),
+            Measure,
+            Request
+        ]),
     ],
     controllers: [
         AppController,
