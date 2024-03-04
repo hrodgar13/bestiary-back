@@ -22,8 +22,8 @@ export class RequestController {
     @UseGuards(JwtAuthGuard)
     @Roles([RolesEnum.ADMIN])
     @Patch('read/:id')
-    markAsRead(@Param('id') requestId: number) {
-        return this.messageService.markAsRead(requestId)
+    changeReadStatus(@Param('id') requestId: number) {
+        return this.messageService.changeReadStatus(requestId)
     }
 
     @UseGuards(JwtAuthGuard)

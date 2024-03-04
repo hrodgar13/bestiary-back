@@ -1,13 +1,8 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import {CreateUserDto} from "../dtos/create-user.dto";
+import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "../entities/user.entity";
 import {Repository} from "typeorm";
-import {ConfigService} from "@nestjs/config";
-import {RolesEnum} from "../roles/roles.enum";
-import {LoginDto} from "../dtos/login.dto";
-import * as bcrypt from 'bcrypt';
-import {JwtService} from "@nestjs/jwt";
+
 import {CreateRequestDto} from "../dtos/create-request.dto";
 import {Request} from "../entities/messages.entity";
 import {MetaDto} from "../../shared/dtos/meta.dto";
@@ -39,9 +34,12 @@ export class RequestService {
         return {message: 'Request sent'}
     }
 
-    async markAsRead(requestId: number) {
-        await this.requestRepository.update(requestId, {isRead: true})
-        return {message: 'Set as read'}
+    async changeReadStatus(requestId: number) {
+        const req = await this.requestRepository.findOne({where: {id: requestId}})
+
+        await this.requestRepository.update(requestId, {isRead: !req.isRead})
+
+        return {message: 'Status changed'}
     }
 
     async getAmountOfUnread(): Promise<MetaDto> {
