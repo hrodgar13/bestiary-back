@@ -10,9 +10,14 @@ import {JwtStrategy} from "./strategies/jwt.strategy";
 import {APP_GUARD} from "@nestjs/core";
 import {RolesGuard} from "./guards/roles.guard";
 import {Request} from "./entities/messages.entity";
+import {RequestController} from "./controllers/request.controller";
+import {RequestService} from "./services/request.service";
 
 @Module({
-    controllers: [AuthController],
+    controllers: [
+        AuthController,
+        RequestController,
+    ],
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
         TypeOrmModule.forFeature([User, Request]),
@@ -26,6 +31,7 @@ import {Request} from "./entities/messages.entity";
     ],
     providers: [
         AuthService,
+        RequestService,
         LocalStrategy,
         JwtStrategy,
         {

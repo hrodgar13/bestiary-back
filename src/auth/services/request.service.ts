@@ -11,6 +11,7 @@ import {JwtService} from "@nestjs/jwt";
 import {CreateRequestDto} from "../dtos/create-request.dto";
 import {Request} from "../entities/messages.entity";
 import {MetaDto} from "../../shared/dtos/meta.dto";
+import {RequestMetaDto} from "../dtos/request.meta.dto";
 
 
 @Injectable()
@@ -32,7 +33,7 @@ export class RequestService {
         message.isRead = false
         message.user = user
         message.isAdminRequest = body.isAdminRequest
-
+        
         await this.requestRepository.save(message)
 
         return {message: 'Request sent'}
@@ -49,19 +50,28 @@ export class RequestService {
         return {total}
     }
 
-    async getListOfMessages(perPage: number, onlyAdmin = false) {
+    async getListOfMessages(perPage: number, onlyAdmin: string): Promise<RequestMetaDto> {
+
+        const onlyAdminBool = onlyAdmin.toLowerCase() === 'true'
+
         let query = this.requestRepository.createQueryBuilder('request')
             .leftJoinAndSelect('request.user', 'user')
 
-
-        if(onlyAdmin) {
+        if(onlyAdminBool) {
             query = query.andWhere('request.isAdminRequest IS TRUE')
         }
 
-        query = query.orderBy('entity.isRead', 'DESC')
+        query = query.orderBy('request.isRead', 'ASC')
             .take(perPage)
 
-
         const [data, total] = await query.getManyAndCount()
+
+        return {data, meta: {total}}
+    }
+
+    async deleteMessage(id: number): Promise<{ message: string }> {
+        await this.requestRepository.delete(id)
+
+        return {message: 'Request deleted'}
     }
 }

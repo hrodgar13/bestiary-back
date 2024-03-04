@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Patch, Post, Query, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query, Request, UseGuards} from '@nestjs/common';
 import {RequestService} from "../services/request.service";
 import {CreateRequestDto} from "../dtos/create-request.dto";
 import {JwtAuthGuard} from "../guards/jwt.guard";
@@ -36,8 +36,14 @@ export class RequestController {
     @UseGuards(JwtAuthGuard)
     @Roles([RolesEnum.ADMIN])
     @Get('list')
-    getListOfMessages(@Query('perPage') perPage: number, @Query('onlyAdminRequest') onlyAdmin: boolean) {
+    getListOfMessages(@Query('perPage') perPage: number, @Query('onlyAdminRequest') onlyAdmin: string) {
         return this.messageService.getListOfMessages(perPage, onlyAdmin)
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Roles([RolesEnum.ADMIN])
+    @Delete(':id')
+    deleteMessage(@Param('id') id: number) {
+        return this.messageService.deleteMessage(id)
+    }
 }
