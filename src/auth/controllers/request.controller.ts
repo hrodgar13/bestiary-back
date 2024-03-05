@@ -16,7 +16,8 @@ export class RequestController {
     @UseGuards(JwtAuthGuard)
     @Post('')
     createMessage(@Request() req, @Body() body: CreateRequestDto) {
-        return this.messageService.createRequest(req.id, body)
+
+        return this.messageService.createRequest(req.user.id, body)
     }
 
     @UseGuards(JwtAuthGuard)

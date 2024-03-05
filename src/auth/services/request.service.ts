@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "../entities/user.entity";
 import {Repository} from "typeorm";
@@ -19,6 +19,11 @@ export class RequestService {
     }
 
     async createRequest(userId: number, body: CreateRequestDto) {
+
+        if(!userId) {
+            throw new HttpException('Issue of sender id', HttpStatus.BAD_REQUEST)
+        }
+
         const user = await this.userRepository.findOne({where: {id: userId}})
 
         const message = this.requestRepository.create()
@@ -31,7 +36,7 @@ export class RequestService {
         
         await this.requestRepository.save(message)
 
-        return {message: 'Request sent'}
+        return {message: 'Article sent'}
     }
 
     async changeReadStatus(requestId: number) {
