@@ -74,4 +74,18 @@ export class AuthService {
         const { password, ...result } = user;
         return result;
     }
+
+    async setRoleAsAdmin(userId: number) {
+        const user = await this.userRepository.findOne({where: {id: userId}})
+
+        if(user.role !== RolesEnum.USER) {
+         throw new HttpException('User already Admin', HttpStatus.CONFLICT)
+        }
+
+        user.role = RolesEnum.ADMIN
+
+        await this.userRepository.update(userId, user)
+
+        return {message: 'User set as admin'}
+    }
 }

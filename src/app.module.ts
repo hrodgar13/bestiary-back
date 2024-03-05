@@ -14,27 +14,47 @@ import {Attribute} from "./creature/entities/attribute.entity";
 import {Measure} from "./creature/entities/measure.entity";
 import {FileUploadService} from "./creature/services/file-upload.service";
 import {FileUploadController} from "./creature/contollers/file-upload.controller";
+import {ConfigModule, ConfigService} from "@nestjs/config";
+import {Request} from "./auth/entities/messages.entity";
 
 @Module({
     imports: [
         CreatureModule,
         AuthModule,
         MulterModule.register({dest: './uploads'}),
-        TypeOrmModule.forRoot({
-            type: "postgres",
-            url: 'postgres://junaapxa:YO4gMLgHu9FG70RCqacAJIDpri3TnKeG@snuffleupagus.db.elephantsql.com/junaapxa',
-            logging: true,
-            entities: [
-                User,
-                Creature,
-                ActionsAbilities,
-                StatBlock,
-                Translation,
-                Attribute,
-                Measure,
-            ],
-            synchronize: true,
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule],
+            useFactory: (configService: ConfigService) => ({
+                type: 'postgres',
+                host: 'localhost',
+                port: +configService.get<number>('TYPEORM_PORT'),
+                username: configService.get('TYPEORM_USERNAME'),
+                password: configService.get('TYPEORM_PASSWORD'),
+                database: configService.get('TYPEORM_DATABASE'),
+                entities: [
+                    User,
+                    Creature,
+                    ActionsAbilities,
+                    StatBlock,
+                    Translation,
+                    Attribute,
+                    Measure,
+                    Request
+                ],
+                synchronize: true,
+            }),
+            inject: [ConfigService]
         }),
+        TypeOrmModule.forFeature([
+            User,
+            Creature,
+            ActionsAbilities,
+            StatBlock,
+            Translation,
+            Attribute,
+            Measure,
+            Request
+        ]),
     ],
     controllers: [
         AppController,
