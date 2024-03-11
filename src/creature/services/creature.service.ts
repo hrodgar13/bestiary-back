@@ -151,8 +151,8 @@ export class CreatureService {
 
         for (const measure of measures) {
             const measureListItem = this.measureRepo.create({
-                id: measure.id ? measure.id : null,
-                amt: measure.amt,
+                id: measure.id ? measure.id : undefined,
+                amt: Number(measure.amt),
                 measure_cat: measure.measure_cat,
                 isMeasureEnable: measure.isMeasureEnable,
                 attribute: await this.attributeRepo.findOne({where: {id: measure.attribute}})
