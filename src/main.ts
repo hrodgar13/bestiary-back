@@ -16,7 +16,7 @@ async function bootstrap() {
 
     app.use('/uploads', express.static('uploads'))
 
-    await app.listen(3001);
+    await app.listen(process.env.PORT);
 }
 
 bootstrap();
