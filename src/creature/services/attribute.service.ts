@@ -34,12 +34,8 @@ export class AttributeService {
         if(id) {
             attribute = await this.attributeRepository.findOne({where: {id}, relations: ['name']})
 
-            attribute.scaling_from = body.scaling_from
-
-            attribute.name.en = body.name.en
-            attribute.name.ua = body.name.ua
-
             await this.translationRepository.update(attribute.name.id, {en: body.name.en, ua: body.name.ua})
+            await this.attributeRepository.update(attribute.id, {scaling_from: body.scaling_from})
 
         } else {
             attribute = this.attributeRepository.create()
