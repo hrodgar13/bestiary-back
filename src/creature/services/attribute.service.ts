@@ -25,7 +25,7 @@ export class AttributeService {
     }
 
     getOneAttribute(id: number) {
-        
+
     }
 
     async createPatchAttribute(body: CreateAttributeDto, id: number | null = null): Promise<Attribute> {
@@ -34,14 +34,13 @@ export class AttributeService {
         if(id) {
             attribute = await this.attributeRepository.findOne({where: {id}, relations: ['name']})
 
-            attribute.name.en = body.name.en
-            attribute.name.ua = body.name.ua
-
             await this.translationRepository.update(attribute.name.id, {en: body.name.en, ua: body.name.ua})
+            await this.attributeRepository.update(attribute.id, {scaling_from: body.scaling_from})
 
         } else {
             attribute = this.attributeRepository.create()
             attribute.attr_cat = body.attr_cat
+            attribute.scaling_from = body.scaling_from
 
             const attribute_translation = this.translationRepository.create()
 
