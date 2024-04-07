@@ -11,6 +11,9 @@ export class Attribute {
     @Column()
     attr_cat: string
 
+    @Column({nullable: true})
+    scaling_from: string | null
+
     @OneToOne(() => Translation)
     @JoinColumn()
     name: Translation
