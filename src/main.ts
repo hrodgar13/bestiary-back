@@ -7,7 +7,15 @@ import {join} from "path";
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    app.enableCors()
+    app.enableCors({
+        origin: [
+            'http://localhost:4200',
+            'http://viribus-unitis-stage.uk.to/',
+            'http://viribus-unitis.uk.to/'
+        ],
+        methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
+        credentials: true,
+    })
 
     app.use('/uploads', express.static('uploads'))
 
