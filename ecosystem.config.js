@@ -3,7 +3,7 @@ require('dotenv').config();
 module.exports = {
     apps: [
         {
-            name: 'Viribus-unitis',
+            name: 'vu-stage',
             script: 'dist/main.js',
             instances: 1,
             autorestart: true,
@@ -19,7 +19,15 @@ module.exports = {
                 TYPEORM_PORT: process.env.TYPEORM_PORT,
                 PORT: process.env.PORT,
             },
-            env_production: {
+        },
+        {
+            name: 'vu-prod',
+            script: 'dist/main.js',
+            instances: 1,
+            autorestart: false,
+            watch: false,
+            max_memory_restart: '500M',
+            env: {
                 NODE_ENV: 'production',
                 JWT_SECRET: process.env.JWT_SECRET,
                 ADMIN_EMAIL: process.env.ADMIN_EMAIL,
