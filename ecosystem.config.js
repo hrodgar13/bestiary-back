@@ -10,7 +10,7 @@ module.exports = {
             watch: false,
             max_memory_restart: '500M',
             env: {
-                NODE_ENV: 'production',
+                NODE_ENV: 'development',
                 JWT_SECRET: process.env.JWT_SECRET,
                 ADMIN_EMAIL: process.env.ADMIN_EMAIL,
                 TYPEORM_USERNAME: process.env.TYPEORM_USERNAME,
