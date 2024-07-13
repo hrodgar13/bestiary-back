@@ -1,9 +1,8 @@
-import {Body, Controller, Get, Param, Patch, Post, Query, UseGuards} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards} from "@nestjs/common";
 import {CreateCreatureDto} from "../dtos/creature/create/create-creature.dto";
 import {CreatureService} from "../services/creature.service";
 import {JwtAuthGuard} from "../../auth/guards/jwt.guard";
 import {Roles} from "../../auth/decorators/roles.decorator";
-import {RolesGuard} from "../../auth/guards/roles.guard";
 import {RolesEnum} from "../../auth/roles/roles.enum";
 
 @Controller('creature')
@@ -34,5 +33,12 @@ export class CreatureController {
     @Get('list/:id')
     getOneCreature(@Param('id') id: number) {
         return this.creatureService.getOneCreature(id)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Roles([RolesEnum.ADMIN])
+    @Delete('action-ability/:id')
+    deleteActionAbility(@Param('id') id: number) {
+        return this.creatureService.deleteActionAbility(id)
     }
 }
