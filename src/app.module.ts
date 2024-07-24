@@ -16,6 +16,13 @@ import {FileUploadService} from "./creature/services/file-upload.service";
 import {FileUploadController} from "./creature/contollers/file-upload.controller";
 import {ConfigModule, ConfigService} from "@nestjs/config";
 import {Request} from "./auth/entities/messages.entity";
+import {UserProfile} from "./user/entities/user-profile.entity";
+import {Universe} from "./user/entities/universe.entity";
+import {DungeonSubscription} from "./user/entities/dungeon.subscription";
+import {UniverseCategory} from "./user/entities/universe-category.entity";
+import {UniverseCategoryItem} from "./user/entities/universe-category-item.entity";
+import {UniverseHat} from "./user/entities/universe-hat.entity";
+import {UniverseStructureParagraph} from "./user/entities/universe-stucture-paragraph.entity";
 
 @Module({
     imports: [
@@ -39,7 +46,14 @@ import {Request} from "./auth/entities/messages.entity";
                     Translation,
                     Attribute,
                     Measure,
-                    Request
+                    Request,
+                    DungeonSubscription,
+                    Universe,
+                    UniverseCategory,
+                    UniverseCategoryItem,
+                    UniverseHat,
+                    UniverseStructureParagraph,
+                    UserProfile,
                 ],
                 synchronize: true,
             }),
