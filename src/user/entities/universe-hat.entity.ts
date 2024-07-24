@@ -3,8 +3,6 @@ import {IMAGE_POSITIONS} from "../static/enums";
 import {UniverseStructureParagraph} from "./universe-stucture-paragraph.entity";
 import {Universe} from "./universe.entity";
 
-
-
 @Entity()
 export class UniverseHat {
     @PrimaryGeneratedColumn()
