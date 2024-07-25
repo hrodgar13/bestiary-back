@@ -27,12 +27,11 @@ export class UserService {
 
         let userProfile = await this.userProfileRepository.findOne({where: {user: {id: userId}}, relations: ['user', 'subscription']})
 
-        console.log(userProfile)
-
         if(!userProfile) {
             userProfile = this.userProfileRepository.create({
                 dateOfCreation: new Date(),
-                user
+                user,
+                subscription: await this.subscriptionRepository.findOne({where: {type: 'The Adventurer'}})
             })
 
             await this.userProfileRepository.save(userProfile)
