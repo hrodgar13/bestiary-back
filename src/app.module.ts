@@ -25,6 +25,8 @@ import {UniverseHat} from "./user/entities/universe-hat.entity";
 import {UniverseStructureParagraph} from "./user/entities/universe-stucture-paragraph.entity";
 import {UserController} from "./user/controllers/user.controller";
 import {UserService} from "./user/services/user.service";
+import {UniverseController} from "./user/controllers/universe.controller";
+import {UniverseService} from "./user/services/universe.service";
 
 @Module({
     imports: [
@@ -82,12 +84,14 @@ import {UserService} from "./user/services/user.service";
     controllers: [
         AppController,
         FileUploadController,
-        UserController
+        UserController,
+        UniverseController
     ],
     providers: [
         AppService,
         FileUploadService,
-        UserService
+        UserService,
+        UniverseService
     ],
 })
 export class AppModule {
