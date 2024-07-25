@@ -21,6 +21,9 @@ export class UserProfile {
     @JoinColumn()
     user: User
 
+    @Column({nullable: true})
+    dateOfExpireSub: Date
+
     @ManyToOne(() => DungeonSubscription, (ds) => ds.users)
     subscription: DungeonSubscription
 

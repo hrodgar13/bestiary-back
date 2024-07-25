@@ -12,9 +12,6 @@ export class DungeonSubscription {
     type: string
 
     @Column()
-    dateOfExpire: Date
-
-    @Column()
     subPhotoUrl: string
 
     @OneToMany(() => UserProfile, (up) => up.subscription )

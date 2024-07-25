@@ -23,6 +23,8 @@ import {UniverseCategory} from "./user/entities/universe-category.entity";
 import {UniverseCategoryItem} from "./user/entities/universe-category-item.entity";
 import {UniverseHat} from "./user/entities/universe-hat.entity";
 import {UniverseStructureParagraph} from "./user/entities/universe-stucture-paragraph.entity";
+import {UserController} from "./user/controllers/user.controller";
+import {UserService} from "./user/services/user.service";
 
 @Module({
     imports: [
@@ -67,16 +69,25 @@ import {UniverseStructureParagraph} from "./user/entities/universe-stucture-para
             Translation,
             Attribute,
             Measure,
-            Request
+            Request,
+            DungeonSubscription,
+            Universe,
+            UniverseCategory,
+            UniverseCategoryItem,
+            UniverseHat,
+            UniverseStructureParagraph,
+            UserProfile,
         ]),
     ],
     controllers: [
         AppController,
-        FileUploadController
+        FileUploadController,
+        UserController
     ],
     providers: [
         AppService,
-        FileUploadService
+        FileUploadService,
+        UserService
     ],
 })
 export class AppModule {
