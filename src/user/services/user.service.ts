@@ -4,7 +4,7 @@ import {User} from "../../auth/entities/user.entity";
 import {Repository} from "typeorm";
 import {UserProfile} from "../entities/user-profile.entity";
 import {DungeonSubscription} from "../entities/dungeon.subscription";
-import {UserProfileDto} from "../dtos/user-profile.dto";
+import {UpdateProfileDto, UserProfileDto} from "../dtos/user-profile.dto";
 
 @Injectable()
 export class UserService {
@@ -48,5 +48,19 @@ export class UserService {
             dateOfExpireSub: userProfile.dateOfExpireSub,
             subscription: userSub,
         }
+    }
+
+    async updateProfile(userId: number, payload: UpdateProfileDto): Promise<{message: string}> {
+        const user = await this.userRepository.findOne({where: {id: userId}})
+
+        if(!user) {
+            throw new NotFoundException('User not found')
+        }
+
+        let userProfile = await this.userProfileRepository.findOne({where: {user: {id: userId}}, relations: ['user', 'subscription']})
+
+        await this.userProfileRepository.update(userProfile.id, {...payload})
+
+        return {message: 'success'}
     }
 }

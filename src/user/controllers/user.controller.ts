@@ -1,7 +1,7 @@
-import {Controller, Get, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Post, Req, UseGuards} from '@nestjs/common';
 import {UserService} from "../services/user.service";
 import {JwtAuthGuard} from "../../auth/guards/jwt.guard";
-import {UserProfileDto} from "../dtos/user-profile.dto";
+import {UpdateProfileDto, UserProfileDto} from "../dtos/user-profile.dto";
 
 @Controller('user')
 export class UserController {
@@ -16,5 +16,11 @@ export class UserController {
         @Req() req: any
     ): Promise<UserProfileDto> {
         return this.userService.getUserProfile(req.sub)
+    }
+
+    @Post('profile/update')
+    @UseGuards(JwtAuthGuard)
+    updateProfile(@Req() req: any, @Body() payload: UpdateProfileDto): Promise<any> {
+        return this.userService.updateProfile(req.sub, payload)
     }
 }

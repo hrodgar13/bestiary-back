@@ -1,4 +1,3 @@
-import {Column} from "typeorm";
 
 export class UserProfileDto {
     id: number
@@ -10,8 +9,13 @@ export class UserProfileDto {
     dateOfExpireSub?: Date
 }
 
-export interface DungeonMasterSubscriptionDto {
-    id: number,
+export class DungeonMasterSubscriptionDto {
+    id: number
     type: string
     subPhotoUrl: string
+}
+
+export class UpdateProfileDto {
+    avatarUrl?: string
+    name?: string
 }
