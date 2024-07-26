@@ -1,4 +1,4 @@
-import {Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {UniverseHat} from "./universe-hat.entity";
 import {UniverseCategory} from "./universe-category.entity";
 import {UserProfile} from "./user-profile.entity";
@@ -10,6 +10,9 @@ export class Universe {
 
     @OneToOne(() => UniverseHat)
     hat: UniverseHat
+
+    @Column('text', { array: true })
+    filterCategories: string[]
 
     @OneToMany(() => UniverseCategory, (uc) => uc.universe )
     categories: UniverseCategory[]

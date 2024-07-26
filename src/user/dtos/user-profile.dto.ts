@@ -19,3 +19,7 @@ export class UpdateProfileDto {
     avatarUrl?: string
     name?: string
 }
+
+export class CreateUniverseDto {
+    id: number
+}
