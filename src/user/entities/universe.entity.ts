@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {UniverseHat} from "./universe-hat.entity";
 import {UniverseCategory} from "./universe-category.entity";
 import {UserProfile} from "./user-profile.entity";
@@ -9,6 +9,7 @@ export class Universe {
     id: number;
 
     @OneToOne(() => UniverseHat)
+    @JoinColumn()
     hat: UniverseHat
 
     @Column('text', { array: true })

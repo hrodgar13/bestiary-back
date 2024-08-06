@@ -18,11 +18,12 @@ export class UniverseStructureParagraph {
         type: "enum",
         enum: STRUCTURE_PARAGRAPH_TYPES
     })
+    type: STRUCTURE_PARAGRAPH_TYPES
 
-    @ManyToOne(() => UniverseHat, (uh) => uh.description)
+    @ManyToOne(() => UniverseHat, (uh) => uh.description, { nullable: true })
     hat: UniverseHat
 
-    @ManyToOne(() => UniverseCategoryItem, (uci) => uci.information)
+    @ManyToOne(() => UniverseCategoryItem, (uci) => uci.information, { nullable: true })
     categoryItem: UniverseCategoryItem
 
     @Column({type: 'jsonb'})
