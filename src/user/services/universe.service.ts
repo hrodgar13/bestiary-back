@@ -93,8 +93,6 @@ export class UniverseService {
 
         await this.universeRepository.save(universe)
 
-        console.log(universe)
-
         return {message: 'WORK'}
     }
 
