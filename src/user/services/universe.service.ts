@@ -7,8 +7,6 @@ import {UserProfile} from "../entities/user-profile.entity";
 import {CreateUniverseDto} from "../dtos/user-profile.dto";
 import {UniverseStructureParagraph} from "../entities/universe-stucture-paragraph.entity";
 import {UniverseHat} from "../entities/universe-hat.entity";
-import {IMAGE_POSITIONS, STRUCTURE_PARAGRAPH_TYPES} from "../static/enums";
-import {UniverseCategoryItem} from "../entities/universe-category-item.entity";
 
 @Injectable()
 export class UniverseService {
@@ -27,12 +25,12 @@ export class UniverseService {
     async getUniverseList(userId: number): Promise<UniverseListItemDto[]> {
         const universes = await this.universeRepository.find({
             where: {userProfile: {user: {id: userId}}},
-            relations: ['userProfile', 'userProfile.user']
+            relations: ['userProfile', 'userProfile.user', 'hat']
         })
 
         let universeList: UniverseListItemDto[] = []
-
         universes.forEach(item => {
+            console.log(item.hat)
             universeList.push({
                 id: item.id,
                 title: item.hat && item.hat.universeName ? item.hat.universeName : 'No Name',
@@ -59,8 +57,9 @@ export class UniverseService {
 
     async getUniverseById(sub: number, id: number) {
         const universe = await this.universeRepository.findOne({
-            where: {userProfile: {user: {id: sub}}},
-            relations: ['userProfile', 'userProfile.user']
+            where: {
+                userProfile: {user: {id: sub}}, id},
+            relations: ['userProfile', 'userProfile.user', 'hat', 'hat.description', 'categories', ]
         })
 
         delete universe.userProfile

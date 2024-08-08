@@ -15,12 +15,12 @@ export class UserController {
     getUserProfile(
         @Req() req: any
     ): Promise<UserProfileDto> {
-        return this.userService.getUserProfile(req.sub)
+        return this.userService.getUserProfile(req.user.id)
     }
 
     @Post('profile/update')
     @UseGuards(JwtAuthGuard)
     updateProfile(@Req() req: any, @Body() payload: UpdateProfileDto): Promise<any> {
-        return this.userService.updateProfile(req.sub, payload)
+        return this.userService.updateProfile(req.user.id, payload)
     }
 }

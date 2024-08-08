@@ -15,24 +15,24 @@ export class UniverseController {
     @Get('universe-list')
     @UseGuards(JwtAuthGuard)
     getUniverseList(@Req() req: any): Promise<UniverseListItemDto[]> {
-        return this.universeService.getUniverseList(req.sub)
+        return this.universeService.getUniverseList(req.user.id)
     }
 
     @Post('universe')
     @UseGuards(JwtAuthGuard)
     createUniverse(@Req() req: any): Promise<CreateUniverseDto> {
-        return this.universeService.createUniverse(req.sub)
+        return this.universeService.createUniverse(req.user.id)
     }
 
     @Get('universe/:id')
     @UseGuards(JwtAuthGuard)
     getUniverseById(@Req() req: any, @Param('id') id: number) {
-        return this.universeService.getUniverseById(req.sub, id)
+        return this.universeService.getUniverseById(req.user.id, id)
     }
 
     @Post('universe/:id/hat')
     @UseGuards(JwtAuthGuard)
     createHat(@Req() req: any, @Param('id') id: number, @Body() payload: UniverseHatDto) {
-        return this.universeService.createUniverseHat(req.sub, id, payload)
+        return this.universeService.createUniverseHat(req.user.id, id, payload)
     }
 }
