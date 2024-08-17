@@ -1,12 +1,18 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, Repository} from "typeorm";
-import {UniverseHatDto, UniverseListItemDto, UniverseStructureParagraphDto} from "../dtos/universe.dto";
+import {
+    UniverseCategoryDto,
+    UniverseHatDto,
+    UniverseListItemDto,
+    UniverseStructureParagraphDto
+} from "../dtos/universe.dto";
 import {Universe} from "../entities/universe.entity";
 import {UserProfile} from "../entities/user-profile.entity";
 import {CreateUniverseDto} from "../dtos/user-profile.dto";
 import {UniverseStructureParagraph} from "../entities/universe-stucture-paragraph.entity";
 import {UniverseHat} from "../entities/universe-hat.entity";
+import {UniverseCategory} from "../entities/universe-category.entity";
 
 @Injectable()
 export class UniverseService {
@@ -19,6 +25,8 @@ export class UniverseService {
         private readonly paragraphRepository: Repository<UniverseStructureParagraph>,
         @InjectRepository(UniverseHat)
         private readonly universeHatRepository: Repository<UniverseHat>,
+        @InjectRepository(UniverseCategory)
+        private readonly universeCategoryRepository: Repository<UniverseCategory>
     ) {
     }
 
@@ -103,5 +111,40 @@ export class UniverseService {
         }
 
         return await this.paragraphRepository.save(description)
+    }
+
+    async createCategory(userId: number, universeId: number, payload: UniverseCategoryDto) {
+        const universe = await this.universeRepository.findOne({
+            where: {id: universeId, userProfile: {user: {id: userId}}},
+            relations: ['userProfile', 'userProfile.user']
+        })
+
+        if(!universe) {
+            throw new HttpException('Error of founding universe', HttpStatus.BAD_REQUEST)
+        }
+
+        const category = this.universeCategoryRepository.create({
+            title: payload.title,
+            universe
+        })
+
+        return this.universeCategoryRepository.save(category)
+    }
+
+    async updateCategory(userId: number, universeId: number, payload: UniverseCategoryDto) {
+        if(!payload.id) {
+            throw new HttpException('Category id undefined', HttpStatus.BAD_REQUEST)
+        }
+
+        const category = await this.universeCategoryRepository.findOne({
+            where: {id: payload.id, universe: {id: universeId, userProfile: {user: {id: userId}}}},
+            relations: ['universe', 'universe.userProfile', 'universe.userProfile.user']
+        })
+
+        if(!category) {
+            throw new HttpException('Category not found', HttpStatus.NOT_FOUND)
+        }
+
+        return this.universeCategoryRepository.update(category.id, {title: payload.title})
     }
 }

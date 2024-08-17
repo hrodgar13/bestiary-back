@@ -22,3 +22,8 @@ export interface UniverseStructureParagraphDto {
     type: STRUCTURE_PARAGRAPH_TYPES
     metadata: JSON
 }
+
+export interface UniverseCategoryDto {
+    id?: number
+    title: string
+}
