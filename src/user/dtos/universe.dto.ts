@@ -27,3 +27,9 @@ export interface UniverseCategoryDto {
     id?: number
     title: string
 }
+
+export interface UniverseCategoryItemDto {
+    id?: number
+    title: string
+    information: UniverseStructureParagraphDto[]
+}

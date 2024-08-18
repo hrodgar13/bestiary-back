@@ -2,7 +2,7 @@ import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/
 import {InjectRepository} from "@nestjs/typeorm";
 import {Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, Repository} from "typeorm";
 import {
-    UniverseCategoryDto,
+    UniverseCategoryDto, UniverseCategoryItemDto,
     UniverseHatDto,
     UniverseListItemDto,
     UniverseStructureParagraphDto
@@ -13,6 +13,7 @@ import {CreateUniverseDto} from "../dtos/user-profile.dto";
 import {UniverseStructureParagraph} from "../entities/universe-stucture-paragraph.entity";
 import {UniverseHat} from "../entities/universe-hat.entity";
 import {UniverseCategory} from "../entities/universe-category.entity";
+import {UniverseCategoryItem} from "../entities/universe-category-item.entity";
 
 @Injectable()
 export class UniverseService {
@@ -26,7 +27,9 @@ export class UniverseService {
         @InjectRepository(UniverseHat)
         private readonly universeHatRepository: Repository<UniverseHat>,
         @InjectRepository(UniverseCategory)
-        private readonly universeCategoryRepository: Repository<UniverseCategory>
+        private readonly universeCategoryRepository: Repository<UniverseCategory>,
+        @InjectRepository(UniverseCategoryItem)
+        private readonly universeCategoryItemRepository: Repository<UniverseCategoryItem>
     ) {
     }
 
@@ -66,8 +69,9 @@ export class UniverseService {
     async getUniverseById(sub: number, id: number) {
         const universe = await this.universeRepository.findOne({
             where: {
-                userProfile: {user: {id: sub}}, id},
-            relations: ['userProfile', 'userProfile.user', 'hat', 'hat.description', 'categories', ]
+                userProfile: {user: {id: sub}}, id
+            },
+            relations: ['userProfile', 'userProfile.user', 'hat', 'hat.description', 'categories', 'categories.items']
         })
 
         delete universe.userProfile
@@ -119,7 +123,7 @@ export class UniverseService {
             relations: ['userProfile', 'userProfile.user']
         })
 
-        if(!universe) {
+        if (!universe) {
             throw new HttpException('Error of founding universe', HttpStatus.BAD_REQUEST)
         }
 
@@ -132,7 +136,7 @@ export class UniverseService {
     }
 
     async updateCategory(userId: number, universeId: number, payload: UniverseCategoryDto) {
-        if(!payload.id) {
+        if (!payload.id) {
             throw new HttpException('Category id undefined', HttpStatus.BAD_REQUEST)
         }
 
@@ -141,10 +145,55 @@ export class UniverseService {
             relations: ['universe', 'universe.userProfile', 'universe.userProfile.user']
         })
 
-        if(!category) {
+        if (!category) {
             throw new HttpException('Category not found', HttpStatus.NOT_FOUND)
         }
 
         return this.universeCategoryRepository.update(category.id, {title: payload.title})
+    }
+
+    async createCategoryItem(userId: number, universeId: number, categoryId: number, payload: UniverseCategoryItemDto) {
+        const category = await this.universeCategoryRepository.findOne({
+            where: {id: categoryId, universe: {id: universeId, userProfile: {user: {id: userId}}}},
+            relations: ['universe', 'universe.userProfile', 'universe.userProfile.user']
+        })
+
+        if (!category) {
+            throw new HttpException('Category not found', HttpStatus.NOT_FOUND)
+        }
+
+        let categoryItem: UniverseCategoryItem
+
+        if (payload.id) {
+            categoryItem = await this.universeCategoryItemRepository.findOne({
+                where: {id: payload.id, category: {id: category.id}},
+                relations: ['category', 'information']
+            })
+
+            if(!categoryItem) {
+                throw new HttpException('Error of founding category item to editing', HttpStatus.NOT_FOUND)
+            }
+
+            for (const item of categoryItem.information) {
+                await this.paragraphRepository.delete(item.id)
+            }
+
+            categoryItem.title = payload.title
+            categoryItem.information = await this.paragraphRepository.save(payload.information)
+        } else {
+            const information = await this.paragraphRepository.save(payload.information)
+
+            console.log(information)
+
+            categoryItem = this.universeCategoryItemRepository.create({
+                category,
+                title: payload.title,
+                information
+            })
+        }
+
+
+
+        return this.universeCategoryItemRepository.save(categoryItem)
     }
 }
