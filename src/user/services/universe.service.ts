@@ -71,7 +71,7 @@ export class UniverseService {
             where: {
                 userProfile: {user: {id: sub}}, id
             },
-            relations: ['userProfile', 'userProfile.user', 'hat', 'hat.description', 'categories', 'categories.items']
+            relations: ['userProfile', 'userProfile.user', 'hat', 'hat.description', 'categories']
         })
 
         delete universe.userProfile
@@ -182,8 +182,6 @@ export class UniverseService {
             categoryItem.information = await this.paragraphRepository.save(payload.information)
         } else {
             const information = await this.paragraphRepository.save(payload.information)
-
-            console.log(information)
 
             categoryItem = this.universeCategoryItemRepository.create({
                 category,
