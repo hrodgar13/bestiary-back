@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Patch, Post, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Param, Patch, Post, Query, Req, UseGuards} from '@nestjs/common';
 import {UniverseService} from "../services/universe.service";
 import {JwtAuthGuard} from "../../auth/guards/jwt.guard";
 import {UniverseCategoryDto, UniverseCategoryItemDto, UniverseHatDto, UniverseListItemDto} from "../dtos/universe.dto";
@@ -52,5 +52,11 @@ export class UniverseController {
     @UseGuards(JwtAuthGuard)
     createCategoryItem(@Req() req: any, @Param('universeId') universeId: number, @Param('categoryId') categoryId: number, @Body() payload: UniverseCategoryItemDto) {
         return this.universeService.createCategoryItem(req.user.id, universeId, categoryId, payload)
+    }
+
+    @Get('universe/:universeId/category/:categoryId')
+    @UseGuards(JwtAuthGuard)
+    getCategoryItems(@Req() req: any, @Param('universeId') universeId: number, @Param('categoryId') categoryId: number, @Query('page') page: number, @Query('title') title: string ) {
+        return this.universeService.getCategoryItems(req.user.id, universeId, categoryId, page, title)
     }
 }

@@ -194,4 +194,37 @@ export class UniverseService {
 
         return this.universeCategoryItemRepository.save(categoryItem)
     }
+
+    async getCategoryItems(userId: number, universeId: number, categoryId: number, page: number = 1, title: string|null = null) { // Calculate offset for pagination
+        const perPage = 10
+        const offset = (page - 1) * perPage;
+
+        // Build the query with pagination and filtering by title
+        const query = this.universeCategoryItemRepository.createQueryBuilder('categoryItem')
+            .leftJoin('categoryItem.category', 'category')
+            .leftJoinAndSelect('categoryItem.information', 'information')
+            .andWhere('category.id = :categoryId', {categoryId})
+            .leftJoin('category.universe', 'universe')
+            .andWhere('universe.id = :universeId', {universeId})
+            .leftJoin('universe.userProfile', 'profile')
+            .leftJoin('profile.user', 'user')
+            .andWhere('user.id = :userId', {userId})
+
+        if (title) {
+            query.andWhere('categoryItem.title LIKE :title', { title: `%${title}%` });
+        }
+
+        // Get total count for pagination
+        const [items, total] = await query
+            .skip(offset)
+            .take(perPage)
+            .getManyAndCount();
+
+        return {
+            total,
+            items,
+            page,
+            totalPages: Math.ceil(total / perPage),
+        };
+    }
 }
