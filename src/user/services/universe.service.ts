@@ -1,4 +1,4 @@
-import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, Repository} from "typeorm";
 import {
@@ -245,6 +245,10 @@ export class UniverseService {
                 'category.universe.userProfile.user'
             ]
         })
+
+        if(!categoryItem) {
+            throw new BadRequestException('Error of getting category Item')
+        }
 
         delete categoryItem.category
 
