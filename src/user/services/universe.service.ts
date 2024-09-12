@@ -227,4 +227,27 @@ export class UniverseService {
             totalPages: Math.ceil(total / perPage),
         };
     }
+
+    async getCategoryItemById(userId: number, universeId: number, categoryId: number, itemId: number): Promise<UniverseCategoryItem> {
+        const categoryItem = await this.universeCategoryItemRepository.findOne({where: {
+            id: itemId,
+            category: {
+                id: categoryId, universe: {
+                    id: universeId, userProfile: {user: {
+                        id: userId
+                    }}
+                }},
+            }, relations: [
+                'information',
+                'category',
+                'category.universe',
+                'category.universe.userProfile',
+                'category.universe.userProfile.user'
+            ]
+        })
+
+        delete categoryItem.category
+
+        return categoryItem
+    }
 }

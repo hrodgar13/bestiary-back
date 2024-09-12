@@ -59,4 +59,10 @@ export class UniverseController {
     getCategoryItems(@Req() req: any, @Param('universeId') universeId: number, @Param('categoryId') categoryId: number, @Query('page') page: number, @Query('title') title: string ) {
         return this.universeService.getCategoryItems(req.user.id, universeId, categoryId, page, title)
     }
+
+    @Get('universe/:universeId/category/:categoryId/item/:itemId')
+    @UseGuards(JwtAuthGuard)
+    getCategoryItemById(@Req() req: any, @Param('universeId') universeId: number, @Param('categoryId') categoryId: number, @Param('itemId') itemId: number) {
+        return this.universeService.getCategoryItemById(req.user.id, universeId, categoryId, itemId)
+    }
 }
