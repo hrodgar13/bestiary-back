@@ -253,4 +253,28 @@ export class UniverseService {
 
         return categoryItem
     }
+
+    async deleteCategoryItem(userId: number, categoryItemId: number) {
+        try {
+            const categoryItem = await this.universeCategoryItemRepository.createQueryBuilder('categoryItem')
+                .andWhere('categoryItem.id = :categoryItemId', {categoryItemId})
+                .leftJoin('categoryItem.category', 'category')
+                .leftJoin('category.universe', 'universe')
+                .leftJoin('universe.userProfile', 'userProfile')
+                .leftJoin('userProfile.user', 'user')
+                .andWhere('user.id = :userId', {userId})
+                .getOne()
+
+            if(!categoryItem) {
+                throw new NotFoundException('Item not found')
+            }
+
+            await this.universeCategoryItemRepository.delete(categoryItemId)
+
+            return {message: 'Item Deleted'}
+        } catch (err) {
+            throw err
+        }
+
+    }
 }

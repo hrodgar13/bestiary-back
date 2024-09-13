@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Patch, Post, Query, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards} from '@nestjs/common';
 import {UniverseService} from "../services/universe.service";
 import {JwtAuthGuard} from "../../auth/guards/jwt.guard";
 import {UniverseCategoryDto, UniverseCategoryItemDto, UniverseHatDto, UniverseListItemDto} from "../dtos/universe.dto";
@@ -64,5 +64,11 @@ export class UniverseController {
     @UseGuards(JwtAuthGuard)
     getCategoryItemById(@Req() req: any, @Param('universeId') universeId: number, @Param('categoryId') categoryId: number, @Param('itemId') itemId: number) {
         return this.universeService.getCategoryItemById(req.user.id, universeId, categoryId, itemId)
+    }
+
+    @Delete('universe/category/item/:categoryItemId')
+    @UseGuards(JwtAuthGuard)
+    deleteCategoryItemBy(@Req() req: any, @Param('categoryItemId') categoryItemId: number) {
+        return this.universeService.deleteCategoryItem(req.user.id, categoryItemId)
     }
 }
