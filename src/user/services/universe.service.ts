@@ -41,7 +41,6 @@ export class UniverseService {
 
         let universeList: UniverseListItemDto[] = []
         universes.forEach(item => {
-            console.log(item.hat)
             universeList.push({
                 id: item.id,
                 title: item.hat && item.hat.universeName ? item.hat.universeName : 'No Name',

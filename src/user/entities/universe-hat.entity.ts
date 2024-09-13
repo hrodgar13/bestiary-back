@@ -11,7 +11,7 @@ export class UniverseHat {
     @Column()
     universeName: string
 
-    @OneToMany(() => UniverseStructureParagraph, (usp) => usp.hat)
+    @OneToMany(() => UniverseStructureParagraph, (usp) => usp.hat, {cascade: true})
     description: UniverseStructureParagraph[]
 
     @Column('text', { array: true })

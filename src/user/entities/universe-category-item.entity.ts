@@ -10,9 +10,9 @@ export class UniverseCategoryItem {
     @Column()
     title: string
 
-    @OneToMany(() => UniverseStructureParagraph, (usp) => usp.categoryItem)
+    @OneToMany(() => UniverseStructureParagraph, (usp) => usp.categoryItem, { cascade: true })
     information: UniverseStructureParagraph[]
 
-    @ManyToOne(() => UniverseCategory, (uc) => uc.items)
+    @ManyToOne(() => UniverseCategory, (uc) => uc.items, { onDelete: 'CASCADE' })
     category: UniverseCategory
 }

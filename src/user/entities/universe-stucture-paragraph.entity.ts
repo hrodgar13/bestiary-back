@@ -20,10 +20,10 @@ export class UniverseStructureParagraph {
     })
     type: STRUCTURE_PARAGRAPH_TYPES
 
-    @ManyToOne(() => UniverseHat, (uh) => uh.description, { nullable: true })
+    @ManyToOne(() => UniverseHat, (uh) => uh.description, { nullable: true, onDelete: 'CASCADE' })
     hat: UniverseHat
 
-    @ManyToOne(() => UniverseCategoryItem, (uci) => uci.information, { nullable: true })
+    @ManyToOne(() => UniverseCategoryItem, (uci) => uci.information, { nullable: true, onDelete: 'CASCADE' })
     categoryItem: UniverseCategoryItem
 
     @Column({type: 'jsonb'})

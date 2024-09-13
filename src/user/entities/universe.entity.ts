@@ -8,14 +8,14 @@ export class Universe {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @OneToOne(() => UniverseHat)
+    @OneToOne(() => UniverseHat, {onDelete: 'CASCADE', cascade: true})
     @JoinColumn()
     hat: UniverseHat
 
     @Column('text', { array: true })
     filterCategories: string[]
 
-    @OneToMany(() => UniverseCategory, (uc) => uc.universe )
+    @OneToMany(() => UniverseCategory, (uc) => uc.universe, { cascade: true } )
     categories: UniverseCategory[]
 
     @ManyToOne(() => UserProfile, (up) => up.universes)
