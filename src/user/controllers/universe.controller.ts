@@ -71,4 +71,16 @@ export class UniverseController {
     deleteCategoryItemBy(@Req() req: any, @Param('categoryItemId') categoryItemId: number) {
         return this.universeService.deleteCategoryItem(req.user.id, categoryItemId)
     }
+
+    @Delete('/universe/category/:categoryId')
+    @UseGuards(JwtAuthGuard)
+    deleteCategory(@Req() req: any, @Param('categoryId') categoryId: number) {
+        return this.universeService.deleteCategory(req.user.id, categoryId)
+    }
+
+    @Delete('universe/:universeId')
+    @UseGuards(JwtAuthGuard)
+    deleteUniverse(@Req() req: any, @Param('universeId') universeId: number) {
+        return this.universeService.deleteUniverse(req.user.id, universeId)
+    }
 }

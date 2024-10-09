@@ -103,7 +103,7 @@ export class UniverseService {
 
         await this.universeRepository.save(universe)
 
-        return {message: 'WORK'}
+        return {message: 'Hat configured', id: hat.id}
     }
 
     private async createArrayOfParagraphs(description: UniverseStructureParagraphDto[], existingParagraphs: UniverseStructureParagraph[] | null) {
@@ -189,9 +189,9 @@ export class UniverseService {
             })
         }
 
+        await this.universeCategoryItemRepository.save(categoryItem)
 
-
-        return this.universeCategoryItemRepository.save(categoryItem)
+        return {message: 'Item configured', id: categoryItem.id}
     }
 
     async getCategoryItems(userId: number, universeId: number, categoryId: number, page: number = 1, title: string|null = null) { // Calculate offset for pagination
@@ -276,5 +276,56 @@ export class UniverseService {
             throw err
         }
 
+    }
+
+    async deleteCategory(id: number, categoryId: number) {
+        if(!id || !categoryId) {
+            throw new BadRequestException('Not all data provided id: ' + id + ' category: ' + categoryId)
+        }
+
+        try {
+            const category = await this.universeCategoryRepository.createQueryBuilder('category')
+                .andWhere('category.id = :categoryId', {categoryId})
+                .leftJoin('category.universe', 'universe')
+                .leftJoin('universe.userProfile', 'userProfile')
+                .leftJoin('userProfile.user', 'user')
+                .andWhere('user.id = :userId', {userId: id})
+                .getOne()
+
+            if(!category) {
+                throw new BadRequestException('Error of founding category')
+            }
+
+            await this.universeCategoryRepository.delete(category.id)
+
+            return {message: 'Category deleted'}
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async deleteUniverse(id: number, universeId: number) {
+        if(!id || !universeId) {
+            throw new BadRequestException('Not all data provided id: ' + id + ' universe: ' + universeId)
+        }
+
+        try {
+            const universe = await this.universeRepository.createQueryBuilder('universe')
+                .andWhere('universe.id = :universeId', {universeId})
+                .leftJoin('universe.userProfile', 'userProfile')
+                .leftJoin('userProfile.user', 'user')
+                .andWhere('user.id = :userId', {userId: id})
+                .getOne()
+
+            if(!universe) {
+                throw new BadRequestException('Error of founding universe')
+            }
+
+            await this.universeRepository.delete(universe.id)
+
+            return {message: 'Universe deleted'}
+        } catch (err) {
+            throw err
+        }
     }
 }
