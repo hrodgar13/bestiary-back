@@ -27,6 +27,7 @@ import {UserController} from "./user/controllers/user.controller";
 import {UserService} from "./user/services/user.service";
 import {UniverseController} from "./user/controllers/universe.controller";
 import {UniverseService} from "./user/services/universe.service";
+import {UniverseTag} from "./user/entities/tags.entity";
 
 @Module({
     imports: [
@@ -43,6 +44,7 @@ import {UniverseService} from "./user/services/universe.service";
                 password: configService.get('TYPEORM_PASSWORD'),
                 database: configService.get('TYPEORM_DATABASE'),
                 entities: [
+                    UniverseTag,
                     User,
                     Creature,
                     ActionsAbilities,
@@ -64,6 +66,7 @@ import {UniverseService} from "./user/services/universe.service";
             inject: [ConfigService]
         }),
         TypeOrmModule.forFeature([
+            UniverseTag,
             User,
             Creature,
             ActionsAbilities,

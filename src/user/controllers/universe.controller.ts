@@ -3,7 +3,9 @@ import {UniverseService} from "../services/universe.service";
 import {JwtAuthGuard} from "../../auth/guards/jwt.guard";
 import {UniverseCategoryDto, UniverseCategoryItemDto, UniverseHatDto, UniverseListItemDto} from "../dtos/universe.dto";
 import {CreateUniverseDto} from "../dtos/user-profile.dto";
-import {UniverseHat} from "../entities/universe-hat.entity";
+import {Roles} from "../../auth/decorators/roles.decorator";
+import {RolesEnum} from "../../auth/roles/roles.enum";
+import {CreateTagDto} from "../dtos/create-tag.dto";
 
 @Controller('settings')
 export class UniverseController {
@@ -82,5 +84,38 @@ export class UniverseController {
     @UseGuards(JwtAuthGuard)
     deleteUniverse(@Req() req: any, @Param('universeId') universeId: number) {
         return this.universeService.deleteUniverse(req.user.id, universeId)
+    }
+
+    @Post('universe/tag')
+    @UseGuards(JwtAuthGuard)
+    @Roles([RolesEnum.ADMIN])
+    createTag(@Body() payload: CreateTagDto) {
+        return this.universeService.createTag(payload)
+    }
+
+    @Post('universe/:universeId/tag')
+    @UseGuards(JwtAuthGuard)
+    applyTagToUniverse(@Param('universeId') universeId: number, @Body('tagsIds') tagsIds: number[]) {
+        return this.universeService.applyTagToUniverse(universeId, tagsIds)
+    }
+
+    @Get('universe/tag')
+    @UseGuards(JwtAuthGuard)
+    getAllTags(@Query('id') id: number = 0) {
+        return this.universeService.getAllTags(id)
+    }
+
+    @Delete('universe/tag/:id')
+    @UseGuards(JwtAuthGuard)
+    @Roles([RolesEnum.ADMIN])
+    deleteTag(@Param('id') id: number) {
+        return this.universeService.deleteTag(id)
+    }
+
+    @Patch('universe/tag/:id')
+    @UseGuards(JwtAuthGuard)
+    @Roles([RolesEnum.ADMIN])
+    updateTag(@Body() body: CreateTagDto, @Param('id') id: number) {
+        return this.universeService.patchTag(body, id)
     }
 }

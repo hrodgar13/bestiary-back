@@ -14,6 +14,9 @@ import {UniverseStructureParagraph} from "../entities/universe-stucture-paragrap
 import {UniverseHat} from "../entities/universe-hat.entity";
 import {UniverseCategory} from "../entities/universe-category.entity";
 import {UniverseCategoryItem} from "../entities/universe-category-item.entity";
+import {CreateTagDto} from "../dtos/create-tag.dto";
+import {UniverseTag} from "../entities/tags.entity";
+import {Translation} from "../../creature/entities/translation.entity";
 
 @Injectable()
 export class UniverseService {
@@ -29,7 +32,11 @@ export class UniverseService {
         @InjectRepository(UniverseCategory)
         private readonly universeCategoryRepository: Repository<UniverseCategory>,
         @InjectRepository(UniverseCategoryItem)
-        private readonly universeCategoryItemRepository: Repository<UniverseCategoryItem>
+        private readonly universeCategoryItemRepository: Repository<UniverseCategoryItem>,
+        @InjectRepository(UniverseTag)
+        private readonly universeTagRepository: Repository<UniverseTag>,
+        @InjectRepository(Translation)
+        private readonly translationRepository: Repository<Translation>
     ) {
     }
 
@@ -97,7 +104,6 @@ export class UniverseService {
         const hat = await this.universeHatRepository.save({
             ...payload, description
         })
-
 
         universe.hat = hat
 
@@ -327,5 +333,58 @@ export class UniverseService {
         } catch (err) {
             throw err
         }
+    }
+
+    async createTag(payload: CreateTagDto) {
+        let tag = this.universeTagRepository.create({
+            tagName: {
+                en: payload.en,
+                ua: payload.ua
+            }
+        })
+
+        tag = await this.universeTagRepository.save(tag)
+
+        return {message: 'created', tag}
+    }
+
+    async applyTagToUniverse(universeId: number, tagsIds: number[]) {
+        const tags = await this.universeTagRepository.createQueryBuilder('tag')
+            .where('tag.id IN (...tagsIds)', {tagsIds})
+            .getMany()
+
+        const universe = await this.universeRepository.findOne({where: {id: universeId}})
+
+        universe.filterCategories = tags
+
+        return this.universeRepository.save(universe)
+    }
+
+    async getAllTags(id: number) {
+        let query = this.universeTagRepository.createQueryBuilder('tag')
+
+        if(id) {
+            query = query.where('tag.id IN (:...id)', {id})
+        }
+
+        return query.getMany()
+    }
+
+    async deleteTag(id: number) {
+        if(!id || !Number(id)) {
+            throw new BadRequestException('Id not properly')
+        }
+
+        return this.universeTagRepository.delete(id)
+    }
+
+    async patchTag(body: CreateTagDto, id: number) {
+        const tag = await this.universeTagRepository.findOne({where: {id}, relations: ['tagName']})
+
+        if(!tag) {
+            throw new BadRequestException('Tag not found')
+        }
+
+        return await this.translationRepository.update(tag.tagName.id, {en: body.en, ua: body.ua})
     }
 }

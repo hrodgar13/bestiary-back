@@ -1,7 +1,8 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {UniverseHat} from "./universe-hat.entity";
 import {UniverseCategory} from "./universe-category.entity";
 import {UserProfile} from "./user-profile.entity";
+import {UniverseTag} from "./tags.entity";
 
 @Entity()
 export class Universe {
@@ -12,8 +13,8 @@ export class Universe {
     @JoinColumn()
     hat: UniverseHat
 
-    @Column('text', { array: true })
-    filterCategories: string[]
+    @ManyToMany(() => UniverseTag)
+    filterCategories: UniverseTag[]
 
     @OneToMany(() => UniverseCategory, (uc) => uc.universe, { cascade: true } )
     categories: UniverseCategory[]
