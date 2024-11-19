@@ -86,36 +86,36 @@ export class UniverseController {
         return this.universeService.deleteUniverse(req.user.id, universeId)
     }
 
-    @Post('universe/tag')
+    @Post('universe-tag')
     @UseGuards(JwtAuthGuard)
     @Roles([RolesEnum.ADMIN])
-    createTag(@Body() payload: CreateTagDto) {
+    createTag(@Body('body') payload: CreateTagDto) {
         return this.universeService.createTag(payload)
     }
 
-    @Post('universe/:universeId/tag')
+    @Post('universe-tag/apply/:universeId')
     @UseGuards(JwtAuthGuard)
     applyTagToUniverse(@Param('universeId') universeId: number, @Body('tagsIds') tagsIds: number[]) {
         return this.universeService.applyTagToUniverse(universeId, tagsIds)
     }
 
-    @Get('universe/tag')
+    @Get('universe-tag')
     @UseGuards(JwtAuthGuard)
     getAllTags(@Query('id') id: number = 0) {
         return this.universeService.getAllTags(id)
     }
 
-    @Delete('universe/tag/:id')
+    @Delete('universe-tag/:id')
     @UseGuards(JwtAuthGuard)
     @Roles([RolesEnum.ADMIN])
     deleteTag(@Param('id') id: number) {
         return this.universeService.deleteTag(id)
     }
 
-    @Patch('universe/tag/:id')
+    @Patch('universe-tag/:id')
     @UseGuards(JwtAuthGuard)
     @Roles([RolesEnum.ADMIN])
-    updateTag(@Body() body: CreateTagDto, @Param('id') id: number) {
+    updateTag(@Body('payload') body: CreateTagDto, @Param('id') id: number) {
         return this.universeService.patchTag(body, id)
     }
 }

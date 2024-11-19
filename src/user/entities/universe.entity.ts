@@ -13,7 +13,7 @@ export class Universe {
     @JoinColumn()
     hat: UniverseHat
 
-    @ManyToMany(() => UniverseTag)
+    @ManyToMany(() => UniverseTag, (tag) => tag.universes)
     filterCategories: UniverseTag[]
 
     @OneToMany(() => UniverseCategory, (uc) => uc.universe, { cascade: true } )

@@ -13,7 +13,7 @@ export class UniverseTag {
     @JoinColumn()
     tagName: Translation
 
-    @ManyToMany(() => Universe)
+    @ManyToMany(() => Universe, (universe) => universe.filterCategories)
     @JoinTable({
         name: 'tag_to_universe',
         joinColumn: {

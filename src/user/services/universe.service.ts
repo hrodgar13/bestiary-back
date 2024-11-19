@@ -80,7 +80,15 @@ export class UniverseService {
             relations: ['userProfile', 'userProfile.user', 'hat', 'hat.description', 'categories']
         })
 
+        const tags = await this.universeTagRepository.createQueryBuilder('tag')
+            .leftJoin('tag.universes', 'universes')
+            .andWhere('universes.id = :universeId', {universeId: universe.id})
+            .leftJoinAndSelect('tag.tagName', 'tagName')
+            .getMany()
+
         delete universe.userProfile
+
+        universe.filterCategories = tags ? tags : []
 
         return universe
     }
@@ -336,11 +344,13 @@ export class UniverseService {
     }
 
     async createTag(payload: CreateTagDto) {
+        const translation = await this.translationRepository.save({
+            en: payload.en,
+            ua: payload.ua
+        })
+
         let tag = this.universeTagRepository.create({
-            tagName: {
-                en: payload.en,
-                ua: payload.ua
-            }
+            tagName: translation
         })
 
         tag = await this.universeTagRepository.save(tag)
@@ -349,19 +359,20 @@ export class UniverseService {
     }
 
     async applyTagToUniverse(universeId: number, tagsIds: number[]) {
-        const tags = await this.universeTagRepository.createQueryBuilder('tag')
-            .where('tag.id IN (...tagsIds)', {tagsIds})
-            .getMany()
+        const tags = await this.universeTagRepository.findByIds(tagsIds);
+
+        console.log(...tags)
 
         const universe = await this.universeRepository.findOne({where: {id: universeId}})
 
-        universe.filterCategories = tags
+        universe.filterCategories = [...tags]
 
         return this.universeRepository.save(universe)
     }
 
     async getAllTags(id: number) {
         let query = this.universeTagRepository.createQueryBuilder('tag')
+            .leftJoinAndSelect('tag.tagName', 'tagName')
 
         if(id) {
             query = query.where('tag.id IN (:...id)', {id})
