@@ -16,8 +16,18 @@ export class UniverseController {
 
     @Get('universe-list')
     @UseGuards(JwtAuthGuard)
-    getUniverseList(@Req() req: any): Promise<UniverseListItemDto[]> {
-        return this.universeService.getUniverseList(req.user.id)
+    getUniverseList(@Req() req: any, @Query('title') title: string, @Query('tags') tags: string): Promise<UniverseListItemDto[]> {
+        let tagArr: number[]
+
+        if (!tags.trim()) {
+            tagArr = [];
+        } else {
+            tagArr = tags.split(',')
+                .map(item => parseInt(item.trim(), 10))
+                .filter(num => !isNaN(num));
+        }
+
+        return this.universeService.getUniverseList(req.user.id, title, tagArr)
     }
 
     @Post('universe')

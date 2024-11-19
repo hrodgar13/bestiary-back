@@ -40,11 +40,35 @@ export class UniverseService {
     ) {
     }
 
-    async getUniverseList(userId: number): Promise<UniverseListItemDto[]> {
-        const universes = await this.universeRepository.find({
-            where: {userProfile: {user: {id: userId}}},
-            relations: ['userProfile', 'userProfile.user', 'hat']
-        })
+    async getUniverseList(userId: number, title: string, tagArr: number[]): Promise<UniverseListItemDto[]> {
+        const queryBuilder = this.universeRepository.createQueryBuilder('universe');
+
+        // Build the query
+        queryBuilder
+            .leftJoinAndSelect('universe.userProfile', 'userProfile')
+            .leftJoinAndSelect('userProfile.user', 'user')
+            .leftJoinAndSelect('universe.hat', 'hat')
+            .leftJoinAndSelect('universe.filterCategories', 'filterCategories')
+            .leftJoinAndSelect('filterCategories.tagName', 'tagName')
+            .where('user.id = :userId', { userId });
+
+        // Add optional search by title
+        if (title) {
+            queryBuilder.andWhere('hat.universeName ILIKE :title', { title: `%${title}%` });
+        }
+
+        if (tagArr && tagArr.length > 0) {
+            queryBuilder.andWhere(qb => {
+                const subQuery = qb.subQuery()
+                    .select('tag_to_universe.universe_id')
+                    .from('tag_to_universe', 'tag_to_universe')
+                    .where('tag_to_universe.tag_id IN (:...tagArr)', { tagArr })
+                    .getQuery();
+                return `universe.id IN ${subQuery}`;
+            });
+        }
+
+        const universes = await queryBuilder.getMany();
 
         let universeList: UniverseListItemDto[] = []
         universes.forEach(item => {
@@ -52,7 +76,7 @@ export class UniverseService {
                 id: item.id,
                 title: item.hat && item.hat.universeName ? item.hat.universeName : 'No Name',
                 imageUrl: item.hat && item.hat.images[0] ? item.hat.images[0] : 'No Image',
-                filterCategories: ['Unfinished Feature']
+                filterCategories: item.filterCategories
             })
         })
 

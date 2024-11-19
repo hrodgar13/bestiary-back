@@ -1,10 +1,11 @@
 import {IMAGE_POSITIONS, STRUCTURE_PARAGRAPH_TYPES} from "../static/enums";
+import {UniverseTag} from "../entities/tags.entity";
 
 export class UniverseListItemDto {
     id: number
     title: string
     imageUrl: string
-    filterCategories: string[]
+    filterCategories: UniverseTag[]
 }
 
 export class UniverseHatDto {
