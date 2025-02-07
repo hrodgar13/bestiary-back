@@ -10,8 +10,8 @@ async function bootstrap() {
     app.enableCors({
         origin: [
             'http://localhost:4200',
-            'http://viribus-unitis-stage.uk.to',
-            'http://viribus-unitis.uk.to'
+            'http://viribus-unitis-stage.mooo.com',
+            'http://viribus-unitis.mooo.com'
         ],
         methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
         credentials: true,
