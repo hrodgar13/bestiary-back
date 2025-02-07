@@ -1,5 +1,6 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Request} from "./messages.entity";
+import {UserProfile} from "../../user/entities/user-profile.entity";
 
 @Entity()
 export class User {

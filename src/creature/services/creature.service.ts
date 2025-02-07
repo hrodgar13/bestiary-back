@@ -1,10 +1,9 @@
-import {Injectable} from "@nestjs/common";
+import {Injectable, NotFoundException} from "@nestjs/common";
 import {CreateCreatureDto} from "../dtos/creature/create/create-creature.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Creature} from "../entities/creature.entity";
 import {Brackets, Repository} from "typeorm";
 import {Translation} from "../entities/translation.entity";
-import {generate} from "rxjs";
 import {CreateMeasureDto} from "../dtos/creature/create/create-measure.dto";
 import {Measure} from "../entities/measure.entity";
 import {Attribute} from "../entities/attribute.entity";
@@ -118,7 +117,7 @@ export class CreatureService {
     }
 
     async getOneCreature(id: number) {
-        const query = await this.creatureRepository.createQueryBuilder('creature')
+        return await this.creatureRepository.createQueryBuilder('creature')
             .andWhere('creature.id = :creatureId', {creatureId: id})
             .leftJoinAndSelect('creature.name', 'name')
             .leftJoinAndSelect('creature.stat_block', 'stat_block')
@@ -132,8 +131,6 @@ export class CreatureService {
             .leftJoinAndSelect('action_abilities.description', 'action_abilities_description')
             .leftJoinAndSelect('creature.description', 'description')
             .getOne()
-
-        return query
     }
 
     async patchBeast(body: CreateCreatureDto, id: number) {
@@ -201,4 +198,15 @@ export class CreatureService {
     }
 
 
+    async deleteActionAbility(id: number): Promise<{message: string}> {
+        const actionAbility = await this.actionAbilityRepo.findOne({where: {id}})
+
+        if(!actionAbility) {
+            throw new NotFoundException('Action or Ability not found')
+        }
+
+        await this.actionAbilityRepo.delete(id)
+
+        return {message: 'Successfully deleted'}
+    }
 }
